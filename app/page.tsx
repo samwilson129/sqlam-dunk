@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ArrowLeft, ArrowRight, Check, ChevronRight, CircleDot, Clock3, Code2, Database, FileText, Flag, Lightbulb, LockKeyhole, Play, RotateCcw, Sparkles, Trophy, X } from 'lucide-react'
-import { case001Challenges, case001Meta, case001Report, case001Tables } from '@/lib/case-001-data'
+import { campaignActs, case001Challenges, case001Meta, case001Report, case001Tables } from '@/lib/case-001-data'
 import { CaseWorkspace } from '@/components/case-workspace'
 
 const keyFigures = [
@@ -47,7 +47,19 @@ function Report() {
   return <article className="mt-10 border border-[#f0b84a]/40 bg-[#0d1b2b] p-6 sm:p-8"><div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-start"><div><p className="eyebrow text-[#f0b84a]">Case report / complete</p><h2 className="mt-3 font-display text-4xl font-bold tracking-[-.05em]">The evidence holds.</h2></div><div className="flex size-16 items-center justify-center rounded-full border border-[#f0b84a] bg-[#f0b84a]/10 text-[#f0b84a]"><Trophy size={26} /></div></div><div className="mt-7 grid gap-4">{case001Report.map((item, index) => <div key={item} className="flex gap-4 border-t border-white/10 pt-4"><span className="font-mono text-xs text-[#f28c28]">0{index + 1}</span><p className="text-sm leading-6 text-white/65">{item}</p></div>)}</div><div className="mt-7 flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-5"><p className="font-mono text-[10px] uppercase tracking-[.14em] text-[#f0b84a]">Badge earned · case 001 analyst</p><button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[.12em] text-white/45 hover:text-white"><RotateCcw size={14} /> Review evidence</button></div></article>
 }
 
+function CampaignStatus({ onStart }: { onStart: (act: number) => void }) {
+  const [completedActs, setCompletedActs] = useState<number[]>([])
+  useEffect(() => {
+    try { setCompletedActs(JSON.parse(localStorage.getItem('sqlam-dunk-completed-acts') || '[]')) } catch { setCompletedActs([]) }
+  }, [])
+  return <section id="campaign" className="border-y border-white/10 bg-[#091624] px-6 py-16 lg:px-10"><div className="mx-auto max-w-7xl"><p className="eyebrow text-[#f0b84a]">Campaign file</p><h2 className="mt-3 font-display text-4xl font-bold tracking-[-.05em]">Four acts. One investigation.</h2><div className="mt-8 grid gap-3 md:grid-cols-4">{campaignActs.map((act, index) => { const unlocked = index === 0 || completedActs.includes(index); const complete = completedActs.includes(index + 1); return <button key={act.title} disabled={!unlocked} onClick={() => onStart(index)} className={`border p-5 text-left transition ${unlocked ? 'border-[#f28c28]/50 hover:bg-[#f28c28]/10' : 'border-white/10 opacity-45'}`}><div className="flex items-center justify-between"><span className="font-mono text-xs text-[#f0b84a]">ACT 0{index + 1}</span><span className="text-[10px] uppercase tracking-[.12em] text-white/40">{complete ? 'Complete' : unlocked ? 'Open' : 'Locked'}</span></div><h3 className="mt-5 font-display text-xl font-bold">{act.title.split(' — ')[1]}</h3><p className="mt-2 text-xs leading-5 text-white/45">{act.description}</p>{!unlocked && <p className="mt-5 text-[10px] uppercase tracking-[.1em] text-[#f0b84a]">Complete the prior act</p>}</button> })}</div></div></section>
+}
+
 export default function Page() {
   const [investigating, setInvestigating] = useState(false)
-  return investigating ? <CaseWorkspace onExit={() => setInvestigating(false)} /> : <Home onStart={() => setInvestigating(true)} />
+  const [campaignView, setCampaignView] = useState(false)
+  const [completedActs, setCompletedActs] = useState<number[]>([])
+  const completeAct = () => { const next = Array.from(new Set([...completedActs, 1])); setCompletedActs(next); localStorage.setItem('sqlam-dunk-completed-acts', JSON.stringify(next)); setInvestigating(false); setCampaignView(true) }
+  if (investigating) return <CaseWorkspace onExit={() => setInvestigating(false)} onActComplete={completeAct} />
+  return <><Home onStart={() => setInvestigating(true)} /><CampaignStatus onStart={(act) => { if (act === 0) setInvestigating(true); else setCampaignView(true) }} />{campaignView && <p className="sr-only">Campaign progress updated. Act II is now unlocked.</p>}</>
 }
