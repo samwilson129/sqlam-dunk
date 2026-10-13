@@ -58,6 +58,7 @@ function CampaignStatus({ completedActs, onStart }: { completedActs: number[]; o
 
 export default function Page() {
   const [investigating, setInvestigating] = useState(false)
+  const [startIndex, setStartIndex] = useState(0)
   const [selectedAct, setSelectedAct] = useState<number | null>(null)
   const [completedActs, setCompletedActs] = useState<number[]>([])
 
@@ -68,17 +69,18 @@ export default function Page() {
   const openAct = (act: number) => {
     const unlocked = act === 0 || completedActs.includes(act)
     if (!unlocked) { setSelectedAct(act); return }
-    setSelectedAct(act)
-    setInvestigating(act === 0)
+    setSelectedAct(null)
+    setStartIndex(act === 0 ? 0 : act === 1 ? 5 : act === 2 ? 9 : 12)
+    setInvestigating(true)
   }
-  const completeAct = () => {
-    const next = Array.from(new Set([...completedActs, 1]))
+  const completeAct = (completedAct: number) => {
+    const next = Array.from(new Set([...completedActs, completedAct]))
     setCompletedActs(next)
     localStorage.setItem('sqlam-dunk-completed-acts', JSON.stringify(next))
     setInvestigating(false)
     setSelectedAct(0)
   }
-  if (investigating) return <CaseWorkspace onExit={() => setInvestigating(false)} onActComplete={completeAct} />
+  if (investigating) return <CaseWorkspace startIndex={startIndex} onExit={() => setInvestigating(false)} onActComplete={completeAct} />
   if (selectedAct !== null) return <ActOverview actIndex={selectedAct} unlocked={selectedAct === 0 || completedActs.includes(selectedAct)} onBack={() => setSelectedAct(null)} />
   return <><Home onStart={() => openAct(0)} /><CampaignStatus completedActs={completedActs} onStart={openAct} /></>
 }

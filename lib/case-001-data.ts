@@ -54,12 +54,12 @@ export const case001Report = [
 
 export const campaignActs = [
   { title: 'Act I — Reading the Evidence', level: 'Beginner', topics: ['SELECT and FROM', 'WHERE, LIKE and IN', 'ORDER BY, LIMIT and DISTINCT'], cases: ['001', '002', '003'], description: 'Reconstruct the 2016 Finals chronology from individual records before summarizing the series.', playable: ['001'] },
-  { title: 'Act II — Finding the Pattern', level: 'Beginner to intermediate', topics: ['COUNT, SUM, AVG, MIN and MAX', 'GROUP BY and HAVING', 'CASE WHEN and conditional aggregation'], cases: ['004', '005', '006'], description: 'Compare scoring, margins and series-wide player production using verified Finals records.', playable: [] },
-  { title: 'Act III — Connecting the Evidence', level: 'Intermediate', topics: ['INNER JOIN and LEFT JOIN', 'Keys and multi-table joins', 'Subqueries and CTEs'], cases: ['007', '008', '009'], description: 'Connect players, teams and games to investigate the decisive evidence without inventing context.', playable: [] },
-  { title: 'Act IV — Reconstructing the Series', level: 'Advanced', topics: ['Window functions', 'ROW_NUMBER, RANK and DENSE_RANK', 'LAG, LEAD and running totals'], cases: ['010', '011', '012'], description: 'Assemble cumulative standings and final historical reports once the required datasets are available.', playable: [] },
+  { title: 'Act II — Finding the Pattern', level: 'Beginner to intermediate', topics: ['COUNT, SUM, AVG, MIN and MAX', 'GROUP BY and HAVING', 'CASE WHEN and conditional aggregation'], cases: ['004', '005', '006'], description: 'Compare scoring, margins and series-wide player production using verified Finals records.', playable: ['004', '005', '006'] },
+  { title: 'Act III — Connecting the Evidence', level: 'Intermediate', topics: ['INNER JOIN and LEFT JOIN', 'Keys and multi-table joins', 'Subqueries and CTEs'], cases: ['007', '008', '009'], description: 'Connect players, teams and games to investigate the decisive evidence without inventing context.', playable: ['007', '008', '009'] },
+  { title: 'Act IV — Reconstructing the Series', level: 'Advanced', topics: ['Window functions', 'ROW_NUMBER, RANK and DENSE_RANK', 'LAG, LEAD and running totals'], cases: ['010', '011', '012'], description: 'Assemble cumulative standings and final historical reports once the required datasets are available.', playable: ['010', '011', '012'] },
 ]
 
-export const campaignCases = Array.from({ length: 12 }, (_, index) => ({ id: String(index + 1).padStart(3, '0'), title: index === 0 ? case001Meta.title : 'Coming soon', status: index === 0 ? 'playable' : 'locked' }))
+export const campaignCases = Array.from({ length: 15 }, (_, index) => ({ id: String(index + 1).padStart(3, '0'), title: index === 0 ? case001Meta.title : campaignActs.flatMap((act) => act.cases).includes(String(index + 1).padStart(3, '0')) ? 'Campaign investigation' : 'Coming soon', status: index < 15 ? 'playable' : 'locked' }))
 
 export const case001ValidationQueries = [
   `SELECT game_id, game_date FROM games WHERE ${finals} ORDER BY game_date`,
