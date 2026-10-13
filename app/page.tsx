@@ -7,6 +7,13 @@ const cases = [
   { number: '02', title: 'The 2023 Playoff Run', subject: 'Denver Nuggets championship path', note: 'Proposed concept · verification pending', accent: 'gold' },
 ]
 
+const keyFigures = [
+  { name: 'LeBron James', initials: 'LJ', team: 'Cleveland Cavaliers', tone: 'wine' },
+  { name: 'Kyrie Irving', initials: 'KI', team: 'Cleveland Cavaliers', tone: 'wine' },
+  { name: 'Stephen Curry', initials: 'SC', team: 'Golden State Warriors', tone: 'blue' },
+  { name: 'Klay Thompson', initials: 'KT', team: 'Golden State Warriors', tone: 'blue' },
+]
+
 export default function Page() {
   return (
     <main className="min-h-screen overflow-hidden bg-[#07111f] text-[#f6f1e8]">
@@ -43,7 +50,21 @@ export default function Page() {
               <div className="relative flex items-start justify-between"><div><p className="eyebrow text-[#f0b84a]">Featured investigation</p><p className="mt-3 font-mono text-xs text-white/40">CASE FILE / 001</p></div><span className="rounded-sm border border-[#f0b84a]/35 px-2 py-1 text-[9px] font-bold uppercase tracking-[.16em] text-[#f0b84a]">Concept</span></div>
               <h2 className="relative mt-10 max-w-sm font-display text-4xl font-bold leading-none tracking-[-.05em]">The 2016<br /><span className="text-[#f28c28]">Finals.</span></h2>
               <p className="mt-5 max-w-sm text-sm leading-6 text-white/60">A proposed investigation into the Cleveland Cavaliers and Golden State Warriors. Can your queries reconstruct the evidence?</p>
-              <div className="mt-9 grid grid-cols-3 border-y border-white/10 py-4 text-xs"><div><p className="text-white/35">SUBJECT</p><p className="mt-1 font-semibold">NBA Finals</p></div><div><p className="text-white/35">STATUS</p><p className="mt-1 font-semibold text-[#f0b84a]">Verifying data</p></div><div><p className="text-white/35">DIFFICULTY</p><p className="mt-1 font-semibold">Advanced</p></div></div>
+              <div className="mt-7 border-y border-white/10 py-5">
+                <p className="font-mono text-[10px] font-bold uppercase tracking-[.2em] text-white/35">Key figures</p>
+                <div className="mt-4 grid grid-cols-2 gap-3">
+                  {keyFigures.map((player) => (
+                    <div key={player.name} className="flex items-center gap-3 border border-white/10 bg-[#0b1726]/70 px-3 py-3">
+                      <span className={`player-glyph ${player.tone}`} aria-hidden="true">{player.initials}</span>
+                      <div className="min-w-0">
+                        <p className="truncate text-xs font-bold text-white/90">{player.name}</p>
+                        <p className="mt-1 truncate text-[9px] uppercase tracking-[.08em] text-white/40">{player.team}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="mt-0 grid grid-cols-3 border-b border-white/10 py-4 text-xs"><div><p className="text-white/35">SUBJECT</p><p className="mt-1 font-semibold">NBA Finals</p></div><div><p className="text-white/35">STATUS</p><p className="mt-1 font-semibold text-[#f0b84a]">Verifying data</p></div><div><p className="text-white/35">DIFFICULTY</p><p className="mt-1 font-semibold">Advanced</p></div></div>
               <div className="mt-6 flex items-center justify-between"><p className="text-[10px] uppercase tracking-[.16em] text-white/35">Historical reference only</p><CircleDot size={20} className="text-[#f28c28]" /></div>
             </div>
             <div className="absolute -bottom-5 -left-5 hidden border border-white/10 bg-[#0b1726] px-4 py-3 sm:block"><p className="font-mono text-[10px] text-white/40">DATASET STATUS</p><p className="mt-1 flex items-center gap-2 text-xs font-semibold"><span className="h-1.5 w-1.5 rounded-full bg-[#f0b84a]" /> Awaiting verification</p></div>

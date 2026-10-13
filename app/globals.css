@@ -21,6 +21,9 @@ body { margin: 0; background: var(--background); color: var(--foreground); font-
 .brand-mark.small::before { width: 23px; height: 8px; border-width: 1px; }
 .brand-mark.small::after { width: 8px; height: 23px; border-width: 1px; }
 .case-card { background-image: linear-gradient(135deg, rgba(255,255,255,.03), transparent 45%), repeating-linear-gradient(0deg, transparent, transparent 31px, rgba(255,255,255,.018) 32px); }
+.player-glyph { display: inline-flex; width: 30px; height: 30px; flex: 0 0 auto; align-items: center; justify-content: center; border: 1px solid; border-radius: 50%; font-family: var(--font-display); font-size: 10px; font-weight: 700; letter-spacing: -.04em; }
+.player-glyph.wine { border-color: rgba(205, 72, 71, .65); background: rgba(125, 35, 47, .3); color: #f0b84a; }
+.player-glyph.blue { border-color: rgba(75, 132, 193, .7); background: rgba(30, 73, 119, .35); color: #f0b84a; }
 ::selection { background: #f28c28; color: #07111f; }
 @media (max-width: 640px) { .site-shell { overflow: hidden; } }
 
