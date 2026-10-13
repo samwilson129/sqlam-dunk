@@ -41,6 +41,9 @@ body { margin: 0; background: var(--background); color: var(--foreground); font-
 .player-glyph.wine { border-color: rgba(205, 72, 71, .65); background: rgba(125, 35, 47, .3); color: #f0b84a; }
 .player-glyph.blue { border-color: rgba(75, 132, 193, .7); background: rgba(30, 73, 119, .35); color: #f0b84a; }
 ::selection { background: #f28c28; color: #07111f; }
+.case-workspace aside nav { display: flex !important; flex-direction: column !important; grid-template-columns: none !important; gap: .5rem !important; width: 100%; }
+.case-workspace aside nav > button { width: 100%; min-height: 64px; flex: 0 0 auto; }
+.case-workspace textarea { min-height: 220px; height: auto; }
 @media (max-width: 900px) { .case-workspace > div { display: block !important; } .case-workspace aside { border-right: 0; border-bottom: 1px solid rgba(255,255,255,.1); min-height: auto !important; } .case-workspace section { min-width: 0; padding: 1.25rem !important; } .case-workspace section > div { min-width: 0; } .case-workspace h2 { font-size: clamp(2.5rem, 11vw, 4.5rem); line-height: .95; } .case-workspace textarea { min-height: 320px; } .case-workspace .grid { grid-template-columns: 1fr !important; } }
 @media (max-width: 640px) { .site-shell { overflow: hidden; } }
 
