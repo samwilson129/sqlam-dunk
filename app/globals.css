@@ -36,7 +36,11 @@ body { margin: 0; background: var(--background); color: var(--foreground); font-
 .brand-mark.small { width: 18px; height: 18px; border-width: 1px; }
 .brand-mark.small::before { width: 23px; height: 8px; border-width: 1px; }
 .brand-mark.small::after { width: 8px; height: 23px; border-width: 1px; }
-.case-card { background-color: #3a5064; background-image: linear-gradient(135deg, rgba(255,255,255,.065), transparent 48%), repeating-linear-gradient(0deg, transparent, transparent 31px, rgba(255,255,255,.025) 32px); box-shadow: 0 14px 32px rgba(9, 22, 36, .16); }
+.case-card { min-height: 480px; background-color: #3a5064; background-image: linear-gradient(135deg, rgba(255,255,255,.065), transparent 48%), repeating-linear-gradient(0deg, transparent, transparent 31px, rgba(255,255,255,.025) 32px); box-shadow: 0 14px 32px rgba(9, 22, 36, .16); }
+.case-card button { min-height: 52px; padding: .75rem 1rem; font-size: 13px; }
+#roadmap article { min-height: 300px; }
+#roadmap article button { min-height: 52px; padding: .75rem 1rem; font-size: 12px; }
+#roadmap article p, #roadmap article span { font-size: 13px; line-height: 1.45; }
 .player-glyph { display: inline-flex; width: 30px; height: 30px; flex: 0 0 auto; align-items: center; justify-content: center; border: 1px solid; border-radius: 50%; font-family: var(--font-display); font-size: 10px; font-weight: 700; letter-spacing: -.04em; }
 .player-glyph.wine { border-color: rgba(205, 72, 71, .65); background: rgba(125, 35, 47, .3); color: #f0b84a; }
 .player-glyph.blue { border-color: rgba(75, 132, 193, .7); background: rgba(30, 73, 119, .35); color: #f0b84a; }
@@ -51,7 +55,7 @@ body { margin: 0; background: var(--background); color: var(--foreground); font-
 .case-workspace aside nav { display: flex !important; flex-direction: column; gap: .5rem; }
 .case-workspace aside .grid > div:nth-child(2) { display: none !important; }
 button { color: #f6f1e8; border: 1px solid rgba(240, 184, 74, .38); background: rgba(240, 184, 74, .08); border-radius: .35rem; transition: transform 160ms ease, background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease, color 160ms ease; }
-button, .case-workspace aside nav > button { font-size: max(11px, 0.6875rem); }
+button, .case-workspace aside nav > button { font-size: max(13px, 0.8125rem); }
 .case-workspace aside nav > button p { font-size: 11px; line-height: 1.35; }
 .case-workspace aside nav > button p:last-child { color: rgba(246, 241, 232, .7); }
 .case-workspace .score-stamp, .case-workspace .status-dot { font-size: 11px; }
@@ -62,15 +66,21 @@ button:active:not(:disabled) { transform: translateY(0); }
 button:disabled { cursor: not-allowed; opacity: .45; }
 @media (max-width: 640px) {
   .site-shell { overflow: hidden; }
+  .case-card { min-height: 520px; padding: 1.25rem !important; }
+  #roadmap article { min-height: 320px; padding: 1.25rem; }
+  .case-card button, #roadmap article button { width: 100%; min-height: 56px; font-size: 13px; }
+  .case-card p, #roadmap article p { font-size: 14px; line-height: 1.55; }
   .case-workspace header > div { gap: .6rem; padding: .7rem .85rem; }
-  .case-workspace header button { font-size: 9px; letter-spacing: .08em; }
-  .case-workspace header h1 { font-size: 1rem; }
+  .case-workspace header button { min-height: 48px; padding: .65rem .8rem; font-size: 12px; letter-spacing: .08em; }
+  .case-workspace header h1 { font-size: 1.05rem; }
   .case-workspace header .text-xs { gap: .35rem; font-size: 9px; }
   .case-workspace header .text-xs span:nth-of-type(2), .case-workspace header .text-xs svg { display: none; }
   .case-workspace aside { padding: .85rem !important; }
   .case-workspace aside > p:nth-of-type(3), .case-workspace aside > .mt-5 { display: none; }
   .case-workspace aside nav { margin-top: .75rem !important; max-height: 220px; overflow-y: auto; padding-right: .25rem; }
-  .case-workspace aside nav > button { min-height: 48px; padding: .55rem .65rem; align-items: center; }
+  .case-workspace aside nav > button { min-height: 60px; padding: .7rem .8rem; align-items: center; }
+  .case-workspace aside nav > button p { font-size: 13px; }
+  .case-workspace aside nav > button p:last-child { font-size: 12px; }
   .case-workspace aside nav > button p:last-child { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .case-workspace section { padding: .9rem !important; overflow-x: hidden; }
   .case-workspace section > header { margin-bottom: .9rem; display: flex; flex-direction: column; align-items: flex-start; gap: .5rem; }
