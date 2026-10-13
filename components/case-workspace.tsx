@@ -14,7 +14,7 @@ function passes(challenge: CaseChallenge, result: Result) {
   if (challenge.id === 1) return has('game_id', 'game_date') && result.rows.length === 7 && result.rows.every((row, i) => String(row.game_id).startsWith('00415004') && (i === 0 || String(row.game_date) >= String(result.rows[i - 1].game_date)))
   if (challenge.id === 2) return has('game_id', 'cleveland_points', 'golden_state_points', 'margin') && result.rows.length === 7 && result.rows.every((row) => Number(row.margin) >= 0)
   if (challenge.id === 3) return has('first_name', 'last_name', 'team_name', 'total_points') && result.rows.length >= 10 && result.rows.every((row, i) => i === 0 || Number(row.total_points) <= Number(result.rows[i - 1].total_points))
-  if (challenge.id === 4) return has('first_name', 'last_name', 'team_name', 'points', 'assists', 'total_rebounds', 'plus_minus') && result.rows.length === 28 && result.rows.every((row, i) => i === 0 || Number(row.points) <= Number(result.rows[i - 1].points))
+  if (challenge.id === 4) return has('first_name', 'last_name', 'team_name', 'points', 'assists', 'plus_minus') && (columns.includes('total_rebounds') || columns.includes('rebounds')) && result.rows.length === 25 && result.rows.every((row, i) => i === 0 || Number(row.points) <= Number(result.rows[i - 1].points))
   return has('game_id', 'winner', 'cleveland_series_wins', 'golden_state_series_wins') && result.rows.length === 7 && String(result.rows.at(-1)?.winner) === 'Cleveland Cavaliers' && Number(result.rows.at(-1)?.cleveland_series_wins) === 4 && Number(result.rows.at(-1)?.golden_state_series_wins) === 3
 }
 
