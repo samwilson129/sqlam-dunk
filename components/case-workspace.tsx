@@ -66,9 +66,10 @@ export function CaseWorkspace({ onExit, onActComplete }: { onExit: () => void; o
       const nextJournal = [entry, ...journal.filter((item) => item.challenge !== active)].slice(0, 12)
       setJournal(nextJournal); localStorage.setItem(`${progressKey}-journal`, JSON.stringify(nextJournal))
       if (passes(challenge, next)) {
-        const updated = solved.includes(active) ? solved : [...solved, active]
+        const wasAlreadySolved = solved.includes(active)
+        const updated = wasAlreadySolved ? solved : [...solved, active]
         const nextCareer = { xp: Math.max(career.xp, updated.length * 150 + (updated.length === 5 ? 100 : 0)), completed: updated.length === 5 }
-        setSolved(updated); setCareer(nextCareer); localStorage.setItem(progressKey, JSON.stringify(updated)); localStorage.setItem(careerKey, JSON.stringify(nextCareer)); if (updated.length === case001Challenges.length && !completionNotified.current) { completionNotified.current = true; onActComplete?.() }
+        setSolved(updated); setCareer(nextCareer); localStorage.setItem(progressKey, JSON.stringify(updated)); localStorage.setItem(careerKey, JSON.stringify(nextCareer)); if (!wasAlreadySolved && updated.length === case001Challenges.length && !completionNotified.current) { completionNotified.current = true; onActComplete?.() }
         setFeedback(`Evidence confirmed. ${challenge.evidence}`)
       } else setFeedback(`The query ran, but it does not answer this assignment yet. ${challenge.hint}`)
     } catch (e) { setError(e instanceof Error ? e.message : String(e)) } finally { setLoading(false) }
