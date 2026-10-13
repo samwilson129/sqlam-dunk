@@ -20,6 +20,8 @@ export type CaseChallenge = {
   evidenceTitle: string
   evidence: string
   source: string
+  basketballContext?: string
+  basketballSignificance?: string
 }
 
 export const case001Meta = {
