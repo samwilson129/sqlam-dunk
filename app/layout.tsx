@@ -5,23 +5,10 @@ import './globals.css'
 export const metadata: Metadata = {
   title: 'SQLAM Dunk — Every query is a shot.',
   description: 'Investigate real NBA history with SQL. Every query is a shot.',
-  generator: 'v0.app',
   icons: {
-    icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    apple: '/apple-icon.png',
+    icon: '/pixel-mascot.jpg',
+    shortcut: '/pixel-mascot.jpg',
+    apple: '/pixel-mascot.jpg',
   },
 }
 
