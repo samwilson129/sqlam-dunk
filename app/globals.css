@@ -4,13 +4,28 @@
 
 @theme inline { --color-background: var(--background); --color-foreground: var(--foreground); --font-sans: var(--font-body); --font-display: var(--font-display); }
 
-:root { --background: #07111f; --foreground: #f6f1e8; --font-body: Arial, sans-serif; --font-display: Georgia, serif; }
+:root { --background: #122238; --foreground: #f6f1e8; --font-body: Arial, sans-serif; --font-display: Georgia, serif; }
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body { margin: 0; background: var(--background); color: var(--foreground); font-family: var(--font-body); }
 .font-display { font-family: var(--font-display); }
-.site-shell { background: radial-gradient(circle at 82% 0%, rgba(30, 57, 82, .42), transparent 28rem), #07111f; }
+.site-shell { background: radial-gradient(circle at 82% 0%, rgba(47, 82, 111, .5), transparent 28rem), #122238; }
+.finals-images { position: relative; display: grid; min-height: 260px; grid-template-columns: 1fr 1fr; gap: 10px; overflow: visible; border: 1px solid rgba(240,184,74,.35); background: #1b3049; padding: 10px 10px 0; box-shadow: inset 0 0 0 8px #1b3049, inset 0 0 0 9px rgba(240,184,74,.13); } .finals-image { position: relative; min-height: 240px; overflow: hidden; } .finals-image::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(18,34,56,.18)); pointer-events: none; } .finals-image img { display: block; width: 100%; height: 100%; object-fit: contain; image-rendering: pixelated; } .finals-image-gold { background: #f5b51b; } .finals-image-wine { background: #bd173b; } .finals-caption { position: static; grid-column: 1 / -1; margin: 0 12px 12px; font: 700 10px/1 monospace; letter-spacing: .18em; color: #f0b84a; text-align: center; }
+.pixel-court::before, .pixel-court::after { content: ''; position: absolute; top: 26%; width: 34%; height: 48%; border: 1px solid rgba(240,184,74,.2); }
+.pixel-court::before { left: -17%; border-radius: 0 50% 50% 0; } .pixel-court::after { right: -17%; border-radius: 50% 0 0 50%; }
+.pixel-ball { position: absolute; right: 16%; top: 21%; width: 42px; height: 42px; border: 4px solid #f28c28; border-radius: 50%; background: #c7661d; box-shadow: 4px 4px 0 #07111f; animation: pixel-bounce 2.8s steps(6,end) infinite; }
+.pixel-ball::before, .pixel-ball::after { content: ''; position: absolute; border: 2px solid #f0b84a; border-radius: 50%; }
+.pixel-ball::before { inset: -3px 12px; } .pixel-ball::after { inset: 12px -3px; }
+.pixel-hoop { position: absolute; right: 7%; top: 34%; width: 14%; height: 20%; border: 3px solid #f0b84a; border-left: 0; }
+.pixel-hoop::after { content: ''; position: absolute; right: -8px; top: 42%; width: 28px; height: 8px; border: 3px solid #f28c28; border-radius: 50%; }
+.pixel-label { position: absolute; left: 8%; bottom: 8%; font: 700 10px/1 monospace; letter-spacing: .18em; color: rgba(240,184,74,.65); }
+.film-room { border-bottom: 1px solid rgba(255,255,255,.1); }
+.film-room-board { border: 1px solid rgba(240,184,74,.35); background: repeating-linear-gradient(0deg, transparent, transparent 29px, rgba(255,255,255,.025) 30px), #0d1b2b; padding: 1.5rem; }
+.status-dot { color: #f0b84a; font: 700 9px monospace; letter-spacing: .16em; } .status-dot::before { content: ''; display: inline-block; width: 6px; height: 6px; margin-right: 7px; background: #f28c28; box-shadow: 0 0 0 3px rgba(242,140,40,.14); }
+.score-stamp { display: flex; flex-direction: column; align-items: center; gap: 4px; border: 1px solid rgba(242,140,40,.4); padding: 12px 18px; color: #f0b84a; font: 700 10px monospace; letter-spacing: .1em; } .score-stamp strong { color: #fbf7ef; font: 700 24px Georgia,serif; letter-spacing: -.08em; }
+@keyframes pixel-bounce { 0%,100% { transform: translate(0,0); } 45% { transform: translate(-35px, 105px); } 70% { transform: translate(-62px, 55px); } }
+@media (prefers-reduced-motion: reduce) { .pixel-ball { animation: none; } }
 .eyebrow { font-size: 10px; font-weight: 800; letter-spacing: .27em; text-transform: uppercase; }
 .brand-mark { position: relative; display: inline-flex; width: 26px; height: 26px; align-items: center; justify-content: center; border: 2px solid #f28c28; border-radius: 50%; transform: rotate(-25deg); }
 .brand-mark::before, .brand-mark::after, .brand-mark span { content: ''; position: absolute; border: 1px solid #f28c28; border-radius: 50%; }
