@@ -45,7 +45,25 @@ body { margin: 0; background: var(--background); color: var(--foreground); font-
 .case-workspace aside nav > button { width: 100%; min-height: 64px; flex: 0 0 auto; }
 .case-workspace textarea { min-height: 220px; height: auto; }
 @media (max-width: 900px) { .case-workspace > div { display: block !important; } .case-workspace aside { border-right: 0; border-bottom: 1px solid rgba(255,255,255,.1); min-height: auto !important; } .case-workspace section { min-width: 0; padding: 1.25rem !important; } .case-workspace section > div { min-width: 0; } .case-workspace h2 { font-size: clamp(2.5rem, 11vw, 4.5rem); line-height: .95; } .case-workspace textarea { min-height: 320px; } .case-workspace .grid { grid-template-columns: 1fr !important; } }
-@media (max-width: 640px) { .site-shell { overflow: hidden; } }
+@media (max-width: 640px) {
+  .site-shell { overflow: hidden; }
+  .case-workspace header > div { gap: .6rem; padding: .7rem .85rem; }
+  .case-workspace header button { font-size: 9px; letter-spacing: .08em; }
+  .case-workspace header h1 { font-size: 1rem; }
+  .case-workspace header .text-xs { gap: .35rem; font-size: 9px; }
+  .case-workspace header .text-xs span:nth-of-type(2), .case-workspace header .text-xs svg { display: none; }
+  .case-workspace aside { padding: .85rem !important; }
+  .case-workspace aside > p:nth-of-type(3), .case-workspace aside > .mt-5 { display: none; }
+  .case-workspace aside nav { margin-top: .75rem !important; max-height: 190px; overflow-y: auto; padding-right: .25rem; }
+  .case-workspace aside nav > button { min-height: 48px; padding: .55rem .65rem; }
+  .case-workspace aside nav > button p:last-child { display: none; }
+  .case-workspace section { padding: .9rem !important; }
+  .case-workspace section > header { margin-bottom: .9rem; }
+  .case-workspace h2 { font-size: clamp(2rem, 10vw, 3rem); }
+  .case-workspace textarea { min-height: 190px; padding: .75rem !important; font-size: 11px; line-height: 1.5; }
+  .case-workspace section button { max-width: 100%; }
+}
+
 
 @layer base { * { border-color: rgba(255,255,255,.1); } }
 
