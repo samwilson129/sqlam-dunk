@@ -57,8 +57,13 @@ body { margin: 0; background: var(--background); color: var(--foreground); font-
 @media (max-width: 900px) { .case-workspace > div { display: block !important; } .case-workspace aside { border-right: 0; border-bottom: 1px solid rgba(255,255,255,.1); min-height: auto !important; } .case-workspace section { min-width: 0; padding: 1.25rem !important; } .case-workspace section > div { min-width: 0; } .case-workspace h2 { font-size: clamp(2.5rem, 11vw, 4.5rem); line-height: .95; } .case-workspace textarea { min-height: 320px; } .case-workspace .grid { grid-template-columns: 1fr !important; } }
 .case-workspace aside nav { display: flex !important; flex-direction: column; gap: .5rem; }
 .case-workspace aside .grid > div:nth-child(2) { display: none !important; }
-button { color: #f6f1e8; border: 1px solid rgba(240, 184, 74, .38); background: rgba(240, 184, 74, .08); border-radius: .35rem; transition: transform 160ms ease, background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease, color 160ms ease; }
+button { box-sizing: border-box; color: #f6f1e8; border: 1px solid rgba(240, 184, 74, .38); background: rgba(240, 184, 74, .08); border-radius: .35rem; padding: .7rem 1rem; line-height: 1.25; transition: transform 160ms ease, background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease, color 160ms ease; }
 button, .case-workspace aside nav > button { font-size: max(13px, 0.8125rem); }
+.case-card button, #roadmap article button { display: inline-flex; align-items: center; justify-content: center; width: fit-content !important; min-width: 180px; max-width: 100%; padding: .75rem 1.25rem; }
+#roadmap article button { width: fit-content !important; }
+.case-card, #roadmap article { box-sizing: border-box; }
+.case-card > *, #roadmap article > * { max-width: calc(100% - 1rem); }
+.case-card h2, #roadmap article h3 { margin-inline: .5rem; }
 .case-workspace aside nav > button p { font-size: 11px; line-height: 1.35; }
 .case-workspace aside nav > button p:last-child { color: rgba(246, 241, 232, .7); }
 .case-workspace .score-stamp, .case-workspace .status-dot { font-size: 11px; }
@@ -72,9 +77,10 @@ button:disabled { cursor: not-allowed; opacity: .45; }
   .case-card { min-height: 0; padding: 1.5rem !important; }
   .case-card > * { margin-left: .25rem; margin-right: .25rem; }
   .case-card h2 { margin-top: .75rem; margin-bottom: .75rem; line-height: 1.15; }
-  .case-card button { min-height: 46px; margin-top: 1rem; padding: .7rem .9rem; font-size: 12px; }
+  .case-card button { min-height: 46px; margin-top: 1rem; padding: .75rem 1rem; font-size: 12px; }
   #roadmap article { min-height: 0; padding: 1.25rem; }
-  .case-card button, #roadmap article button { width: auto; min-height: 46px; font-size: 12px; }
+  .case-card button, #roadmap article button { width: fit-content !important; min-width: 170px; max-width: 100%; min-height: 46px; font-size: 12px; }
+  .case-card > *, #roadmap article > * { max-width: calc(100% - .5rem); }
   .case-card p, #roadmap article p { font-size: 14px; line-height: 1.55; }
   .case-workspace header > div { gap: .6rem; padding: .7rem .85rem; }
   .case-workspace header button { min-height: 48px; padding: .65rem .8rem; font-size: 12px; letter-spacing: .08em; }
