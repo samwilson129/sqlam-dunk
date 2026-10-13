@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ArrowLeft, ArrowRight, Check, ChevronRight, CircleDot, Clock3, Code2, Database, FileText, Flag, Lightbulb, LockKeyhole, Play, RotateCcw, Sparkles, Trophy, X } from 'lucide-react'
 import { campaignActs, case001Challenges, case001Meta, case001Report, case001Tables } from '@/lib/case-001-data'
 import { campaignChallenges } from '@/lib/campaign-data'
@@ -68,11 +68,16 @@ export default function Page() {
   const [completedActs, setCompletedActs] = useState<number[]>([])
   const [user, setUser] = useState<AuthUser | null>(null)
 
-  const supabase = useMemo(() => createSupabaseBrowserClient(), [])
+  const [supabase, setSupabase] = useState<ReturnType<typeof createSupabaseBrowserClient>>(null)
   useEffect(() => {
-    if (!user) { setCompletedActs([]); return }
-    supabase.auth.getUser().then(({ data }) => setCompletedActs(Array.isArray(data.user?.user_metadata?.sqlam_dunk_campaign?.completedActs) ? data.user.user_metadata.sqlam_dunk_campaign.completedActs : []))
-  }, [user, supabase.auth])
+    const client = createSupabaseBrowserClient()
+    setSupabase(client)
+    if (!client || !user) {
+      if (!user) setCompletedActs([])
+      return
+    }
+    client.auth.getUser().then(({ data }) => setCompletedActs(Array.isArray(data.user?.user_metadata?.sqlam_dunk_campaign?.completedActs) ? data.user.user_metadata.sqlam_dunk_campaign.completedActs : []))
+  }, [user])
 
   const openAct = (act: number) => {
     const unlocked = act === 0 || completedActs.includes(act)
@@ -84,7 +89,7 @@ export default function Page() {
   const completeAct = (completedAct: number) => {
     const next = Array.from(new Set([...completedActs, completedAct]))
     setCompletedActs(next)
-    if (user) void supabase.auth.updateUser({ data: { sqlam_dunk_campaign: { completedActs: next } } })
+    if (user && supabase) void supabase.auth.updateUser({ data: { sqlam_dunk_campaign: { completedActs: next } } })
     setSelectedAct(null)
   }
   if (investigating) return <CaseWorkspace startIndex={startIndex} user={user} onExit={() => setInvestigating(false)} onActComplete={completeAct} />
