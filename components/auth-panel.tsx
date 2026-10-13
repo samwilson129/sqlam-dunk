@@ -1,6 +1,6 @@
 'use client'
 
-import { FormEvent, useEffect, useMemo, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import { LogIn, LogOut, UserPlus, X } from 'lucide-react'
 import { createSupabaseBrowserClient } from '@/lib/supabase-browser'
 
@@ -12,7 +12,7 @@ type AuthPanelProps = {
 }
 
 export function AuthPanel({ user, onUser }: AuthPanelProps) {
-  const supabase = useMemo(() => createSupabaseBrowserClient(), [])
+  const [supabase, setSupabase] = useState<ReturnType<typeof createSupabaseBrowserClient>>(null)
   const [open, setOpen] = useState(false)
   const [mode, setMode] = useState<'login' | 'signup'>('login')
   const [email, setEmail] = useState('')
@@ -21,13 +21,20 @@ export function AuthPanel({ user, onUser }: AuthPanelProps) {
   const [busy, setBusy] = useState(false)
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => onUser(data.user ? { id: data.user.id, email: data.user.email } : null))
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => onUser(session?.user ? { id: session.user.id, email: session.user.email } : null))
+    const client = createSupabaseBrowserClient()
+    setSupabase(client)
+    if (!client) return
+    client.auth.getUser().then(({ data }) => onUser(data.user ? { id: data.user.id, email: data.user.email } : null))
+    const { data: listener } = client.auth.onAuthStateChange((_event, session) => onUser(session?.user ? { id: session.user.id, email: session.user.email } : null))
     return () => listener.subscription.unsubscribe()
-  }, [onUser, supabase.auth])
+  }, [onUser])
 
   const submit = async (event: FormEvent) => {
     event.preventDefault()
+    if (!supabase) {
+      setMessage('Authentication is unavailable in this deployment. You can still investigate locally.')
+      return
+    }
     setBusy(true)
     setMessage('')
     const result = mode === 'login'
@@ -41,7 +48,7 @@ export function AuthPanel({ user, onUser }: AuthPanelProps) {
     setBusy(false)
   }
 
-  if (user) return <div className="flex items-center gap-3"><span className="hidden text-xs text-white/55 sm:inline">{user.email}</span><button type="button" onClick={() => supabase.auth.signOut()} className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-xs font-bold uppercase tracking-[.12em] text-white/65 hover:border-[#f28c28] hover:text-white"><LogOut size={14} /> Sign out</button></div>
+  if (user) return <div className="flex items-center gap-3"><span className="hidden text-xs text-white/55 sm:inline">{user.email}</span><button type="button" onClick={() => { if (supabase) void supabase.auth.signOut() }} className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-xs font-bold uppercase tracking-[.12em] text-white/65 hover:border-[#f28c28] hover:text-white"><LogOut size={14} /> Sign out</button></div>
 
   return <>
     <button type="button" onClick={() => { setMode('login'); setOpen(true) }} className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-xs font-bold uppercase tracking-[.12em] text-white/65 hover:border-[#f28c28] hover:text-white"><LogIn size={14} /> Log in</button>
