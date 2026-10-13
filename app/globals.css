@@ -45,6 +45,11 @@ body { margin: 0; background: var(--background); color: var(--foreground); font-
 .case-workspace aside nav > button { width: 100%; min-height: 64px; flex: 0 0 auto; }
 .case-workspace textarea { min-height: 220px; height: auto; }
 @media (max-width: 900px) { .case-workspace > div { display: block !important; } .case-workspace aside { border-right: 0; border-bottom: 1px solid rgba(255,255,255,.1); min-height: auto !important; } .case-workspace section { min-width: 0; padding: 1.25rem !important; } .case-workspace section > div { min-width: 0; } .case-workspace h2 { font-size: clamp(2.5rem, 11vw, 4.5rem); line-height: .95; } .case-workspace textarea { min-height: 320px; } .case-workspace .grid { grid-template-columns: 1fr !important; } }
+.case-workspace aside nav { display: none !important; }
+button { border: 1px solid rgba(240, 184, 74, .38); background: rgba(240, 184, 74, .08); border-radius: .35rem; transition: transform 160ms ease, background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease, color 160ms ease; }
+button:hover:not(:disabled), button:focus-visible:not(:disabled) { transform: translateY(-2px); background: rgba(240, 184, 74, .18); border-color: rgba(240, 184, 74, .8); box-shadow: 0 6px 18px rgba(0,0,0,.18); outline: none; }
+button:active:not(:disabled) { transform: translateY(0); }
+button:disabled { cursor: not-allowed; opacity: .45; }
 @media (max-width: 640px) {
   .site-shell { overflow: hidden; }
   .case-workspace header > div { gap: .6rem; padding: .7rem .85rem; }
