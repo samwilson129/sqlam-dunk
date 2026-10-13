@@ -20,21 +20,21 @@ const analystProfile = { name: 'Maya Carter', role: 'Junior Basketball Analytics
 function managerAssignment(challenge: CaseChallenge) {
   const act = challenge.id <= 5 ? 1 : challenge.id <= 9 ? 2 : challenge.id <= 12 ? 3 : 4
   const messages = [
-    'Can you list the seven Finals games in order so we can anchor every player comparison to the right night?',
-    'Can you calculate each team’s score in every Finals game and show the margin that LeBron and Kyrie had to overcome?',
-    'Can you rank LeBron, Kyrie, Stephen Curry, and Klay Thompson by total Finals points so we can compare the stars?',
-    'Can you pull LeBron, Kyrie, Curry, and Klay’s complete Game 7 box-score lines, including points, assists, rebounds, and plus-minus?',
-    'Can you show the running score of the series after each game so we can see exactly when Cleveland completed the comeback?',
-    'Can you calculate how many points each team’s players contributed across the series, then compare that baseline to the stars?',
-    'Can you label each Finals game as close or decisive based on its scoring margin, and identify which game was the tightest?',
-    'Can you compare LeBron, Kyrie, Curry, and Klay by total points, games played, and points per game?',
-    'Can you produce a seven-row performance brief showing each game’s team scores and margin for a basketball review?',
+    'Can you reconstruct the seven-game timeline, then verify the 3–1 turning point against NBA.com and Basketball-Reference game logs?',
+    'Can you compare Games 5 and 6 after Draymond Green’s suspension, including team scores, margin, and the Cavaliers’ response?',
+    'Can you rank LeBron, Kyrie, Stephen Curry, and Klay Thompson by Finals scoring, then identify who led Cleveland’s Game 5 win?',
+    'Can you pull the Game 7 lines for LeBron, Kyrie, Curry, and Klay, then compare the stars in the deciding game?',
+    'Can you show the running series record and locate the moments that set up LeBron’s chase-down block and Kyrie’s go-ahead three?',
+    'Can you calculate Cleveland’s player scoring in Games 5 and 6 and test whether the comeback was a balanced team effort or a star-led surge?',
+    'Can you label each game by margin, then find the tightest night and connect it to the late-game events reported in reliable recaps?',
+    'Can you compare LeBron, Kyrie, Curry, and Klay by total points, games played, and points per game across the Finals?',
+    'Can you produce a seven-row performance brief and attach a source URL for each game’s score and date?',
     'Can you attach every player’s points to the correct game date and team so we can study player performance night by night?',
     'Can you audit the game totals and prove that joining the player and game tables did not duplicate anyone’s points?',
-    'Can you build a player report for LeBron, Kyrie, Curry, and Klay with total points and assists across the Finals?',
-    'Can you rank every player by total Finals points while keeping each player’s scoring row visible?',
-    'Can you show how Cleveland’s points changed from one Finals game to the next using LAG, without guessing why the change happened?',
-    'Can you assemble the final seven-game dossier with both team scores, margin, winner, and Cleveland’s running series wins?',
+    'Can you build a player report for LeBron, Kyrie, Curry, and Klay with total points and assists, then compare it with the official Game 7 box score?',
+    'Can you rank every player by total Finals points while keeping the box-score rows visible and checking the ranking against Basketball-Reference?',
+    'Can you show how Cleveland’s points changed from game to game using LAG, then flag Games 5 and 6 as the post-suspension response?',
+    'Can you assemble the final seven-game dossier with both team scores, margin, winner, Cleveland’s running wins, and a source-backed note for the Green suspension, LeBron block, and Kyrie three?',
   ]
   return { act, message: messages[Math.min(messages.length - 1, (challenge.id - 1) % messages.length)], deliverable: challenge.prompt, concepts: challenge.eyebrow }
 }
