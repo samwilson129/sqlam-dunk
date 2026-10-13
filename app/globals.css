@@ -51,6 +51,12 @@ body { margin: 0; background: var(--background); color: var(--foreground); font-
 .case-workspace aside nav { display: flex !important; flex-direction: column; gap: .5rem; }
 .case-workspace aside .grid > div:nth-child(2) { display: none !important; }
 button { color: #f6f1e8; border: 1px solid rgba(240, 184, 74, .38); background: rgba(240, 184, 74, .08); border-radius: .35rem; transition: transform 160ms ease, background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease, color 160ms ease; }
+button, .case-workspace aside nav > button { font-size: max(11px, 0.6875rem); }
+.case-workspace aside nav > button p { font-size: 11px; line-height: 1.35; }
+.case-workspace aside nav > button p:last-child { color: rgba(246, 241, 232, .7); }
+.case-workspace .score-stamp, .case-workspace .status-dot { font-size: 11px; }
+.case-workspace .text-\[9px\], .case-workspace .text-\[10px\], .case-card .text-\[9px\], .case-card .text-\[10px\] { font-size: 11px; }
+.case-card .text-\[9px\], .case-card .text-\[10px\] { line-height: 1.35; }
 button:hover:not(:disabled), button:focus-visible:not(:disabled) { transform: translateY(-2px); background: rgba(240, 184, 74, .18); border-color: rgba(240, 184, 74, .8); box-shadow: 0 6px 18px rgba(0,0,0,.18); outline: none; }
 button:active:not(:disabled) { transform: translateY(0); }
 button:disabled { cursor: not-allowed; opacity: .45; }
