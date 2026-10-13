@@ -19,6 +19,13 @@ const careerKey = 'sqlam-dunk-career'
 const emptyCareer: Career = { xp: 0, completed: false, currency: 0, hintsUsed: 0, queriesRun: 0 }
 const hintCosts = [25, 60, 120]
 
+function rewardForChallenge(challengeId: number) {
+  if (challengeId <= 5) return 50
+  if (challengeId <= 9) return 75
+  if (challengeId <= 12) return 100
+  return 150
+}
+
 const analystProfile = { name: 'Maya Carter', role: 'Junior Basketball Analytics Analyst', department: 'Cleveland Cavaliers Analysis — Retrospective Project', manager: 'Jordan Ellis, Senior Analytics Manager', objective: 'Reconstruct the 2016 NBA Finals from the public historical record.' }
 
 function managerAssignment(challenge: CaseChallenge) {
@@ -105,13 +112,14 @@ export function CaseWorkspace({ onExit, onActComplete, startIndex = 0, user }: {
       const nextCareerRun = { ...career, queriesRun: career.queriesRun + 1 }
       setCareer(nextCareerRun)
       setResult(next)
+      if (user) await supabase.auth.updateUser({ data: { sqlam_dunk_progress: { solved, journal, career: nextCareerRun } } })
       const entry = { challenge: active, query, at: new Date().toISOString() }
       const nextJournal = [entry, ...journal.filter((item) => item.challenge !== active)].slice(0, 12)
-      setJournal(nextJournal); if (user) await supabase.auth.updateUser({ data: { sqlam_dunk_progress: { solved, journal: nextJournal, career: nextCareerRun } } })
+      setJournal(nextJournal)
       if (passes(challenge, next)) {
         const wasAlreadySolved = solved.includes(active)
         const updated = wasAlreadySolved ? solved : [...solved, active]
-        const nextCareer = { ...nextCareerRun, xp: Math.max(career.xp, updated.length * 150 + (updated.length === allChallenges.length ? 100 : 0)), currency: career.currency + (wasAlreadySolved ? 0 : 100), completed: updated.length === allChallenges.length }
+        const nextCareer = { ...nextCareerRun, xp: Math.max(career.xp, updated.length * 150 + (updated.length === allChallenges.length ? 100 : 0)), currency: career.currency + (wasAlreadySolved ? 0 : rewardForChallenge(challenge.id)), completed: updated.length === allChallenges.length }
         setSolved(updated); setCareer(nextCareer); if (user) await supabase.auth.updateUser({ data: { sqlam_dunk_progress: { solved: updated, journal: nextJournal, career: nextCareer } } }); const completedAct = updated.length === 5 ? 1 : updated.length === 9 ? 2 : updated.length === 12 ? 3 : updated.length === allChallenges.length ? 4 : 0
         if (!wasAlreadySolved && completedAct > 0 && !completionNotified.current.includes(completedAct)) { completionNotified.current = [...completionNotified.current, completedAct]; setCompletionAct(completedAct); onActComplete?.(completedAct) }
         setFeedback(`Evidence confirmed. ${challenge.evidence} ${challenge.basketballSignificance || ''} SQL concept: ${challenge.eyebrow}.`)
