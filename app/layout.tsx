@@ -6,9 +6,9 @@ export const metadata: Metadata = {
   title: 'SQLAM Dunk — Every query is a shot.',
   description: 'Investigate real NBA history with SQL. Every query is a shot.',
   icons: {
-    icon: '/pixel-mascot.jpg',
-    shortcut: '/pixel-mascot.jpg',
-    apple: '/pixel-mascot.jpg',
+    icon: '/chicken-basketball.avif',
+    shortcut: '/chicken-basketball.avif',
+    apple: '/chicken-basketball.avif',
   },
 }
 
