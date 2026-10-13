@@ -1,6 +1,6 @@
 'use client'
 
-import { FormEvent, useEffect, useState } from 'react'
+import { FormEvent, useEffect, useMemo, useState } from 'react'
 import { LogIn, LogOut, UserPlus, X } from 'lucide-react'
 import { createSupabaseBrowserClient } from '@/lib/supabase-browser'
 
@@ -12,7 +12,7 @@ type AuthPanelProps = {
 }
 
 export function AuthPanel({ user, onUser }: AuthPanelProps) {
-  const supabase = createSupabaseBrowserClient()
+  const supabase = useMemo(() => createSupabaseBrowserClient(), [])
   const [open, setOpen] = useState(false)
   const [mode, setMode] = useState<'login' | 'signup'>('login')
   const [email, setEmail] = useState('')

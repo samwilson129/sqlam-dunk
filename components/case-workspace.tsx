@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { ArrowLeft, Check, ChevronDown, CircleDot, Database, FileText, Lightbulb, LockKeyhole, Play, RotateCcw, Sparkles, Trophy } from 'lucide-react'
 import { case001Challenges, case001Meta, case001Report, case001Tables, type CaseChallenge } from '@/lib/case-001-data'
 import { campaignChallenges } from '@/lib/campaign-data'
@@ -82,7 +82,7 @@ export function CaseWorkspace({ onExit, onActComplete, startIndex = 0, user }: {
   const pct = Math.round((solved.filter((index) => index >= 0 && index < allChallenges.length).length / allChallenges.length) * 100)
   const rank = career.xp >= 750 ? 'Performance Analyst' : 'Data Explorer'
 
-  const supabase = createSupabaseBrowserClient()
+  const supabase = useMemo(() => createSupabaseBrowserClient(), [])
 
   useEffect(() => {
     if (!user) { setSolved([]); setJournal([]); setCareer({ xp: 0, completed: false }); return }
