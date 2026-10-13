@@ -36,12 +36,13 @@ body { margin: 0; background: var(--background); color: var(--foreground); font-
 .brand-mark.small { width: 18px; height: 18px; border-width: 1px; }
 .brand-mark.small::before { width: 23px; height: 8px; border-width: 1px; }
 .brand-mark.small::after { width: 8px; height: 23px; border-width: 1px; }
-.case-card { min-height: 520px; padding: 2rem !important; background-color: #3a5064; background-image: linear-gradient(135deg, rgba(255,255,255,.065), transparent 48%), repeating-linear-gradient(0deg, transparent, transparent 31px, rgba(255,255,255,.025) 32px); box-shadow: 0 14px 32px rgba(9, 22, 36, .16); }
+.case-card { min-height: 0; padding: 2.25rem !important; background-color: #3a5064; background-image: linear-gradient(135deg, rgba(255,255,255,.065), transparent 48%), repeating-linear-gradient(0deg, transparent, transparent 31px, rgba(255,255,255,.025) 32px); box-shadow: 0 14px 32px rgba(9, 22, 36, .16); }
 .case-card > * { max-width: 100%; }
-.case-card button { min-height: 58px; margin-top: 1rem; padding: .85rem 1.25rem; font-size: 13px; }
+.case-card button { min-height: 46px; margin-top: 1rem; padding: .65rem 1rem; font-size: 12px; }
 .case-card p, .case-card h2 { line-height: 1.5; }
-#roadmap article { min-height: 300px; }
-#roadmap article button { min-height: 52px; padding: .75rem 1rem; font-size: 12px; }
+#roadmap article { min-height: 0; padding: 1.75rem; }
+#roadmap article button { min-height: 46px; margin-top: .75rem; padding: .65rem .9rem; font-size: 12px; }
+#roadmap article > * { max-width: 100%; }
 #roadmap article p, #roadmap article span { font-size: 13px; line-height: 1.45; }
 .player-glyph { display: inline-flex; width: 30px; height: 30px; flex: 0 0 auto; align-items: center; justify-content: center; border: 1px solid; border-radius: 50%; font-family: var(--font-display); font-size: 10px; font-weight: 700; letter-spacing: -.04em; }
 .player-glyph.wine { border-color: rgba(205, 72, 71, .65); background: rgba(125, 35, 47, .3); color: #f0b84a; }
@@ -68,12 +69,12 @@ button:active:not(:disabled) { transform: translateY(0); }
 button:disabled { cursor: not-allowed; opacity: .45; }
 @media (max-width: 640px) {
   .site-shell { overflow: hidden; }
-  .case-card { min-height: 560px; padding: 1.5rem !important; }
+  .case-card { min-height: 0; padding: 1.5rem !important; }
   .case-card > * { margin-left: .25rem; margin-right: .25rem; }
-  .case-card h2 { margin-top: .75rem; margin-bottom: .75rem; }
-  .case-card button { margin-top: 1.25rem; padding: .9rem 1rem; }
-  #roadmap article { min-height: 320px; padding: 1.25rem; }
-  .case-card button, #roadmap article button { width: 100%; min-height: 56px; font-size: 13px; }
+  .case-card h2 { margin-top: .75rem; margin-bottom: .75rem; line-height: 1.15; }
+  .case-card button { min-height: 46px; margin-top: 1rem; padding: .7rem .9rem; font-size: 12px; }
+  #roadmap article { min-height: 0; padding: 1.25rem; }
+  .case-card button, #roadmap article button { width: auto; min-height: 46px; font-size: 12px; }
   .case-card p, #roadmap article p { font-size: 14px; line-height: 1.55; }
   .case-workspace header > div { gap: .6rem; padding: .7rem .85rem; }
   .case-workspace header button { min-height: 48px; padding: .65rem .8rem; font-size: 12px; letter-spacing: .08em; }
