@@ -23,7 +23,7 @@ function passes(challenge: CaseChallenge, result: Result) {
 }
 
 function ExpectedOutput({ challenge }: { challenge: CaseChallenge }) {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(challenge.id === 4)
   return <section className="mt-5 border border-white/10 bg-[#091624]/70"><button onClick={() => setOpen((value) => !value)} className="flex w-full items-center justify-between px-4 py-3 text-left text-[10px] font-bold uppercase tracking-[.16em] text-[#f0b84a]"><span>Expected output</span><ChevronDown size={15} className={open ? 'rotate-180 transition' : 'transition'} /></button>{open && <div className="border-t border-white/10 px-4 py-4 text-xs text-white/55"><p><strong className="text-white/80">Columns:</strong> {challenge.expectedOutput.columns.join(', ')}</p>{challenge.expectedOutput.rows && <p className="mt-2"><strong className="text-white/80">Rows:</strong> {challenge.expectedOutput.rows}</p>}<p className="mt-2"><strong className="text-white/80">Sort:</strong> {challenge.expectedOutput.sorting || 'as specified'}</p>{challenge.expectedOutput.preview && <div className="mt-4 overflow-x-auto"><table className="w-full min-w-[680px] text-left font-mono text-[10px]"><tbody>{challenge.expectedOutput.preview.map((row, index) => <tr key={index} className="border-t border-white/10">{row.map((cell, cellIndex) => <td key={cellIndex} className="whitespace-nowrap px-2 py-2 text-white/65">{cell}</td>)}</tr>)}</tbody></table></div>}</div>}</section>
 }
 
@@ -40,8 +40,8 @@ export function CaseWorkspace({ onExit }: { onExit: () => void }) {
   const [career, setCareer] = useState<Career>({ xp: 0, badges: [], completed: false })
   const challenge = case001Challenges[active]
   const available = (index: number) => index === 0 || solved.includes(index - 1)
-  const allSolved = solved.length === case001Challenges.length
-  const pct = Math.round((solved.length / case001Challenges.length) * 100)
+  const allSolved = case001Challenges.every((item) => solved.includes(item.id - 1))
+  const pct = Math.round((solved.filter((index) => index >= 0 && index < case001Challenges.length).length / case001Challenges.length) * 100)
   const rank = career.xp >= 750 ? 'Performance Analyst' : 'Data Explorer'
   const badgeNames = useMemo(() => ['Box Score Detective', 'Group-By Guru', 'Connection Creator', 'Evidence Over Ego', 'The Closer'], [])
 
@@ -66,7 +66,7 @@ export function CaseWorkspace({ onExit }: { onExit: () => void }) {
       setJournal(nextJournal); localStorage.setItem(`${progressKey}-journal`, JSON.stringify(nextJournal))
       if (passes(challenge, next)) {
         const updated = solved.includes(active) ? solved : [...solved, active]
-        const earned = active === 0 ? 'Box Score Detective' : active === 1 ? 'Group-By Guru' : active === 2 ? 'Connection Creator' : active === 4 ? 'The Closer' : null
+        const earned = active === 0 ? 'Box Score Detective' : active === 1 ? 'Group-By Guru' : active === 2 ? 'Connection Creator' : active === 3 ? 'Evidence Over Ego' : active === 4 ? 'The Closer' : null
         const nextCareer = { xp: Math.max(career.xp, updated.length * 150 + (updated.length === 5 ? 100 : 0)), badges: earned && !career.badges.includes(earned) ? [...career.badges, earned] : career.badges, completed: updated.length === 5 }
         setSolved(updated); setCareer(nextCareer); localStorage.setItem(progressKey, JSON.stringify(updated)); localStorage.setItem(careerKey, JSON.stringify(nextCareer))
         setFeedback(`Evidence confirmed. ${challenge.evidence}`)
