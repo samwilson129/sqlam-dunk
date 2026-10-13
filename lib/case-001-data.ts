@@ -14,6 +14,7 @@ export type CaseChallenge = {
   why: string
   starterQuery: string
   hint: string
+  syntaxHint?: string
   structureHint: string
   expectedOutput: ExpectedOutput
   evidenceTitle: string

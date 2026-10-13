@@ -77,8 +77,7 @@ export default function Page() {
     const next = Array.from(new Set([...completedActs, completedAct]))
     setCompletedActs(next)
     localStorage.setItem('sqlam-dunk-completed-acts', JSON.stringify(next))
-    setInvestigating(false)
-    setSelectedAct(0)
+    setSelectedAct(null)
   }
   if (investigating) return <CaseWorkspace startIndex={startIndex} onExit={() => setInvestigating(false)} onActComplete={completeAct} />
   if (selectedAct !== null) return <ActOverview actIndex={selectedAct} unlocked={selectedAct === 0 || completedActs.includes(selectedAct)} onBack={() => setSelectedAct(null)} />
