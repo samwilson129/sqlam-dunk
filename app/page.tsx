@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { ArrowLeft, ArrowRight, Check, ChevronRight, CircleDot, Clock3, Code2, Database, FileText, Flag, Lightbulb, LockKeyhole, Play, RotateCcw, Sparkles, Trophy, X } from 'lucide-react'
 import { case001Challenges, case001Meta, case001Report, case001Tables } from '@/lib/case-001-data'
+import { CaseWorkspace } from '@/components/case-workspace'
 
 const keyFigures = [
   { name: 'LeBron James', initials: 'LJ', team: 'Cleveland Cavaliers', tone: 'wine' },
@@ -27,7 +28,7 @@ function Home({ onStart }: { onStart: () => void }) {
   </div></main>
 }
 
-function Workspace({ onExit }: { onExit: () => void }) {
+function LegacyWorkspace({ onExit }: { onExit: () => void }) {
   const [active, setActive] = useState(0)
   const [solved, setSolved] = useState<number[]>([])
   const [query, setQuery] = useState(case001Challenges[0].starterQuery)
@@ -48,5 +49,5 @@ function Report() {
 
 export default function Page() {
   const [investigating, setInvestigating] = useState(false)
-  return investigating ? <Workspace onExit={() => setInvestigating(false)} /> : <Home onStart={() => setInvestigating(true)} />
+  return investigating ? <CaseWorkspace onExit={() => setInvestigating(false)} /> : <Home onStart={() => setInvestigating(true)} />
 }
