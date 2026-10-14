@@ -7,6 +7,7 @@
     {
       "id": 1,
       "title": "Open the Case File",
+      "managerRequest": "Select game_id and game_date from games.",
       "expected": {
         "columns": [
           "game_id",
@@ -15,6 +16,7 @@
         "rows": 7,
         "sorting": "as specified in the assignment"
       },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
       "actual": {
         "columns": [
           "game_id",
@@ -49,6 +51,7 @@
     {
       "id": 2,
       "title": "Know the Players",
+      "managerRequest": "Return player_id, first_name, and last_name from players.",
       "expected": {
         "columns": [
           "player_id",
@@ -58,6 +61,7 @@
         "rows": 28,
         "sorting": "as specified in the assignment"
       },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
       "actual": {
         "columns": [
           "player_id",
@@ -98,6 +102,7 @@
     {
       "id": 3,
       "title": "The Teams on the Board",
+      "managerRequest": "Inspect team_id, team_abbreviation, and team_name.",
       "expected": {
         "columns": [
           "team_id",
@@ -107,6 +112,7 @@
         "rows": 2,
         "sorting": "as specified in the assignment"
       },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
       "actual": {
         "columns": [
           "team_id",
@@ -132,6 +138,7 @@
     {
       "id": 4,
       "title": "Find the First Night",
+      "managerRequest": "Find Finals Game 1 using its actual identifier.",
       "expected": {
         "columns": [
           "game_id",
@@ -140,6 +147,7 @@
         "rows": 1,
         "sorting": "as specified in the assignment"
       },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
       "actual": {
         "columns": [
           "game_id",
@@ -158,6 +166,7 @@
     {
       "id": 5,
       "title": "Cleveland's Roster",
+      "managerRequest": "Return Cavaliers player-game records using team_id 1610612739.",
       "expected": {
         "columns": [
           "player_id",
@@ -167,6 +176,7 @@
         "rows": 91,
         "sorting": "as specified in the assignment"
       },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
       "actual": {
         "columns": [
           "player_id",
@@ -207,6 +217,7 @@
     {
       "id": 6,
       "title": "A Closer Look at One Player",
+      "managerRequest": "Return one specified player and game record for Game 1.",
       "expected": {
         "columns": [
           "player_id",
@@ -217,6 +228,7 @@
         "rows": 1,
         "sorting": "as specified in the assignment"
       },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
       "actual": {
         "columns": [
           "player_id",
@@ -239,6 +251,7 @@
     {
       "id": 7,
       "title": "Set the Timeline",
+      "managerRequest": "Return all Finals games in chronological order.",
       "expected": {
         "columns": [
           "game_id",
@@ -247,6 +260,7 @@
         "rows": 7,
         "sorting": "as specified in the assignment"
       },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
       "actual": {
         "columns": [
           "game_id",
@@ -281,6 +295,7 @@
     {
       "id": 8,
       "title": "The Scouting Shortlist",
+      "managerRequest": "Return the top 10 player-game rows by points with deterministic tie sorting.",
       "expected": {
         "columns": [
           "game_id",
@@ -290,6 +305,7 @@
         "rows": 10,
         "sorting": "as specified in the assignment"
       },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
       "actual": {
         "columns": [
           "game_id",
@@ -330,6 +346,7 @@
     {
       "id": 9,
       "title": "Count the Evidence",
+      "managerRequest": "Count the available Finals games.",
       "expected": {
         "columns": [
           "game_count"
@@ -337,6 +354,7 @@
         "rows": 1,
         "sorting": "as specified in the assignment"
       },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
       "actual": {
         "columns": [
           "game_count"
@@ -353,6 +371,7 @@
     {
       "id": 10,
       "title": "Add Up the Points",
+      "managerRequest": "Calculate one player\u2019s points in Game 1.",
       "expected": {
         "columns": [
           "total_points"
@@ -360,6 +379,7 @@
         "rows": 1,
         "sorting": "as specified in the assignment"
       },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
       "actual": {
         "columns": [
           "total_points"
@@ -376,6 +396,7 @@
     {
       "id": 11,
       "title": "The Scoreboard Takes Shape",
+      "managerRequest": "Calculate both team scores for Game 1.",
       "expected": {
         "columns": [
           "team_id",
@@ -384,6 +405,7 @@
         "rows": 2,
         "sorting": "as specified in the assignment"
       },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
       "actual": {
         "columns": [
           "team_id",
@@ -406,6 +428,7 @@
     {
       "id": 12,
       "title": "Seven Nights, Seven Margins",
+      "managerRequest": "Calculate team scores and Cleveland-minus-Golden-State margin for each game.",
       "expected": {
         "columns": [
           "game_id",
@@ -416,6 +439,7 @@
         "rows": 7,
         "sorting": "as specified in the assignment"
       },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
       "actual": {
         "columns": [
           "game_id",
@@ -462,6 +486,7 @@
     {
       "id": 13,
       "title": "Close Games and Blowouts",
+      "managerRequest": "Label each game close under a 10-point margin, otherwise decisive.",
       "expected": {
         "columns": [
           "game_id",
@@ -471,6 +496,7 @@
         "rows": 7,
         "sorting": "as specified in the assignment"
       },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
       "actual": {
         "columns": [
           "game_id",
@@ -511,6 +537,7 @@
     {
       "id": 14,
       "title": "When Is a Group Worth Keeping?",
+      "managerRequest": "Return games whose combined team score exceeded 190.",
       "expected": {
         "columns": [
           "game_id",
@@ -519,6 +546,7 @@
         "rows": 5,
         "sorting": "as specified in the assignment"
       },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
       "actual": {
         "columns": [
           "game_id",
@@ -553,6 +581,7 @@
     {
       "id": 15,
       "title": "The Stars' Scoring Averages",
+      "managerRequest": "Compare players by total points, games played, and points per game.",
       "expected": {
         "columns": [
           "player_id",
@@ -563,6 +592,7 @@
         "rows": 27,
         "sorting": "as specified in the assignment"
       },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
       "actual": {
         "columns": [
           "player_id",
@@ -609,6 +639,7 @@
     {
       "id": 16,
       "title": "Balanced Team or Star-Led Surge?",
+      "managerRequest": "Compare Cleveland scoring in Games 5 and 6.",
       "expected": {
         "columns": [
           "game_id",
@@ -619,6 +650,7 @@
         "rows": 2,
         "sorting": "as specified in the assignment"
       },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
       "actual": {
         "columns": [
           "game_id",
@@ -647,6 +679,7 @@
     {
       "id": 17,
       "title": "The Performance Brief",
+      "managerRequest": "Produce one row per game with scores, margin, and winner.",
       "expected": {
         "columns": [
           "game_id",
@@ -658,6 +691,7 @@
         "rows": 7,
         "sorting": "as specified in the assignment"
       },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
       "actual": {
         "columns": [
           "game_id",
@@ -710,6 +744,7 @@
     {
       "id": 18,
       "title": "Put Names to the Numbers",
+      "managerRequest": "Attach player names to player-game statistics.",
       "expected": {
         "columns": [
           "game_id",
@@ -721,6 +756,7 @@
         "rows": 182,
         "sorting": "as specified in the assignment"
       },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
       "actual": {
         "columns": [
           "game_id",
@@ -773,6 +809,7 @@
     {
       "id": 19,
       "title": "Which Team Was It?",
+      "managerRequest": "Attach team abbreviation and name to each player-game row.",
       "expected": {
         "columns": [
           "game_id",
@@ -784,6 +821,7 @@
         "rows": 182,
         "sorting": "as specified in the assignment"
       },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
       "actual": {
         "columns": [
           "game_id",
@@ -836,6 +874,7 @@
     {
       "id": 20,
       "title": "Place Every Game in Context",
+      "managerRequest": "Build a player-by-game report with date, name, team, and points.",
       "expected": {
         "columns": [
           "game_id",
@@ -848,6 +887,7 @@
         "rows": 182,
         "sorting": "as specified in the assignment"
       },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
       "actual": {
         "columns": [
           "game_id",
@@ -906,6 +946,7 @@
     {
       "id": 21,
       "title": "Audit the Scoreboard",
+      "managerRequest": "Compare game totals after joining games to stats.",
       "expected": {
         "columns": [
           "game_id",
@@ -914,6 +955,7 @@
         "rows": 7,
         "sorting": "as specified in the assignment"
       },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
       "actual": {
         "columns": [
           "game_id",
@@ -948,6 +990,7 @@
     {
       "id": 22,
       "title": "Build the First CTE",
+      "managerRequest": "Rewrite the team-score report using a named intermediate result.",
       "expected": {
         "columns": [
           "game_id",
@@ -957,6 +1000,7 @@
         "rows": 14,
         "sorting": "as specified in the assignment"
       },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
       "actual": {
         "columns": [
           "game_id",
@@ -997,6 +1041,7 @@
     {
       "id": 23,
       "title": "The Game 5\u20136 Comparison",
+      "managerRequest": "Compare margins in Games 5 and 6.",
       "expected": {
         "columns": [
           "game_id",
@@ -1007,6 +1052,7 @@
         "rows": 2,
         "sorting": "as specified in the assignment"
       },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
       "actual": {
         "columns": [
           "game_id",
@@ -1035,6 +1081,7 @@
     {
       "id": 24,
       "title": "The Four-Star Report",
+      "managerRequest": "Report series and Game 7 metrics for four named players.",
       "expected": {
         "columns": [
           "first_name",
@@ -1047,6 +1094,7 @@
         "rows": 4,
         "sorting": "as specified in the assignment"
       },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
       "actual": {
         "columns": [
           "first_name",
@@ -1097,6 +1145,7 @@
     {
       "id": 25,
       "title": "The Verified Scorecard",
+      "managerRequest": "Build one row per game with scores, margin, and winner.",
       "expected": {
         "columns": [
           "game_id",
@@ -1108,6 +1157,7 @@
         "rows": 7,
         "sorting": "as specified in the assignment"
       },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
       "actual": {
         "columns": [
           "game_id",
@@ -1160,6 +1210,7 @@
     {
       "id": 26,
       "title": "Rank the Scorers",
+      "managerRequest": "Rank players by total Finals points with ties sharing a rank.",
       "expected": {
         "columns": [
           "first_name",
@@ -1170,6 +1221,7 @@
         "rows": 28,
         "sorting": "as specified in the assignment"
       },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
       "actual": {
         "columns": [
           "first_name",
@@ -1216,6 +1268,7 @@
     {
       "id": 27,
       "title": "Keep Every Box-Score Row",
+      "managerRequest": "Show each player-game row with that player\u2019s series total.",
       "expected": {
         "columns": [
           "game_id",
@@ -1226,6 +1279,7 @@
         "rows": 182,
         "sorting": "as specified in the assignment"
       },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
       "actual": {
         "columns": [
           "game_id",
@@ -1272,6 +1326,7 @@
     {
       "id": 28,
       "title": "What Changed Last Night?",
+      "managerRequest": "Compare Cleveland points with the previous game.",
       "expected": {
         "columns": [
           "game_id",
@@ -1281,6 +1336,7 @@
         "rows": 7,
         "sorting": "as specified in the assignment"
       },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
       "actual": {
         "columns": [
           "game_id",
@@ -1321,6 +1377,7 @@
     {
       "id": 29,
       "title": "The Momentum Ledger",
+      "managerRequest": "Calculate Cleveland cumulative wins chronologically.",
       "expected": {
         "columns": [
           "game_id",
@@ -1330,6 +1387,7 @@
         "rows": 7,
         "sorting": "as specified in the assignment"
       },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
       "actual": {
         "columns": [
           "game_id",
@@ -1370,6 +1428,7 @@
     {
       "id": 30,
       "title": "The Scoring Trend",
+      "managerRequest": "Calculate Cleveland\u2019s two-game rolling average score.",
       "expected": {
         "columns": [
           "game_id",
@@ -1379,6 +1438,7 @@
         "rows": 7,
         "sorting": "as specified in the assignment"
       },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
       "actual": {
         "columns": [
           "game_id",
@@ -1419,6 +1479,7 @@
     {
       "id": 31,
       "title": "The Defensive and Offensive Comparison",
+      "managerRequest": "Compare LeBron and Kyrie by game and rank their scoring.",
       "expected": {
         "columns": [
           "game_id",
@@ -1431,6 +1492,7 @@
         "rows": 14,
         "sorting": "as specified in the assignment"
       },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
       "actual": {
         "columns": [
           "game_id",
@@ -1489,6 +1551,7 @@
     {
       "id": 32,
       "title": "Reconstruct the Series",
+      "managerRequest": "Build a report with scores, margin, winner, and running wins.",
       "expected": {
         "columns": [
           "game_id",
@@ -1502,6 +1565,7 @@
         "rows": 7,
         "sorting": "as specified in the assignment"
       },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
       "actual": {
         "columns": [
           "game_id",
@@ -1566,6 +1630,7 @@
     {
       "id": 33,
       "title": "The Final Dossier",
+      "managerRequest": "Assemble the seven-row Finals dossier with date, scores, margin, winner, cumulative wins, and final outcome.",
       "expected": {
         "columns": [
           "game_id",
@@ -1580,6 +1645,7 @@
         "rows": 7,
         "sorting": "as specified in the assignment"
       },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
       "actual": {
         "columns": [
           "game_id",

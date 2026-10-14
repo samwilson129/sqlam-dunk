@@ -30,38 +30,32 @@ const analystProfile = { name: 'Maya Carter', role: 'Junior Basketball Analytics
 
 function managerAssignment(challenge: CaseChallenge) {
   const act = challenge.id <= 8 ? 1 : challenge.id <= 17 ? 2 : challenge.id <= 25 ? 3 : 4
-  const messages = [
-    'Before we investigate how the series unfolded, establish a reliable chronology. Pull the seven Finals game IDs and dates in order so we have a shared timeline for the assignments ahead.',
-    'Can you compare Games 5 and 6 after Draymond Green’s suspension, including team scores, margin, and the Cavaliers’ response?',
-    'Can you rank LeBron, Kyrie, Stephen Curry, and Klay Thompson by Finals scoring, then identify who led Cleveland’s Game 5 win?',
-    'Can you pull the Game 7 lines for LeBron, Kyrie, Curry, and Klay, then compare the stars in the deciding game?',
-    'Can you show the running series record and locate the moments that set up LeBron’s chase-down block and Kyrie’s go-ahead three?',
-    'Can you calculate Cleveland’s player scoring in Games 5 and 6 and test whether the comeback was a balanced team effort or a star-led surge?',
-    'Can you label each game by margin, then find the tightest night and connect it to the late-game events reported in reliable recaps?',
-    'Can you compare LeBron, Kyrie, Curry, and Klay by total points, games played, and points per game across the Finals?',
-    'Can you produce a seven-row performance brief and attach a source URL for each game’s score and date?',
-    'Can you attach every player’s points to the correct game date and team so we can study player performance night by night?',
-    'Can you audit the game totals and prove that joining the player and game tables did not duplicate anyone’s points?',
-    'Can you build a player report for LeBron, Kyrie, Curry, and Klay with total points and assists, then compare it with the official Game 7 box score?',
-    'Can you rank every player by total Finals points while keeping the box-score rows visible and checking the ranking against Basketball-Reference?',
-    'Can you show how Cleveland’s points changed from game to game using LAG, then flag Games 5 and 6 as the post-suspension response?',
-    'Can you assemble the final seven-game dossier with both team scores, margin, winner, Cleveland’s running wins, and a source-backed note for the Green suspension, LeBron block, and Kyrie three?',
-  ]
-  const message = challenge.id === 2 ? "Before we investigate individual performances, I need a clean player directory. Retrieve each player's ID, first name, and last name from our player database." : messages[Math.min(messages.length - 1, (challenge.id - 1) % messages.length)]
+  const actFocus = act === 1 ? 'We are establishing the dataset and its grain before drawing conclusions.' : act === 2 ? 'This moves the investigation from individual rows to reproducible game and player summaries.' : act === 3 ? 'This lets us test relationships across the verified box-score tables without inventing historical events.' : 'This is part of the final reconstruction, so keep the result reproducible from the supplied tables.'
+  const message = `Jordan needs this for the Finals investigation: ${challenge.prompt} ${actFocus}`
   return { act, message, deliverable: challenge.prompt, concepts: challenge.eyebrow }
 }
 
-function passes(challenge: CaseChallenge, result: Result) {
-  const columns = result.columns.map((column) => column.toLowerCase())
-  const has = (...names: string[]) => names.every((name) => columns.includes(name))
+function normalizeValue(value: unknown) {
+  if (value === null || value === undefined) return 'NULL'
+  if (typeof value === 'number' || (typeof value === 'string' && value.trim() !== '' && Number.isFinite(Number(value)))) return `NUMBER:${Number(value).toFixed(6)}`
+  return `TEXT:${String(value).trim()}`
+}
+
+function passes(challenge: CaseChallenge, result: Result, expected: Result) {
+  const actualColumns = new Map(result.columns.map((column) => [column.toLowerCase(), column]))
   const expectedColumns = challenge.expectedOutput.columns.map((column) => column.toLowerCase())
-  const hasExpectedShape = expectedColumns.every((column) => columns.includes(column))
-  if (!hasExpectedShape || result.rows.length === 0) return false
+  if (expectedColumns.some((column) => !actualColumns.has(column)) || result.rows.length === 0) return false
   if (challenge.expectedOutput.rows !== undefined && result.rows.length !== challenge.expectedOutput.rows) return false
-  if ([1, 7, 12, 13, 14, 17, 21, 23, 24, 28, 29, 30, 32, 33].includes(challenge.id)) return has('game_id')
-  if ([15, 26].includes(challenge.id)) return result.rows.every((row, index) => index === 0 || Number(row.total_points ?? row.points_rank) <= Number(result.rows[index - 1].total_points ?? result.rows[index - 1].points_rank))
-  if ([11, 16, 25, 28, 29, 30, 31, 32, 33].includes(challenge.id)) return has('game_id') && result.rows.length >= 2
-  return true
+  if (result.rows.length !== expected.rows.length) return false
+  const key = (row: Record<string, unknown>) => expectedColumns.map((column) => normalizeValue(row[actualColumns.get(column) ?? column])).join('\\u001f')
+  const actualCounts = new Map<string, number>()
+  const expectedCounts = new Map<string, number>()
+  result.rows.forEach((row) => actualCounts.set(key(row), (actualCounts.get(key(row)) ?? 0) + 1))
+  expected.rows.forEach((row) => {
+    const expectedKey = expectedColumns.map((column) => normalizeValue(row[expected.columns.find((name) => name.toLowerCase() === column) ?? column])).join('\\u001f')
+    expectedCounts.set(expectedKey, (expectedCounts.get(expectedKey) ?? 0) + 1)
+  })
+  return actualCounts.size === expectedCounts.size && [...expectedCounts].every(([rowKey, count]) => actualCounts.get(rowKey) === count)
 }
 
 function ExpectedOutput({ challenge, result, open, onToggle, error }: { challenge: CaseChallenge; result: Result | null; open: boolean; onToggle: () => void; error: string }) {
@@ -140,15 +134,16 @@ export function CaseWorkspace({ onExit, onActComplete, startIndex = 0, user }: {
     setLoading(true); setError(''); setFeedback(''); setResult(null)
     try {
       const next = await runSql(query, challenge.allowedThroughGame)
+      const expected = await runSql(challenge.solution, challenge.allowedThroughGame)
       const nextCareerRun = { ...career, queriesRun: career.queriesRun + 1 }
-      setCareer(nextCareerRun)
-      persistLocalProgress(solved, journal, nextCareerRun)
-      setResult(next)
-      if (user && supabase) await supabase.auth.updateUser({ data: { sqlam_dunk_progress: { solved, journal, career: nextCareerRun } } })
       const entry = { challenge: active, query, at: new Date().toISOString() }
       const nextJournal = [entry, ...journal.filter((item) => item.challenge !== active)].slice(0, 12)
+      setCareer(nextCareerRun)
       setJournal(nextJournal)
-      if (passes(challenge, next)) {
+      persistLocalProgress(solved, nextJournal, nextCareerRun)
+      setResult(next)
+      if (user && supabase) await supabase.auth.updateUser({ data: { sqlam_dunk_progress: { solved, journal: nextJournal, career: nextCareerRun } } })
+      if (passes(challenge, next, expected)) {
         const wasAlreadySolved = solved.includes(active)
         const updated = wasAlreadySolved ? solved : [...solved, active]
         const nextCareer = user ? { ...nextCareerRun, xp: Math.max(career.xp, updated.length * 150 + (updated.length === allChallenges.length ? 100 : 0)), currency: career.currency + (wasAlreadySolved ? 0 : rewardForChallenge(challenge.id)), completed: updated.length === allChallenges.length } : nextCareerRun

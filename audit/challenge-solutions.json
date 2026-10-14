@@ -2,6 +2,7 @@
   {
     "id": 1,
     "title": "Open the Case File",
+    "managerRequest": "Select game_id and game_date from games.",
     "prompt": "Select game_id and game_date from games.",
     "hint": "Start with the games table and choose only the two requested columns.",
     "structureHint": "Select columns from one table; do not filter or aggregate yet.",
@@ -19,6 +20,7 @@
   {
     "id": 2,
     "title": "Know the Players",
+    "managerRequest": "Return player_id, first_name, and last_name from players.",
     "prompt": "Return player_id, first_name, and last_name from players.",
     "hint": "Use players and select the requested identity columns.",
     "structureHint": "Choose columns explicitly and add a deterministic sort.",
@@ -37,6 +39,7 @@
   {
     "id": 3,
     "title": "The Teams on the Board",
+    "managerRequest": "Inspect team_id, team_abbreviation, and team_name.",
     "prompt": "Inspect team_id, team_abbreviation, and team_name.",
     "hint": "The teams table already contains the readable labels.",
     "structureHint": "Select the three team columns; no join is needed.",
@@ -55,6 +58,7 @@
   {
     "id": 4,
     "title": "Find the First Night",
+    "managerRequest": "Find Finals Game 1 using its actual identifier.",
     "prompt": "Find Finals Game 1 using its actual identifier.",
     "hint": "Filter games by the identifier ending in 01.",
     "structureHint": "Use SELECT, FROM, then WHERE with one equality condition.",
@@ -72,6 +76,7 @@
   {
     "id": 5,
     "title": "Cleveland's Roster",
+    "managerRequest": "Return Cavaliers player-game records using team_id 1610612739.",
     "prompt": "Return Cavaliers player-game records using team_id 1610612739.",
     "hint": "The Cavaliers team id is 1610612739.",
     "structureHint": "Filter rows with one WHERE condition before ordering.",
@@ -90,6 +95,7 @@
   {
     "id": 6,
     "title": "A Closer Look at One Player",
+    "managerRequest": "Return one specified player and game record for Game 1.",
     "prompt": "Return one specified player and game record for Game 1.",
     "hint": "Combine the game and player filters with AND.",
     "structureHint": "Each condition narrows the same row set.",
@@ -109,6 +115,7 @@
   {
     "id": 7,
     "title": "Set the Timeline",
+    "managerRequest": "Return all Finals games in chronological order.",
     "prompt": "Return all Finals games in chronological order.",
     "hint": "Filter the Finals prefix, then sort by game_date.",
     "structureHint": "ORDER BY controls result order; never rely on storage order.",
@@ -126,6 +133,7 @@
   {
     "id": 8,
     "title": "The Scouting Shortlist",
+    "managerRequest": "Return the top 10 player-game rows by points with deterministic tie sorting.",
     "prompt": "Return the top 10 player-game rows by points with deterministic tie sorting.",
     "hint": "Sort points descending and add stable tie-breakers.",
     "structureHint": "LIMIT comes after ORDER BY.",
@@ -144,6 +152,7 @@
   {
     "id": 9,
     "title": "Count the Evidence",
+    "managerRequest": "Count the available Finals games.",
     "prompt": "Count the available Finals games.",
     "hint": "COUNT rows from games after filtering the Finals.",
     "structureHint": "COUNT(*) returns one aggregate row.",
@@ -160,6 +169,7 @@
   {
     "id": 10,
     "title": "Add Up the Points",
+    "managerRequest": "Calculate one player’s points in Game 1.",
     "prompt": "Calculate one player’s points in Game 1.",
     "hint": "Filter to one player and one game, then SUM points.",
     "structureHint": "Aggregate after applying both filters.",
@@ -176,6 +186,7 @@
   {
     "id": 11,
     "title": "The Scoreboard Takes Shape",
+    "managerRequest": "Calculate both team scores for Game 1.",
     "prompt": "Calculate both team scores for Game 1.",
     "hint": "Group Game 1 rows by team_id.",
     "structureHint": "GROUP BY creates one row per team.",
@@ -193,6 +204,7 @@
   {
     "id": 12,
     "title": "Seven Nights, Seven Margins",
+    "managerRequest": "Calculate team scores and Cleveland-minus-Golden-State margin for each game.",
     "prompt": "Calculate team scores and Cleveland-minus-Golden-State margin for each game.",
     "hint": "Aggregate team scores first, then subtract.",
     "structureHint": "The sign convention is Cleveland minus Golden State.",
@@ -212,6 +224,7 @@
   {
     "id": 13,
     "title": "Close Games and Blowouts",
+    "managerRequest": "Label each game close under a 10-point margin, otherwise decisive.",
     "prompt": "Label each game close under a 10-point margin, otherwise decisive.",
     "hint": "Use CASE on the derived absolute margin.",
     "structureHint": "The boundary is exact: 0–9 close, 10+ decisive.",
@@ -230,6 +243,7 @@
   {
     "id": 14,
     "title": "When Is a Group Worth Keeping?",
+    "managerRequest": "Return games whose combined team score exceeded 190.",
     "prompt": "Return games whose combined team score exceeded 190.",
     "hint": "HAVING filters after GROUP BY.",
     "structureHint": "This genuinely filters an aggregate.",
@@ -247,6 +261,7 @@
   {
     "id": 15,
     "title": "The Stars' Scoring Averages",
+    "managerRequest": "Compare players by total points, games played, and points per game.",
     "prompt": "Compare players by total points, games played, and points per game.",
     "hint": "Count distinct games and divide safely with NULLIF.",
     "structureHint": "HAVING applies the appearance rule after aggregation.",
@@ -266,6 +281,7 @@
   {
     "id": 16,
     "title": "Balanced Team or Star-Led Surge?",
+    "managerRequest": "Compare Cleveland scoring in Games 5 and 6.",
     "prompt": "Compare Cleveland scoring in Games 5 and 6.",
     "hint": "Use CASE inside SUM, MAX, and COUNT.",
     "structureHint": "Keep one row per game and define the threshold.",
@@ -285,6 +301,7 @@
   {
     "id": 17,
     "title": "The Performance Brief",
+    "managerRequest": "Produce one row per game with scores, margin, and winner.",
     "prompt": "Produce one row per game with scores, margin, and winner.",
     "hint": "Reuse the team-score CTE and add CASE.",
     "structureHint": "The grain is exactly one row per game.",
@@ -305,6 +322,7 @@
   {
     "id": 18,
     "title": "Put Names to the Numbers",
+    "managerRequest": "Attach player names to player-game statistics.",
     "prompt": "Attach player names to player-game statistics.",
     "hint": "Join on player_id.",
     "structureHint": "Keep the player-game grain.",
@@ -325,6 +343,7 @@
   {
     "id": 19,
     "title": "Which Team Was It?",
+    "managerRequest": "Attach team abbreviation and name to each player-game row.",
     "prompt": "Attach team abbreviation and name to each player-game row.",
     "hint": "Join team_id to teams.",
     "structureHint": "Qualify repeated key columns.",
@@ -345,6 +364,7 @@
   {
     "id": 20,
     "title": "Place Every Game in Context",
+    "managerRequest": "Build a player-by-game report with date, name, team, and points.",
     "prompt": "Build a player-by-game report with date, name, team, and points.",
     "hint": "Join each foreign key to its matching dimension.",
     "structureHint": "The result remains one row per player-game.",
@@ -366,6 +386,7 @@
   {
     "id": 21,
     "title": "Audit the Scoreboard",
+    "managerRequest": "Compare game totals after joining games to stats.",
     "prompt": "Compare game totals after joining games to stats.",
     "hint": "Join games on game_id only, then aggregate.",
     "structureHint": "Seven rows prove no fan-out.",
@@ -383,6 +404,7 @@
   {
     "id": 22,
     "title": "Build the First CTE",
+    "managerRequest": "Rewrite the team-score report using a named intermediate result.",
     "prompt": "Rewrite the team-score report using a named intermediate result.",
     "hint": "Put the first aggregation inside WITH.",
     "structureHint": "The CTE exposes team/game grain.",
@@ -401,6 +423,7 @@
   {
     "id": 23,
     "title": "The Game 5–6 Comparison",
+    "managerRequest": "Compare margins in Games 5 and 6.",
     "prompt": "Compare margins in Games 5 and 6.",
     "hint": "Limit the CTE comparison to Games 5 and 6.",
     "structureHint": "Statistics show sequence, not causation.",
@@ -420,6 +443,7 @@
   {
     "id": 24,
     "title": "The Four-Star Report",
+    "managerRequest": "Report series and Game 7 metrics for four named players.",
     "prompt": "Report series and Game 7 metrics for four named players.",
     "hint": "Aggregate series totals separately from Game 7.",
     "structureHint": "Keep single-game metrics in distinct aliases.",
@@ -441,6 +465,7 @@
   {
     "id": 25,
     "title": "The Verified Scorecard",
+    "managerRequest": "Build one row per game with scores, margin, and winner.",
     "prompt": "Build one row per game with scores, margin, and winner.",
     "hint": "Use the game-level CTE rather than mixing player rows.",
     "structureHint": "Do not duplicate game rows.",
@@ -461,6 +486,7 @@
   {
     "id": 26,
     "title": "Rank the Scorers",
+    "managerRequest": "Rank players by total Finals points with ties sharing a rank.",
     "prompt": "Rank players by total Finals points with ties sharing a rank.",
     "hint": "Aggregate player totals before RANK.",
     "structureHint": "A grouped player table feeds the window function.",
@@ -480,6 +506,7 @@
   {
     "id": 27,
     "title": "Keep Every Box-Score Row",
+    "managerRequest": "Show each player-game row with that player’s series total.",
     "prompt": "Show each player-game row with that player’s series total.",
     "hint": "Use SUM OVER instead of GROUP BY.",
     "structureHint": "Window functions retain original rows.",
@@ -499,6 +526,7 @@
   {
     "id": 28,
     "title": "What Changed Last Night?",
+    "managerRequest": "Compare Cleveland points with the previous game.",
     "prompt": "Compare Cleveland points with the previous game.",
     "hint": "Create one row per game before LAG.",
     "structureHint": "The first change is NULL.",
@@ -517,6 +545,7 @@
   {
     "id": 29,
     "title": "The Momentum Ledger",
+    "managerRequest": "Calculate Cleveland cumulative wins chronologically.",
     "prompt": "Calculate Cleveland cumulative wins chronologically.",
     "hint": "Turn each winner into 1 or 0, then use a framed SUM.",
     "structureHint": "Order by game_id and state the frame.",
@@ -535,6 +564,7 @@
   {
     "id": 30,
     "title": "The Scoring Trend",
+    "managerRequest": "Calculate Cleveland’s two-game rolling average score.",
     "prompt": "Calculate Cleveland’s two-game rolling average score.",
     "hint": "Aggregate to game grain, then use a two-row frame.",
     "structureHint": "The first row uses only available data.",
@@ -553,6 +583,7 @@
   {
     "id": 31,
     "title": "The Defensive and Offensive Comparison",
+    "managerRequest": "Compare LeBron and Kyrie by game and rank their scoring.",
     "prompt": "Compare LeBron and Kyrie by game and rank their scoring.",
     "hint": "Filter the two players and rank within each game.",
     "structureHint": "Partition the rank by game_id.",
@@ -574,6 +605,7 @@
   {
     "id": 32,
     "title": "Reconstruct the Series",
+    "managerRequest": "Build a report with scores, margin, winner, and running wins.",
     "prompt": "Build a report with scores, margin, winner, and running wins.",
     "hint": "Build scores, winners, then two running windows.",
     "structureHint": "The final row is Cleveland 4, Golden State 3.",
@@ -596,6 +628,7 @@
   {
     "id": 33,
     "title": "The Final Dossier",
+    "managerRequest": "Assemble the seven-row Finals dossier with date, scores, margin, winner, cumulative wins, and final outcome.",
     "prompt": "Assemble the seven-row Finals dossier with date, scores, margin, winner, cumulative wins, and final outcome.",
     "hint": "Join dates to the verified scorecard and add chronological windows.",
     "structureHint": "This is the only challenge exposing the complete final outcome.",
