@@ -3,11 +3,11 @@
 import { useEffect, useRef, useState } from 'react'
 import { ArrowLeft, Check, ChevronDown, CircleDot, Database, FileText, Lightbulb, LockKeyhole, Play, RotateCcw, Sparkles, Trophy } from 'lucide-react'
 import { case001Challenges, case001Meta, case001Report, case001Tables, type CaseChallenge } from '@/lib/case-001-data'
-import { campaignChallenges } from '@/lib/campaign-data'
+import { allCampaignChallenges } from '@/lib/campaign-data'
 import { createSupabaseBrowserClient } from '@/lib/supabase-browser'
 import type { AuthUser } from '@/components/auth-panel'
 
-const allChallenges = [...case001Challenges, ...campaignChallenges]
+const allChallenges = allCampaignChallenges
 import { runSql } from '@/lib/duckdb-engine'
 
 type Result = { columns: string[]; rows: Record<string, unknown>[] }
@@ -29,7 +29,7 @@ function rewardForChallenge(challengeId: number) {
 const analystProfile = { name: 'Maya Carter', role: 'Junior Basketball Analytics Analyst', department: 'Cleveland Cavaliers Analysis — Retrospective Project', manager: 'Jordan Ellis, Senior Analytics Manager', objective: 'Reconstruct the 2016 NBA Finals from the public historical record.' }
 
 function managerAssignment(challenge: CaseChallenge) {
-  const act = challenge.id <= 5 ? 1 : challenge.id <= 9 ? 2 : challenge.id <= 12 ? 3 : 4
+  const act = challenge.id <= 8 ? 1 : challenge.id <= 17 ? 2 : challenge.id <= 25 ? 3 : 4
   const messages = [
     'Before we investigate how the series unfolded, establish a reliable chronology. Pull the seven Finals game IDs and dates in order so we have a shared timeline for the assignments ahead.',
     'Can you compare Games 5 and 6 after Draymond Green’s suspension, including team scores, margin, and the Cavaliers’ response?',
@@ -53,16 +53,14 @@ function managerAssignment(challenge: CaseChallenge) {
 function passes(challenge: CaseChallenge, result: Result) {
   const columns = result.columns.map((column) => column.toLowerCase())
   const has = (...names: string[]) => names.every((name) => columns.includes(name))
-  if (challenge.id === 1) return has('game_id', 'game_date') && result.rows.length === 7 && result.rows.every((row, i) => String(row.game_id).startsWith('00415004') && (i === 0 || String(row.game_date) >= String(result.rows[i - 1].game_date)))
-  if (challenge.id === 2) return has('game_id', 'cleveland_points', 'golden_state_points', 'margin') && result.rows.length === 7 && result.rows.every((row) => Number(row.margin) >= 0)
-  if (challenge.id === 3) return has('first_name', 'last_name', 'team_name', 'total_points') && result.rows.length >= 10 && result.rows.every((row, i) => i === 0 || Number(row.total_points) <= Number(result.rows[i - 1].total_points))
-  if (challenge.id === 4) return has('first_name', 'last_name', 'team_name', 'points', 'assists', 'plus_minus') && (columns.includes('total_rebounds') || columns.includes('rebounds')) && result.rows.length === 26 && result.rows.every((row, i) => i === 0 || Number(row.points) <= Number(result.rows[i - 1].points))
-  if (challenge.id === 5) return has('game_id', 'winner', 'cleveland_series_wins', 'golden_state_series_wins') && result.rows.length === 7 && String(result.rows.at(-1)?.winner) === 'Cleveland Cavaliers' && Number(result.rows.at(-1)?.cleveland_series_wins) === 4 && Number(result.rows.at(-1)?.golden_state_series_wins) === 3
-  if (challenge.id === 6 || challenge.id === 8 || challenge.id === 12 || challenge.id === 13) return result.rows.length > 1 && (columns.includes('total_points') || columns.includes('points_rank')) && result.rows.every((row, i) => i === 0 || Number(row.total_points) <= Number(result.rows[i - 1].total_points))
-  if (challenge.id === 7 || challenge.id === 9 || challenge.id === 11 || challenge.id === 14) return has('game_id') && result.rows.length === 7
-  if (challenge.id === 15) return has('game_id', 'cleveland_points', 'golden_state_points', 'winner', 'margin', 'cumulative_cleveland_wins') && result.rows.length === 7 && result.rows.every((row, index) => String(row.game_id).startsWith('00415004') && Number(row.cumulative_cleveland_wins) >= 0 && (index === 0 || Number(row.cumulative_cleveland_wins) >= Number(result.rows[index - 1].cumulative_cleveland_wins))) && String(result.rows.at(-1)?.winner) === 'Cleveland Cavaliers' && Number(result.rows.at(-1)?.cumulative_cleveland_wins) === 4
-  if (challenge.id === 10) return has('game_id', 'game_date', 'first_name', 'last_name', 'team_name', 'points') && result.rows.length === 182
-  return false
+  const expectedColumns = challenge.expectedOutput.columns.map((column) => column.toLowerCase())
+  const hasExpectedShape = expectedColumns.every((column) => columns.includes(column))
+  if (!hasExpectedShape || result.rows.length === 0) return false
+  if (challenge.expectedOutput.rows !== undefined && result.rows.length !== challenge.expectedOutput.rows) return false
+  if ([1, 7, 12, 13, 14, 17, 21, 23, 24, 28, 29, 30, 32, 33].includes(challenge.id)) return has('game_id')
+  if ([2, 3, 5, 26].includes(challenge.id)) return result.rows.every((row, index) => index === 0 || Number(row.total_points ?? row.points_rank) <= Number(result.rows[index - 1].total_points ?? result.rows[index - 1].points_rank))
+  if ([11, 16, 25, 28, 29, 30, 31, 32, 33].includes(challenge.id)) return has('game_id') && result.rows.length >= 2
+  return true
 }
 
 function ExpectedOutput({ challenge }: { challenge: CaseChallenge }) {
@@ -128,11 +126,11 @@ export function CaseWorkspace({ onExit, onActComplete, startIndex = 0, user }: {
 
   const selectChallenge = (index: number) => { if (!available(index)) return; setActive(index); setQuery(allChallenges[index].starterQuery); setResult(null); setError(''); setFeedback(''); setHintLevel(0) }
   const revealHint = async () => { const nextLevel = Math.min(3, hintLevel + 1); const cost = hintCosts[nextLevel - 1]; if (nextLevel === hintLevel || career.currency < cost) { setFeedback(`You need ${cost} coins for Hint ${nextLevel}. Solve questions to earn more.`); return } const nextCareer = { ...career, currency: career.currency - cost, hintsUsed: career.hintsUsed + 1 }; setHintLevel(nextLevel); setCareer(nextCareer); if (user && supabase) await supabase.auth.updateUser({ data: { sqlam_dunk_progress: { solved, journal, career: nextCareer } } }) }
-  const continueAct = () => { const nextIndex = completionAct === 1 ? 5 : completionAct === 2 ? 9 : completionAct === 3 ? 12 : null; if (nextIndex === null) { setCompletionAct(null); return } setActive(nextIndex); setQuery(allChallenges[nextIndex].starterQuery); setResult(null); setError(''); setFeedback(''); setHintLevel(0); setCompletionAct(null) }
+  const continueAct = () => { const nextIndex = completionAct === 1 ? 8 : completionAct === 2 ? 17 : completionAct === 3 ? 25 : null; if (nextIndex === null) { setCompletionAct(null); return } setActive(nextIndex); setQuery(allChallenges[nextIndex].starterQuery); setResult(null); setError(''); setFeedback(''); setHintLevel(0); setCompletionAct(null) }
   const execute = async () => {
     setLoading(true); setError(''); setFeedback(''); setResult(null)
     try {
-      const next = await runSql(query)
+      const next = await runSql(query, challenge.allowedThroughGame)
       const nextCareerRun = { ...career, queriesRun: career.queriesRun + 1 }
       setCareer(nextCareerRun)
       persistLocalProgress(solved, journal, nextCareerRun)
@@ -145,7 +143,7 @@ export function CaseWorkspace({ onExit, onActComplete, startIndex = 0, user }: {
         const wasAlreadySolved = solved.includes(active)
         const updated = wasAlreadySolved ? solved : [...solved, active]
         const nextCareer = user ? { ...nextCareerRun, xp: Math.max(career.xp, updated.length * 150 + (updated.length === allChallenges.length ? 100 : 0)), currency: career.currency + (wasAlreadySolved ? 0 : rewardForChallenge(challenge.id)), completed: updated.length === allChallenges.length } : nextCareerRun
-        setSolved(updated); setCareer(nextCareer); persistLocalProgress(updated, nextJournal, nextCareer); if (user && supabase) await supabase.auth.updateUser({ data: { sqlam_dunk_progress: { solved: updated, journal: nextJournal, career: nextCareer } } }); const completedAct = updated.length === 5 ? 1 : updated.length === 9 ? 2 : updated.length === 12 ? 3 : updated.length === allChallenges.length ? 4 : 0
+        setSolved(updated); setCareer(nextCareer); persistLocalProgress(updated, nextJournal, nextCareer); if (user && supabase) await supabase.auth.updateUser({ data: { sqlam_dunk_progress: { solved: updated, journal: nextJournal, career: nextCareer } } }); const completedAct = updated.length === 8 ? 1 : updated.length === 17 ? 2 : updated.length === 25 ? 3 : updated.length === allChallenges.length ? 4 : 0
         if (!wasAlreadySolved && completedAct > 0 && !completionNotified.current.includes(completedAct)) { completionNotified.current = [...completionNotified.current, completedAct]; setCompletionAct(completedAct); onActComplete?.(completedAct) }
         setFeedback(`Evidence confirmed. ${challenge.evidence} ${challenge.basketballSignificance || ''} SQL concept: ${challenge.eyebrow}.`)
       } else setFeedback(`The query ran, but it does not answer this assignment yet. ${challenge.hint}`)
