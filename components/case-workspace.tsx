@@ -56,7 +56,7 @@ function passes(challenge: CaseChallenge, result: Result) {
   const expectedColumns = challenge.expectedOutput.columns.map((column) => column.toLowerCase())
   const hasExpectedShape = expectedColumns.every((column) => columns.includes(column))
   if (!hasExpectedShape || result.rows.length === 0) return false
-  if (challenge.expectedOutput.rows && challenge.id !== 14 && challenge.id !== 15 && challenge.id !== 16 && challenge.id !== 17 && challenge.id !== 23 && challenge.id !== 24 && challenge.id !== 25 && challenge.id !== 31 && challenge.id !== 32 && challenge.id !== 33 && result.rows.length !== challenge.expectedOutput.rows) return false
+  if (challenge.expectedOutput.rows !== undefined && result.rows.length !== challenge.expectedOutput.rows) return false
   if ([1, 7, 12, 13, 14, 17, 21, 23, 24, 28, 29, 30, 32, 33].includes(challenge.id)) return has('game_id')
   if ([2, 3, 5, 26].includes(challenge.id)) return result.rows.every((row, index) => index === 0 || Number(row.total_points ?? row.points_rank) <= Number(result.rows[index - 1].total_points ?? result.rows[index - 1].points_rank))
   if ([11, 16, 25, 28, 29, 30, 31, 32, 33].includes(challenge.id)) return has('game_id') && result.rows.length >= 2
