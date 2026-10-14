@@ -35,17 +35,27 @@ function managerAssignment(challenge: CaseChallenge) {
   return { act, message, deliverable: challenge.prompt, concepts: challenge.eyebrow }
 }
 
-function passes(challenge: CaseChallenge, result: Result) {
-  const columns = result.columns.map((column) => column.toLowerCase())
-  const has = (...names: string[]) => names.every((name) => columns.includes(name))
+function normalizeValue(value: unknown) {
+  if (value === null || value === undefined) return 'NULL'
+  if (typeof value === 'number' || (typeof value === 'string' && value.trim() !== '' && Number.isFinite(Number(value)))) return `NUMBER:${Number(value).toFixed(6)}`
+  return `TEXT:${String(value).trim()}`
+}
+
+function passes(challenge: CaseChallenge, result: Result, expected: Result) {
+  const actualColumns = new Map(result.columns.map((column) => [column.toLowerCase(), column]))
   const expectedColumns = challenge.expectedOutput.columns.map((column) => column.toLowerCase())
-  const hasExpectedShape = expectedColumns.every((column) => columns.includes(column))
-  if (!hasExpectedShape || result.rows.length === 0) return false
+  if (expectedColumns.some((column) => !actualColumns.has(column)) || result.rows.length === 0) return false
   if (challenge.expectedOutput.rows !== undefined && result.rows.length !== challenge.expectedOutput.rows) return false
-  if ([1, 7, 12, 13, 14, 17, 21, 23, 24, 28, 29, 30, 32, 33].includes(challenge.id)) return has('game_id')
-  if ([15, 26].includes(challenge.id)) return result.rows.every((row, index) => index === 0 || Number(row.total_points ?? row.points_rank) <= Number(result.rows[index - 1].total_points ?? result.rows[index - 1].points_rank))
-  if ([11, 16, 25, 28, 29, 30, 31, 32, 33].includes(challenge.id)) return has('game_id') && result.rows.length >= 2
-  return true
+  if (result.rows.length !== expected.rows.length) return false
+  const key = (row: Record<string, unknown>) => expectedColumns.map((column) => normalizeValue(row[actualColumns.get(column) ?? column])).join('\\u001f')
+  const actualCounts = new Map<string, number>()
+  const expectedCounts = new Map<string, number>()
+  result.rows.forEach((row) => actualCounts.set(key(row), (actualCounts.get(key(row)) ?? 0) + 1))
+  expected.rows.forEach((row) => {
+    const expectedKey = expectedColumns.map((column) => normalizeValue(row[expected.columns.find((name) => name.toLowerCase() === column) ?? column])).join('\\u001f')
+    expectedCounts.set(expectedKey, (expectedCounts.get(expectedKey) ?? 0) + 1)
+  })
+  return actualCounts.size === expectedCounts.size && [...expectedCounts].every(([rowKey, count]) => actualCounts.get(rowKey) === count)
 }
 
 function ExpectedOutput({ challenge, result, open, onToggle, error }: { challenge: CaseChallenge; result: Result | null; open: boolean; onToggle: () => void; error: string }) {
@@ -124,15 +134,16 @@ export function CaseWorkspace({ onExit, onActComplete, startIndex = 0, user }: {
     setLoading(true); setError(''); setFeedback(''); setResult(null)
     try {
       const next = await runSql(query, challenge.allowedThroughGame)
+      const expected = await runSql(challenge.solution, challenge.allowedThroughGame)
       const nextCareerRun = { ...career, queriesRun: career.queriesRun + 1 }
-      setCareer(nextCareerRun)
-      persistLocalProgress(solved, journal, nextCareerRun)
-      setResult(next)
-      if (user && supabase) await supabase.auth.updateUser({ data: { sqlam_dunk_progress: { solved, journal, career: nextCareerRun } } })
       const entry = { challenge: active, query, at: new Date().toISOString() }
       const nextJournal = [entry, ...journal.filter((item) => item.challenge !== active)].slice(0, 12)
+      setCareer(nextCareerRun)
       setJournal(nextJournal)
-      if (passes(challenge, next)) {
+      persistLocalProgress(solved, nextJournal, nextCareerRun)
+      setResult(next)
+      if (user && supabase) await supabase.auth.updateUser({ data: { sqlam_dunk_progress: { solved, journal: nextJournal, career: nextCareerRun } } })
+      if (passes(challenge, next, expected)) {
         const wasAlreadySolved = solved.includes(active)
         const updated = wasAlreadySolved ? solved : [...solved, active]
         const nextCareer = user ? { ...nextCareerRun, xp: Math.max(career.xp, updated.length * 150 + (updated.length === allChallenges.length ? 100 : 0)), currency: career.currency + (wasAlreadySolved ? 0 : rewardForChallenge(challenge.id)), completed: updated.length === allChallenges.length } : nextCareerRun
