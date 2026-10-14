@@ -46,6 +46,13 @@
           ]
         ]
       },
+      "checks": {
+        "referenceExecuted": true,
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
+      },
       "status": "passed"
     },
     {
@@ -97,6 +104,13 @@
           ]
         ]
       },
+      "checks": {
+        "referenceExecuted": true,
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
+      },
       "status": "passed"
     },
     {
@@ -133,6 +147,13 @@
           ]
         ]
       },
+      "checks": {
+        "referenceExecuted": true,
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
+      },
       "status": "passed"
     },
     {
@@ -160,6 +181,13 @@
             "2016-06-02"
           ]
         ]
+      },
+      "checks": {
+        "referenceExecuted": true,
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
       },
       "status": "passed"
     },
@@ -212,6 +240,13 @@
           ]
         ]
       },
+      "checks": {
+        "referenceExecuted": true,
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
+      },
       "status": "passed"
     },
     {
@@ -245,6 +280,13 @@
             "9"
           ]
         ]
+      },
+      "checks": {
+        "referenceExecuted": true,
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
       },
       "status": "passed"
     },
@@ -289,6 +331,13 @@
             "2016-06-13"
           ]
         ]
+      },
+      "checks": {
+        "referenceExecuted": true,
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
       },
       "status": "passed"
     },
@@ -341,6 +390,13 @@
           ]
         ]
       },
+      "checks": {
+        "referenceExecuted": true,
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
+      },
       "status": "passed"
     },
     {
@@ -366,6 +422,13 @@
           ]
         ]
       },
+      "checks": {
+        "referenceExecuted": true,
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
+      },
       "status": "passed"
     },
     {
@@ -390,6 +453,13 @@
             "23"
           ]
         ]
+      },
+      "checks": {
+        "referenceExecuted": true,
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
       },
       "status": "passed"
     },
@@ -422,6 +492,13 @@
             "104"
           ]
         ]
+      },
+      "checks": {
+        "referenceExecuted": true,
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
       },
       "status": "passed"
     },
@@ -481,6 +558,13 @@
           ]
         ]
       },
+      "checks": {
+        "referenceExecuted": true,
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
+      },
       "status": "passed"
     },
     {
@@ -532,6 +616,13 @@
           ]
         ]
       },
+      "checks": {
+        "referenceExecuted": true,
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
+      },
       "status": "passed"
     },
     {
@@ -575,6 +666,13 @@
             "216"
           ]
         ]
+      },
+      "checks": {
+        "referenceExecuted": true,
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
       },
       "status": "passed"
     },
@@ -634,6 +732,13 @@
           ]
         ]
       },
+      "checks": {
+        "referenceExecuted": true,
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
+      },
       "status": "passed"
     },
     {
@@ -673,6 +778,13 @@
             "3"
           ]
         ]
+      },
+      "checks": {
+        "referenceExecuted": true,
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
       },
       "status": "passed"
     },
@@ -739,6 +851,13 @@
           ]
         ]
       },
+      "checks": {
+        "referenceExecuted": true,
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
+      },
       "status": "passed"
     },
     {
@@ -804,6 +923,13 @@
           ]
         ]
       },
+      "checks": {
+        "referenceExecuted": true,
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
+      },
       "status": "passed"
     },
     {
@@ -868,6 +994,13 @@
             "0"
           ]
         ]
+      },
+      "checks": {
+        "referenceExecuted": true,
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
       },
       "status": "passed"
     },
@@ -941,6 +1074,13 @@
           ]
         ]
       },
+      "checks": {
+        "referenceExecuted": true,
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
+      },
       "status": "passed"
     },
     {
@@ -984,6 +1124,13 @@
             "209"
           ]
         ]
+      },
+      "checks": {
+        "referenceExecuted": true,
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
       },
       "status": "passed"
     },
@@ -1036,6 +1183,13 @@
           ]
         ]
       },
+      "checks": {
+        "referenceExecuted": true,
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
+      },
       "status": "passed"
     },
     {
@@ -1075,6 +1229,13 @@
             "14"
           ]
         ]
+      },
+      "checks": {
+        "referenceExecuted": true,
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
       },
       "status": "passed"
     },
@@ -1139,6 +1300,13 @@
             "2"
           ]
         ]
+      },
+      "checks": {
+        "referenceExecuted": true,
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
       },
       "status": "passed"
     },
@@ -1205,6 +1373,13 @@
           ]
         ]
       },
+      "checks": {
+        "referenceExecuted": true,
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
+      },
       "status": "passed"
     },
     {
@@ -1262,6 +1437,13 @@
             "5"
           ]
         ]
+      },
+      "checks": {
+        "referenceExecuted": true,
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
       },
       "status": "passed"
     },
@@ -1321,6 +1503,13 @@
           ]
         ]
       },
+      "checks": {
+        "referenceExecuted": true,
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
+      },
       "status": "passed"
     },
     {
@@ -1371,6 +1560,13 @@
             "15"
           ]
         ]
+      },
+      "checks": {
+        "referenceExecuted": true,
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
       },
       "status": "passed"
     },
@@ -1423,6 +1619,13 @@
           ]
         ]
       },
+      "checks": {
+        "referenceExecuted": true,
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
+      },
       "status": "passed"
     },
     {
@@ -1473,6 +1676,13 @@
             "104.5"
           ]
         ]
+      },
+      "checks": {
+        "referenceExecuted": true,
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
       },
       "status": "passed"
     },
@@ -1545,6 +1755,13 @@
             "1"
           ]
         ]
+      },
+      "checks": {
+        "referenceExecuted": true,
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
       },
       "status": "passed"
     },
@@ -1624,6 +1841,13 @@
             "3"
           ]
         ]
+      },
+      "checks": {
+        "referenceExecuted": true,
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
       },
       "status": "passed"
     },
@@ -1710,6 +1934,13 @@
             "Cleveland Cavaliers win 4\u20133"
           ]
         ]
+      },
+      "checks": {
+        "referenceExecuted": true,
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
       },
       "status": "passed"
     }
