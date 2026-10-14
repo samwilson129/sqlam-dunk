@@ -20,9 +20,9 @@ const emptyCareer: Career = { xp: 0, completed: false, currency: 0, hintsUsed: 0
 const hintCosts = [25, 60, 120]
 
 function rewardForChallenge(challengeId: number) {
-  if (challengeId <= 5) return 50
-  if (challengeId <= 9) return 75
-  if (challengeId <= 12) return 100
+  if (challengeId <= 8) return 50
+  if (challengeId <= 17) return 75
+  if (challengeId <= 25) return 100
   return 150
 }
 
@@ -59,7 +59,7 @@ function passes(challenge: CaseChallenge, result: Result) {
   if (!hasExpectedShape || result.rows.length === 0) return false
   if (challenge.expectedOutput.rows !== undefined && result.rows.length !== challenge.expectedOutput.rows) return false
   if ([1, 7, 12, 13, 14, 17, 21, 23, 24, 28, 29, 30, 32, 33].includes(challenge.id)) return has('game_id')
-  if ([2, 3, 5, 26].includes(challenge.id)) return result.rows.every((row, index) => index === 0 || Number(row.total_points ?? row.points_rank) <= Number(result.rows[index - 1].total_points ?? result.rows[index - 1].points_rank))
+  if ([15, 26].includes(challenge.id)) return result.rows.every((row, index) => index === 0 || Number(row.total_points ?? row.points_rank) <= Number(result.rows[index - 1].total_points ?? result.rows[index - 1].points_rank))
   if ([11, 16, 25, 28, 29, 30, 31, 32, 33].includes(challenge.id)) return has('game_id') && result.rows.length >= 2
   return true
 }
