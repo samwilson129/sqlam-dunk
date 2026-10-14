@@ -8,8 +8,13 @@ for name in ['games', 'teams', 'players', 'player_game_stats']:
     conn.execute(f"CREATE TABLE {name} AS SELECT * FROM read_csv_auto(?)", [str(root / 'public' / 'data' / f'{name}.csv')])
 challenges = json.loads((root / 'audit' / 'challenge-solutions.json').read_text())
 report, failures = [], []
+ids = [challenge['id'] for challenge in challenges]
+if ids != list(range(1, len(challenges) + 1)):
+    raise SystemExit(f'Challenge IDs must be contiguous from 1: {ids}')
 for challenge in challenges:
-    item = {'id': challenge['id'], 'title': challenge['title'], 'expected': challenge['expectedOutput']}
+    if not challenge['solution'].strip() or not challenge['expectedOutput']['columns']:
+        raise SystemExit(f"Challenge {challenge['id']} is missing a solution or expected columns")
+    item = {'id': challenge['id'], 'title': challenge['title'], 'managerRequest': challenge['managerRequest'], 'expected': challenge['expectedOutput'], 'correction': 'Manager request and deliverable are intentionally identical to the verified SQL contract.'}
     try:
         relation = conn.sql(challenge['solution'])
         columns = [x[0] for x in relation.description]

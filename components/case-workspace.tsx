@@ -30,24 +30,8 @@ const analystProfile = { name: 'Maya Carter', role: 'Junior Basketball Analytics
 
 function managerAssignment(challenge: CaseChallenge) {
   const act = challenge.id <= 8 ? 1 : challenge.id <= 17 ? 2 : challenge.id <= 25 ? 3 : 4
-  const messages = [
-    'Before we investigate how the series unfolded, establish a reliable chronology. Pull the seven Finals game IDs and dates in order so we have a shared timeline for the assignments ahead.',
-    'Can you compare Games 5 and 6 after Draymond Green’s suspension, including team scores, margin, and the Cavaliers’ response?',
-    'Can you rank LeBron, Kyrie, Stephen Curry, and Klay Thompson by Finals scoring, then identify who led Cleveland’s Game 5 win?',
-    'Can you pull the Game 7 lines for LeBron, Kyrie, Curry, and Klay, then compare the stars in the deciding game?',
-    'Can you show the running series record and locate the moments that set up LeBron’s chase-down block and Kyrie’s go-ahead three?',
-    'Can you calculate Cleveland’s player scoring in Games 5 and 6 and test whether the comeback was a balanced team effort or a star-led surge?',
-    'Can you label each game by margin, then find the tightest night and connect it to the late-game events reported in reliable recaps?',
-    'Can you compare LeBron, Kyrie, Curry, and Klay by total points, games played, and points per game across the Finals?',
-    'Can you produce a seven-row performance brief and attach a source URL for each game’s score and date?',
-    'Can you attach every player’s points to the correct game date and team so we can study player performance night by night?',
-    'Can you audit the game totals and prove that joining the player and game tables did not duplicate anyone’s points?',
-    'Can you build a player report for LeBron, Kyrie, Curry, and Klay with total points and assists, then compare it with the official Game 7 box score?',
-    'Can you rank every player by total Finals points while keeping the box-score rows visible and checking the ranking against Basketball-Reference?',
-    'Can you show how Cleveland’s points changed from game to game using LAG, then flag Games 5 and 6 as the post-suspension response?',
-    'Can you assemble the final seven-game dossier with both team scores, margin, winner, Cleveland’s running wins, and a source-backed note for the Green suspension, LeBron block, and Kyrie three?',
-  ]
-  const message = challenge.id === 2 ? "Before we investigate individual performances, I need a clean player directory. Retrieve each player's ID, first name, and last name from our player database." : messages[Math.min(messages.length - 1, (challenge.id - 1) % messages.length)]
+  const actFocus = act === 1 ? 'We are establishing the dataset and its grain before drawing conclusions.' : act === 2 ? 'This moves the investigation from individual rows to reproducible game and player summaries.' : act === 3 ? 'This lets us test relationships across the verified box-score tables without inventing historical events.' : 'This is part of the final reconstruction, so keep the result reproducible from the supplied tables.'
+  const message = `Jordan needs this for the Finals investigation: ${challenge.prompt} ${actFocus}`
   return { act, message, deliverable: challenge.prompt, concepts: challenge.eyebrow }
 }
 
