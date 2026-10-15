@@ -85,6 +85,6 @@ export const campaignChapters = [
 
 export const campaignCases = [{ id: '001', title: case001Meta.title, status: 'playable' }]
 export const case001ValidationQueries = case001Challenges.map((challenge) => challenge.solution)
-export const campaignChallengeIds = { act2: [9,10,11,12,13,14,15,16,17], act3: [18,19,20,21,22,23,24,25], act4: [26,27,28,29,30,31,32,33] }
-export const allCampaignChallenges = case001Challenges
+export const allCampaignChallenges = case001Challenges.slice(0, 21)
+export const campaignChallengeIds = { game1: [1, 2, 3], game2: [4, 5, 6], game3: [7, 8, 9], game4: [10, 11, 12], game5: [13, 14, 15], game6: [16, 17, 18], game7: [19, 20, 21] } as const
 export const finalsScopeForChallenge = (challenge: CaseChallenge) => challenge.allowedThroughGame
