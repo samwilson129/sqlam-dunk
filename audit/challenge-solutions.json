@@ -248,16 +248,15 @@
     "managerRequest": "Which players in the master directory have no player-stat row for Game 5? I want to know what the extract does not contain.",
     "prompt": "Which players in the master directory have no player-stat row for Game 5? I want to know what the extract does not contain.",
     "hint": "Keep every player on the left and check for a null stats ID.",
-    "structureHint": "LEFT JOIN finds unmatched directory records.",
+    "structureHint": "LEFT JOIN finds unmatched directory records. Keep the Game 5 filter in the ON clause.",
     "expectedOutput": {
       "columns": [
-        "player_id",
-        "first_name",
-        "last_name"
+        "player_name"
       ],
-      "rows": 2
+      "rows": 2,
+      "sorting": "player_name ASC"
     },
-    "solution": "SELECT p.player_id, p.first_name, p.last_name FROM players p LEFT JOIN player_game_stats s ON p.player_id = s.player_id AND s.game_id = '0041500405' WHERE s.player_id IS NULL ORDER BY p.player_id;",
+    "solution": "SELECT p.first_name || ' ' || p.last_name AS player_name FROM players p LEFT JOIN player_game_stats s ON p.player_id = s.player_id AND s.game_id = '0041500405' WHERE s.player_id IS NULL ORDER BY player_name;",
     "allowedThroughGame": 5
   },
   {

@@ -48,8 +48,9 @@ export async function runSql(sql: string, allowedThroughGame = 7) {
     const futureGameIds = Array.from({ length: 7 - allowedThroughGame }, (_, index) => String(allowedThroughGame + index + 1).padStart(2, '0')).map((suffix) => `00415004${suffix}`)
     if (futureGameIds.some((gameId) => normalizedSql.includes(gameId))) throw new Error(`This case only has evidence through Game ${allowedThroughGame}. Later game records unlock as the investigation advances.`)
     if (normalizedSql.includes('player_game_stats')) {
-      const whereClause = normalizedSql.split('where')[1] ?? ''
-      if (!whereClause.includes('game_id') || (whereClause.includes("like '00415004%'") && allowedThroughGame < 7)) throw new Error(`Player-game evidence is scoped to the latest unlocked game. Filter by game_id before querying it.`)
+      const filtersGameEvidence = normalizedSql.includes('game_id')
+      const requestsAllGames = normalizedSql.includes("like '00415004%'")
+      if (!filtersGameEvidence || (requestsAllGames && allowedThroughGame < 7)) throw new Error(`Player-game evidence is scoped to the latest unlocked game. Filter by game_id before querying it.`)
     }
   }
   const db = await getDatabase()
