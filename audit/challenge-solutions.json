@@ -1,652 +1,374 @@
 [
   {
     "id": 1,
-    "title": "Open the Case File",
-    "managerRequest": "Select game_id and game_date from games.",
-    "prompt": "Select game_id and game_date from games.",
-    "hint": "Start with the games table and choose only the two requested columns.",
+    "title": "The Opening Brief",
+    "managerRequest": "Before we dig into the opener, let's get our records straight. Pull up both teams in the Finals, with their abbreviations and full names. I want the board set up properly before we start digging into individual performances.",
+    "prompt": "Before we dig into the opener, let's get our records straight. Pull up both teams in the Finals, with their abbreviations and full names. I want the board set up properly before we start digging into individual performances.",
+    "hint": "Which table contains the team names and abbreviations?",
     "structureHint": "Select columns from one table; do not filter or aggregate yet.",
-    "expectedOutput": {
-      "columns": [
-        "game_id",
-        "game_date"
-      ],
-      "rows": 7,
-      "sorting": "as specified in the assignment"
-    },
-    "solution": "SELECT game_id, game_date FROM games ORDER BY game_date;",
-    "allowedThroughGame": 1
-  },
-  {
-    "id": 2,
-    "title": "Know the Players",
-    "managerRequest": "Return player_id, first_name, and last_name from players.",
-    "prompt": "Return player_id, first_name, and last_name from players.",
-    "hint": "Use players and select the requested identity columns.",
-    "structureHint": "Choose columns explicitly and add a deterministic sort.",
-    "expectedOutput": {
-      "columns": [
-        "player_id",
-        "first_name",
-        "last_name"
-      ],
-      "rows": 28,
-      "sorting": "as specified in the assignment"
-    },
-    "solution": "SELECT player_id, first_name, last_name FROM players ORDER BY last_name, first_name;",
-    "allowedThroughGame": 1
-  },
-  {
-    "id": 3,
-    "title": "The Teams on the Board",
-    "managerRequest": "Inspect team_id, team_abbreviation, and team_name.",
-    "prompt": "Inspect team_id, team_abbreviation, and team_name.",
-    "hint": "The teams table already contains the readable labels.",
-    "structureHint": "Select the three team columns; no join is needed.",
     "expectedOutput": {
       "columns": [
         "team_id",
         "team_abbreviation",
         "team_name"
       ],
-      "rows": 2,
-      "sorting": "as specified in the assignment"
+      "rows": 2
     },
-    "solution": "SELECT team_id, team_abbreviation, team_name FROM teams ORDER BY team_id;",
+    "solution": "SELECT team_id, team_abbreviation, team_name FROM teams;",
+    "allowedThroughGame": 1
+  },
+  {
+    "id": 2,
+    "title": "The Player Directory",
+    "managerRequest": "Good. Now let's make sure our player directory is ready before we start comparing performances. Pull the player IDs, first names, and last names for everyone in the database. We'll connect these names to their game stats later.",
+    "prompt": "Good. Now let's make sure our player directory is ready before we start comparing performances. Pull the player IDs, first names, and last names for everyone in the database. We'll connect these names to their game stats later.",
+    "hint": "The player directory is separate from the box-score table.",
+    "structureHint": "Choose columns explicitly from players.",
+    "expectedOutput": {
+      "columns": [
+        "player_id",
+        "first_name",
+        "last_name"
+      ],
+      "rows": 28
+    },
+    "solution": "SELECT player_id, first_name, last_name FROM players;",
+    "allowedThroughGame": 1
+  },
+  {
+    "id": 3,
+    "title": "The First Scoring Clues",
+    "managerRequest": "The opening box score is in. Before we get lost in every stat line, find the players who cleared 20 points in Game 1. Just return their player IDs and point totals for now.",
+    "prompt": "The opening box score is in. Before we get lost in every stat line, find the players who cleared 20 points in Game 1. Just return their player IDs and point totals for now.",
+    "hint": "Combine the game ID filter with a points threshold.",
+    "structureHint": "Use WHERE before ORDER BY; the secondary sort makes ties deterministic.",
+    "expectedOutput": {
+      "columns": [
+        "player_id",
+        "points"
+      ],
+      "rows": 3,
+      "sorting": "points DESC, player_id ASC"
+    },
+    "solution": "SELECT player_id, points FROM player_game_stats WHERE game_id = '0041500401' AND points >= 20 ORDER BY points DESC, player_id ASC;",
     "allowedThroughGame": 1
   },
   {
     "id": 4,
-    "title": "Find the First Night",
-    "managerRequest": "Find Finals Game 1 using its actual identifier.",
-    "prompt": "Find Finals Game 1 using its actual identifier.",
-    "hint": "Filter games by the identifier ending in 01.",
-    "structureHint": "Use SELECT, FROM, then WHERE with one equality condition.",
+    "title": "Kyrie's Game 2 Line",
+    "managerRequest": "Let's check Kyrie's second-game line. We have his player ID from the directory. Pull his Game 2 record and tell me how many points he put up.",
+    "prompt": "Let's check Kyrie's second-game line. We have his player ID from the directory. Pull his Game 2 record and tell me how many points he put up.",
+    "hint": "Both the game ID and player ID must match.",
+    "structureHint": "Combine conditions with AND.",
     "expectedOutput": {
       "columns": [
-        "game_id",
-        "game_date"
+        "player_id",
+        "points"
       ],
-      "rows": 1,
-      "sorting": "as specified in the assignment"
+      "rows": 1
     },
-    "solution": "SELECT game_id, game_date FROM games WHERE game_id = '0041500401';",
-    "allowedThroughGame": 1
+    "solution": "SELECT player_id, points FROM player_game_stats WHERE game_id = '0041500402' AND player_id = 202681;",
+    "allowedThroughGame": 2
   },
   {
     "id": 5,
-    "title": "Cleveland's Roster",
-    "managerRequest": "Return Cavaliers player-game records using team_id 1610612739.",
-    "prompt": "Return Cavaliers player-game records using team_id 1610612739.",
-    "hint": "The Cavaliers team id is 1610612739.",
-    "structureHint": "Filter rows with one WHERE condition before ordering.",
+    "title": "The Scoring Cut",
+    "managerRequest": "The Game 2 box score has plenty of noise. Show me every player-stat record with at least 17 points, highest total first.",
+    "prompt": "The Game 2 box score has plenty of noise. Show me every player-stat record with at least 17 points, highest total first.",
+    "hint": "Filter the game and scoring threshold before sorting.",
+    "structureHint": "WHERE narrows the data; ORDER BY arranges it.",
     "expectedOutput": {
       "columns": [
         "player_id",
-        "game_id",
         "points"
       ],
-      "rows": 91,
-      "sorting": "as specified in the assignment"
+      "rows": 4,
+      "sorting": "points DESC, player_id ASC"
     },
-    "solution": "SELECT player_id, game_id, points FROM player_game_stats WHERE team_id = '1610612739' ORDER BY game_id, player_id;",
-    "allowedThroughGame": 7
+    "solution": "SELECT player_id, points FROM player_game_stats WHERE game_id = '0041500402' AND points >= 17 ORDER BY points DESC, player_id ASC;",
+    "allowedThroughGame": 2
   },
   {
     "id": 6,
-    "title": "A Closer Look at One Player",
-    "managerRequest": "Return one specified player and game record for Game 1.",
-    "prompt": "Return one specified player and game record for Game 1.",
-    "hint": "Combine the game and player filters with AND.",
-    "structureHint": "Each condition narrows the same row set.",
-    "expectedOutput": {
-      "columns": [
-        "player_id",
-        "game_id",
-        "points",
-        "assists"
-      ],
-      "rows": 1,
-      "sorting": "as specified in the assignment"
-    },
-    "solution": "SELECT player_id, game_id, points, assists FROM player_game_stats WHERE game_id = '0041500401' AND player_id = '2544';",
-    "allowedThroughGame": 1
-  },
-  {
-    "id": 7,
-    "title": "Set the Timeline",
-    "managerRequest": "Return all Finals games in chronological order.",
-    "prompt": "Return all Finals games in chronological order.",
-    "hint": "Filter the Finals prefix, then sort by game_date.",
-    "structureHint": "ORDER BY controls result order; never rely on storage order.",
-    "expectedOutput": {
-      "columns": [
-        "game_id",
-        "game_date"
-      ],
-      "rows": 7,
-      "sorting": "as specified in the assignment"
-    },
-    "solution": "SELECT game_id, game_date FROM games WHERE game_id LIKE '00415004%' ORDER BY game_date ASC;",
-    "allowedThroughGame": 1
-  },
-  {
-    "id": 8,
-    "title": "The Scouting Shortlist",
-    "managerRequest": "Return the top 10 player-game rows by points with deterministic tie sorting.",
-    "prompt": "Return the top 10 player-game rows by points with deterministic tie sorting.",
-    "hint": "Sort points descending and add stable tie-breakers.",
+    "title": "The Top Three",
+    "managerRequest": "That is a useful cut. Now narrow it down to the three highest scoring records from Game 2.",
+    "prompt": "That is a useful cut. Now narrow it down to the three highest scoring records from Game 2.",
+    "hint": "Sorting determines the top rows; LIMIT controls how many return.",
     "structureHint": "LIMIT comes after ORDER BY.",
     "expectedOutput": {
       "columns": [
-        "game_id",
         "player_id",
         "points"
       ],
-      "rows": 10,
-      "sorting": "as specified in the assignment"
+      "rows": 3,
+      "sorting": "points DESC, player_id ASC"
     },
-    "solution": "SELECT game_id, player_id, points FROM player_game_stats WHERE game_id LIKE '00415004%' ORDER BY CAST(points AS INTEGER) DESC, game_id, player_id LIMIT 10;",
-    "allowedThroughGame": 1
+    "solution": "SELECT player_id, points FROM player_game_stats WHERE game_id = '0041500402' ORDER BY points DESC, player_id ASC LIMIT 3;",
+    "allowedThroughGame": 2
   },
   {
-    "id": 9,
-    "title": "Count the Evidence",
-    "managerRequest": "Count the available Finals games.",
-    "prompt": "Count the available Finals games.",
-    "hint": "COUNT rows from games after filtering the Finals.",
+    "id": 7,
+    "title": "The Twenty-Point Club",
+    "managerRequest": "Game 3 had some serious scoring. Count how many player-stat records reached at least 20 points.",
+    "prompt": "Game 3 had some serious scoring. Count how many player-stat records reached at least 20 points.",
+    "hint": "COUNT rows after WHERE is applied.",
     "structureHint": "COUNT(*) returns one aggregate row.",
     "expectedOutput": {
       "columns": [
-        "game_count"
+        "records_at_20_points_or_more"
       ],
-      "rows": 1,
-      "sorting": "as specified in the assignment"
+      "rows": 1
     },
-    "solution": "SELECT COUNT(*) AS game_count FROM games WHERE game_id LIKE '00415004%';",
-    "allowedThroughGame": 7
+    "solution": "SELECT COUNT(*) AS records_at_20_points_or_more FROM player_game_stats WHERE game_id = '0041500403' AND points >= 20;",
+    "allowedThroughGame": 3
+  },
+  {
+    "id": 8,
+    "title": "The Combined Score",
+    "managerRequest": "Let's step back from individual performances. Add up every player's points in Game 3.",
+    "prompt": "Let's step back from individual performances. Add up every player's points in Game 3.",
+    "hint": "Use SUM(points) with the Game 3 filter.",
+    "structureHint": "SUM adds values from qualifying records.",
+    "expectedOutput": {
+      "columns": [
+        "combined_points"
+      ],
+      "rows": 1
+    },
+    "solution": "SELECT SUM(points) AS combined_points FROM player_game_stats WHERE game_id = '0041500403';",
+    "allowedThroughGame": 3
+  },
+  {
+    "id": 9,
+    "title": "Average Points Among Scorers",
+    "managerRequest": "Now calculate the average points among Game 3 records with more than zero points. Leave zero-point records out.",
+    "prompt": "Now calculate the average points among Game 3 records with more than zero points. Leave zero-point records out.",
+    "hint": "Exclude zero-point rows before AVG.",
+    "structureHint": "Filter the input to the aggregate.",
+    "expectedOutput": {
+      "columns": [
+        "average_points"
+      ],
+      "rows": 1
+    },
+    "solution": "SELECT ROUND(AVG(points), 2) AS average_points FROM player_game_stats WHERE game_id = '0041500403' AND points > 0;",
+    "allowedThroughGame": 3
   },
   {
     "id": 10,
-    "title": "Add Up the Points",
-    "managerRequest": "Calculate one player’s points in Game 1.",
-    "prompt": "Calculate one player’s points in Game 1.",
-    "hint": "Filter to one player and one game, then SUM points.",
-    "structureHint": "Aggregate after applying both filters.",
-    "expectedOutput": {
-      "columns": [
-        "total_points"
-      ],
-      "rows": 1,
-      "sorting": "as specified in the assignment"
-    },
-    "solution": "SELECT SUM(CAST(points AS INTEGER)) AS total_points FROM player_game_stats WHERE game_id = '0041500401' AND player_id = '2544';",
-    "allowedThroughGame": 1
-  },
-  {
-    "id": 11,
-    "title": "The Scoreboard Takes Shape",
-    "managerRequest": "Calculate both team scores for Game 1.",
-    "prompt": "Calculate both team scores for Game 1.",
-    "hint": "Group Game 1 rows by team_id.",
+    "title": "The Team Scoreboard",
+    "managerRequest": "Four games in, put the team totals side by side. Sum the points for each team in Game 4 using team ID and abbreviation.",
+    "prompt": "Four games in, put the team totals side by side. Sum the points for each team in Game 4 using team ID and abbreviation.",
+    "hint": "Group Game 4 rows by team before summing.",
     "structureHint": "GROUP BY creates one row per team.",
     "expectedOutput": {
       "columns": [
         "team_id",
+        "team_abbreviation",
         "team_points"
       ],
-      "rows": 2,
-      "sorting": "as specified in the assignment"
+      "rows": 2
     },
-    "solution": "SELECT team_id, SUM(CAST(points AS INTEGER)) AS team_points FROM player_game_stats WHERE game_id = '0041500401' GROUP BY team_id ORDER BY team_id;",
-    "allowedThroughGame": 1
+    "solution": "SELECT team_id, team_abbreviation, SUM(points) AS team_points FROM player_game_stats JOIN teams USING (team_id) WHERE game_id = '0041500404' GROUP BY team_id, team_abbreviation ORDER BY team_id;",
+    "allowedThroughGame": 4
   },
   {
-    "id": 12,
-    "title": "Seven Nights, Seven Margins",
-    "managerRequest": "Calculate team scores and Cleveland-minus-Golden-State margin for each game.",
-    "prompt": "Calculate team scores and Cleveland-minus-Golden-State margin for each game.",
-    "hint": "Aggregate team scores first, then subtract.",
-    "structureHint": "The sign convention is Cleveland minus Golden State.",
-    "expectedOutput": {
-      "columns": [
-        "game_id",
-        "cleveland_points",
-        "golden_state_points",
-        "margin"
-      ],
-      "rows": 7,
-      "sorting": "as specified in the assignment"
-    },
-    "solution": "SELECT game_id, cleveland_points, golden_state_points, cleveland_points - golden_state_points AS margin FROM (SELECT game_id, MAX(CASE WHEN team_id = '1610612739' THEN points END) AS cleveland_points, MAX(CASE WHEN team_id = '1610612744' THEN points END) AS golden_state_points FROM (SELECT game_id, team_id, SUM(CAST(points AS INTEGER)) AS points FROM player_game_stats WHERE game_id LIKE '00415004%' GROUP BY game_id, team_id) scores GROUP BY game_id) ORDER BY game_id;",
-    "allowedThroughGame": 7
-  },
-  {
-    "id": 13,
-    "title": "Close Games and Blowouts",
-    "managerRequest": "Label each game close under a 10-point margin, otherwise decisive.",
-    "prompt": "Label each game close under a 10-point margin, otherwise decisive.",
-    "hint": "Use CASE on the derived absolute margin.",
-    "structureHint": "The boundary is exact: 0–9 close, 10+ decisive.",
-    "expectedOutput": {
-      "columns": [
-        "game_id",
-        "margin",
-        "finish_type"
-      ],
-      "rows": 7,
-      "sorting": "as specified in the assignment"
-    },
-    "solution": "SELECT game_id, ABS(cleveland_points - golden_state_points) AS margin, CASE WHEN ABS(cleveland_points - golden_state_points) < 10 THEN 'close' ELSE 'decisive' END AS finish_type FROM (SELECT game_id, MAX(CASE WHEN team_id = '1610612739' THEN points END) AS cleveland_points, MAX(CASE WHEN team_id = '1610612744' THEN points END) AS golden_state_points FROM (SELECT game_id, team_id, SUM(CAST(points AS INTEGER)) AS points FROM player_game_stats WHERE game_id LIKE '00415004%' GROUP BY game_id, team_id) scores GROUP BY game_id) ORDER BY game_id;",
-    "allowedThroughGame": 7
-  },
-  {
-    "id": 14,
-    "title": "When Is a Group Worth Keeping?",
-    "managerRequest": "Return games whose combined team score exceeded 190.",
-    "prompt": "Return games whose combined team score exceeded 190.",
-    "hint": "HAVING filters after GROUP BY.",
-    "structureHint": "This genuinely filters an aggregate.",
-    "expectedOutput": {
-      "columns": [
-        "game_id",
-        "total_points"
-      ],
-      "rows": 5,
-      "sorting": "as specified in the assignment"
-    },
-    "solution": "SELECT game_id, SUM(CAST(points AS INTEGER)) AS total_points FROM player_game_stats WHERE game_id LIKE '00415004%' GROUP BY game_id HAVING SUM(CAST(points AS INTEGER)) > 190 ORDER BY game_id;",
-    "allowedThroughGame": 7
-  },
-  {
-    "id": 15,
-    "title": "The Stars' Scoring Averages",
-    "managerRequest": "Compare players by total points, games played, and points per game.",
-    "prompt": "Compare players by total points, games played, and points per game.",
-    "hint": "Count distinct games and divide safely with NULLIF.",
-    "structureHint": "HAVING applies the appearance rule after aggregation.",
+    "id": 11,
+    "title": "Who Cleared Twenty?",
+    "managerRequest": "Which player-stat records crossed the 20-point mark in Game 4? Group by player ID and keep totals of at least 20.",
+    "prompt": "Which player-stat records crossed the 20-point mark in Game 4? Group by player ID and keep totals of at least 20.",
+    "hint": "WHERE filters rows; HAVING filters groups.",
+    "structureHint": "Use HAVING after GROUP BY.",
     "expectedOutput": {
       "columns": [
         "player_id",
-        "total_points",
-        "games_played",
-        "points_per_game"
+        "total_points"
       ],
-      "rows": 27,
-      "sorting": "as specified in the assignment"
+      "rows": 4,
+      "sorting": "total_points DESC, player_id ASC"
     },
-    "solution": "SELECT player_id, SUM(CAST(points AS INTEGER)) AS total_points, COUNT(DISTINCT game_id) AS games_played, ROUND(SUM(CAST(points AS DOUBLE)) / NULLIF(COUNT(DISTINCT game_id), 0), 2) AS points_per_game FROM player_game_stats WHERE game_id LIKE '00415004%' GROUP BY player_id HAVING COUNT(DISTINCT game_id) >= 4 ORDER BY total_points DESC;",
-    "allowedThroughGame": 7
+    "solution": "SELECT player_id, SUM(points) AS total_points FROM player_game_stats WHERE game_id = '0041500404' GROUP BY player_id HAVING SUM(points) >= 20 ORDER BY total_points DESC, player_id ASC;",
+    "allowedThroughGame": 4
+  },
+  {
+    "id": 12,
+    "title": "Classifying the Scoring Lines",
+    "managerRequest": "Classify every Game 4 player-stat record as 20+ points, 10–19 points, or Under 10 points, then count each band.",
+    "prompt": "Classify every Game 4 player-stat record as 20+ points, 10–19 points, or Under 10 points, then count each band.",
+    "hint": "CASE checks conditions in order.",
+    "structureHint": "Categorize rows, then group the labels.",
+    "expectedOutput": {
+      "columns": [
+        "scoring_band",
+        "player_stat_records"
+      ],
+      "rows": 3
+    },
+    "solution": "WITH categorized AS (SELECT CASE WHEN points >= 20 THEN '20+ points' WHEN points >= 10 THEN '10-19 points' ELSE 'Under 10 points' END AS scoring_band FROM player_game_stats WHERE game_id = '0041500404') SELECT scoring_band, COUNT(*) AS player_stat_records FROM categorized GROUP BY scoring_band ORDER BY CASE scoring_band WHEN '20+ points' THEN 1 WHEN '10-19 points' THEN 2 ELSE 3 END;",
+    "allowedThroughGame": 4
+  },
+  {
+    "id": 13,
+    "title": "Put Names to the Numbers",
+    "managerRequest": "Join the player directory to the box score and give me the five highest-scoring records from Game 5 with player name, team abbreviation, and points.",
+    "prompt": "Join the player directory to the box score and give me the five highest-scoring records from Game 5 with player name, team abbreviation, and points.",
+    "hint": "Join each table using its shared ID.",
+    "structureHint": "INNER JOIN keeps matching player and team records.",
+    "expectedOutput": {
+      "columns": [
+        "player_name",
+        "team_abbreviation",
+        "points"
+      ],
+      "rows": 5
+    },
+    "solution": "SELECT p.first_name || ' ' || p.last_name AS player_name, t.team_abbreviation, s.points FROM player_game_stats s INNER JOIN players p ON s.player_id = p.player_id INNER JOIN teams t ON s.team_id = t.team_id WHERE s.game_id = '0041500405' ORDER BY s.points DESC, player_name ASC LIMIT 5;",
+    "allowedThroughGame": 5
+  },
+  {
+    "id": 14,
+    "title": "The Team Response",
+    "managerRequest": "Sum Game 5's points by team and show each team's full name and total.",
+    "prompt": "Sum Game 5's points by team and show each team's full name and total.",
+    "hint": "Join team names to stats before grouping.",
+    "structureHint": "Group joined rows by team.",
+    "expectedOutput": {
+      "columns": [
+        "team_name",
+        "team_points"
+      ],
+      "rows": 2
+    },
+    "solution": "SELECT t.team_name, SUM(s.points) AS team_points FROM player_game_stats s INNER JOIN teams t ON s.team_id = t.team_id WHERE s.game_id = '0041500405' GROUP BY t.team_id, t.team_name ORDER BY team_points DESC;",
+    "allowedThroughGame": 5
+  },
+  {
+    "id": 15,
+    "title": "The Missing Records",
+    "managerRequest": "Which players in the master directory have no player-stat row for Game 5? I want to know what the extract does not contain.",
+    "prompt": "Which players in the master directory have no player-stat row for Game 5? I want to know what the extract does not contain.",
+    "hint": "Keep every player on the left and check for a null stats ID.",
+    "structureHint": "LEFT JOIN finds unmatched directory records.",
+    "expectedOutput": {
+      "columns": [
+        "player_id",
+        "first_name",
+        "last_name"
+      ],
+      "rows": 2
+    },
+    "solution": "SELECT p.player_id, p.first_name, p.last_name FROM players p LEFT JOIN player_game_stats s ON p.player_id = s.player_id AND s.game_id = '0041500405' WHERE s.player_id IS NULL ORDER BY p.player_id;",
+    "allowedThroughGame": 5
   },
   {
     "id": 16,
-    "title": "Balanced Team or Star-Led Surge?",
-    "managerRequest": "Compare Cleveland scoring in Games 5 and 6.",
-    "prompt": "Compare Cleveland scoring in Games 5 and 6.",
-    "hint": "Use CASE inside SUM, MAX, and COUNT.",
-    "structureHint": "Keep one row per game and define the threshold.",
+    "title": "The Game 6 Scoreboard",
+    "managerRequest": "Build a clean Game 6 scoreboard with one row per team, full team name, and total points.",
+    "prompt": "Build a clean Game 6 scoreboard with one row per team, full team name, and total points.",
+    "hint": "Calculate the grouped score inside a CTE.",
+    "structureHint": "A CTE names the intermediate team-score result.",
     "expectedOutput": {
       "columns": [
-        "game_id",
-        "cleveland_points",
-        "top_player_points",
-        "players_15_plus"
+        "team_name",
+        "team_points"
       ],
-      "rows": 2,
-      "sorting": "as specified in the assignment"
+      "rows": 2
     },
-    "solution": "SELECT game_id, SUM(CASE WHEN team_id = '1610612739' THEN CAST(points AS INTEGER) ELSE 0 END) AS cleveland_points, MAX(CASE WHEN team_id = '1610612739' THEN CAST(points AS INTEGER) ELSE NULL END) AS top_player_points, COUNT(CASE WHEN team_id = '1610612739' AND CAST(points AS INTEGER) >= 15 THEN 1 END) AS players_15_plus FROM player_game_stats WHERE game_id IN ('0041500405', '0041500406') GROUP BY game_id ORDER BY game_id;",
+    "solution": "WITH team_scores AS (SELECT s.team_id, t.team_name, SUM(s.points) AS team_points FROM player_game_stats s INNER JOIN teams t ON s.team_id = t.team_id WHERE s.game_id = '0041500406' GROUP BY s.team_id, t.team_name) SELECT team_name, team_points FROM team_scores ORDER BY team_points DESC;",
     "allowedThroughGame": 6
   },
   {
     "id": 17,
-    "title": "The Performance Brief",
-    "managerRequest": "Produce one row per game with scores, margin, and winner.",
-    "prompt": "Produce one row per game with scores, margin, and winner.",
-    "hint": "Reuse the team-score CTE and add CASE.",
-    "structureHint": "The grain is exactly one row per game.",
+    "title": "The Change From Game 5 to Game 6",
+    "managerRequest": "Compare each team’s score in Games 5 and 6, showing both scores and the signed change.",
+    "prompt": "Compare each team’s score in Games 5 and 6, showing both scores and the signed change.",
+    "hint": "Pivot the two game IDs into separate columns.",
+    "structureHint": "Use CTEs for score aggregation and comparison.",
     "expectedOutput": {
       "columns": [
-        "game_id",
-        "cleveland_points",
-        "golden_state_points",
-        "margin",
-        "winner"
+        "team_abbreviation",
+        "game5_points",
+        "game6_points",
+        "point_change"
       ],
-      "rows": 7,
-      "sorting": "as specified in the assignment"
+      "rows": 2
     },
-    "solution": "SELECT game_id, cleveland_points, golden_state_points, cleveland_points - golden_state_points AS margin, CASE WHEN cleveland_points > golden_state_points THEN 'Cleveland Cavaliers' ELSE 'Golden State Warriors' END AS winner FROM (SELECT game_id, MAX(CASE WHEN team_id = '1610612739' THEN points END) AS cleveland_points, MAX(CASE WHEN team_id = '1610612744' THEN points END) AS golden_state_points FROM (SELECT game_id, team_id, SUM(CAST(points AS INTEGER)) AS points FROM player_game_stats WHERE game_id LIKE '00415004%' GROUP BY game_id, team_id) scores GROUP BY game_id) ORDER BY game_id;",
-    "allowedThroughGame": 7
+    "solution": "WITH team_scores AS (SELECT team_id, game_id, SUM(points) AS team_points FROM player_game_stats WHERE game_id IN ('0041500405','0041500406') GROUP BY team_id, game_id), comparison AS (SELECT team_id, MAX(CASE WHEN game_id = '0041500405' THEN team_points END) AS game5_points, MAX(CASE WHEN game_id = '0041500406' THEN team_points END) AS game6_points FROM team_scores GROUP BY team_id) SELECT t.team_abbreviation, c.game5_points, c.game6_points, c.game6_points - c.game5_points AS point_change FROM comparison c INNER JOIN teams t ON c.team_id = t.team_id ORDER BY t.team_abbreviation;",
+    "allowedThroughGame": 6
   },
   {
     "id": 18,
-    "title": "Put Names to the Numbers",
-    "managerRequest": "Attach player names to player-game statistics.",
-    "prompt": "Attach player names to player-game statistics.",
-    "hint": "Join on player_id.",
-    "structureHint": "Keep the player-game grain.",
+    "title": "Above the Series Average",
+    "managerRequest": "Calculate the average points per player-stat record across Games 1–6, then show Game 6 records above it with names and team abbreviations.",
+    "prompt": "Calculate the average points per player-stat record across Games 1–6, then show Game 6 records above it with names and team abbreviations.",
+    "hint": "Calculate the average in a separate CTE.",
+    "structureHint": "Compare Game 6 rows to a calculated scalar threshold.",
     "expectedOutput": {
       "columns": [
-        "game_id",
-        "player_id",
-        "first_name",
-        "last_name",
+        "player_name",
+        "team_abbreviation",
         "points"
       ],
-      "rows": 182,
-      "sorting": "as specified in the assignment"
+      "rows": 8
     },
-    "solution": "SELECT s.game_id, s.player_id, p.first_name, p.last_name, s.points FROM player_game_stats s INNER JOIN players p ON p.player_id = s.player_id WHERE s.game_id LIKE '00415004%' ORDER BY s.game_id, s.player_id;",
-    "allowedThroughGame": 7
+    "solution": "WITH series_average AS (SELECT AVG(points) AS average_points FROM player_game_stats WHERE game_id <= '0041500406') SELECT p.first_name || ' ' || p.last_name AS player_name, t.team_abbreviation, s.points FROM player_game_stats s INNER JOIN players p ON s.player_id = p.player_id INNER JOIN teams t ON s.team_id = t.team_id CROSS JOIN series_average a WHERE s.game_id = '0041500406' AND s.points > a.average_points ORDER BY s.points DESC, player_name ASC;",
+    "allowedThroughGame": 6
   },
   {
     "id": 19,
-    "title": "Which Team Was It?",
-    "managerRequest": "Attach team abbreviation and name to each player-game row.",
-    "prompt": "Attach team abbreviation and name to each player-game row.",
-    "hint": "Join team_id to teams.",
-    "structureHint": "Qualify repeated key columns.",
+    "title": "The Series Scoring Leaders",
+    "managerRequest": "Rank players by total points across the Finals and give me the top five using the player directory.",
+    "prompt": "Rank players by total points across the Finals and give me the top five using the player directory.",
+    "hint": "Aggregate totals before applying RANK.",
+    "structureHint": "A grouped player table feeds the ranking window.",
     "expectedOutput": {
       "columns": [
-        "game_id",
-        "player_id",
-        "team_abbreviation",
-        "team_name",
-        "points"
+        "scoring_rank",
+        "player_name",
+        "total_points"
       ],
-      "rows": 182,
-      "sorting": "as specified in the assignment"
+      "rows": 5
     },
-    "solution": "SELECT s.game_id, s.player_id, t.team_abbreviation, t.team_name, s.points FROM player_game_stats s INNER JOIN teams t ON t.team_id = s.team_id WHERE s.game_id LIKE '00415004%' ORDER BY s.game_id, s.player_id;",
+    "solution": "WITH player_totals AS (SELECT s.player_id, p.first_name || ' ' || p.last_name AS player_name, SUM(s.points) AS total_points FROM player_game_stats s INNER JOIN players p ON s.player_id = p.player_id GROUP BY s.player_id, p.first_name, p.last_name), ranked_players AS (SELECT player_name, total_points, RANK() OVER (ORDER BY total_points DESC) AS scoring_rank FROM player_totals) SELECT scoring_rank, player_name, total_points FROM ranked_players WHERE scoring_rank <= 5 ORDER BY scoring_rank, player_name;",
     "allowedThroughGame": 7
   },
   {
     "id": 20,
-    "title": "Place Every Game in Context",
-    "managerRequest": "Build a player-by-game report with date, name, team, and points.",
-    "prompt": "Build a player-by-game report with date, name, team, and points.",
-    "hint": "Join each foreign key to its matching dimension.",
-    "structureHint": "The result remains one row per player-game.",
+    "title": "The Final Shift",
+    "managerRequest": "Compare Game 7 team scores with Game 6 and show each team’s cumulative points through Game 7.",
+    "prompt": "Compare Game 7 team scores with Game 6 and show each team’s cumulative points through Game 7.",
+    "hint": "LAG reads the previous row; SUM accumulates the ordered games.",
+    "structureHint": "Aggregate by team and game before applying windows.",
     "expectedOutput": {
       "columns": [
-        "game_id",
-        "game_date",
-        "first_name",
-        "last_name",
+        "team_abbreviation",
         "team_name",
-        "points"
+        "game7_points",
+        "previous_game_points",
+        "change_from_game6",
+        "cumulative_points"
       ],
-      "rows": 182,
-      "sorting": "as specified in the assignment"
+      "rows": 2
     },
-    "solution": "SELECT s.game_id, g.game_date, p.first_name, p.last_name, t.team_name, s.points FROM player_game_stats s JOIN games g ON g.game_id = s.game_id JOIN players p ON p.player_id = s.player_id JOIN teams t ON t.team_id = s.team_id WHERE s.game_id LIKE '00415004%' ORDER BY s.game_id, s.player_id;",
+    "solution": "WITH team_game_scores AS (SELECT s.team_id, t.team_abbreviation, t.team_name, s.game_id, SUM(s.points) AS team_points FROM player_game_stats s INNER JOIN teams t ON s.team_id = t.team_id GROUP BY s.team_id, t.team_abbreviation, t.team_name, s.game_id), game_trends AS (SELECT *, LAG(team_points) OVER (PARTITION BY team_id ORDER BY game_id) AS previous_game_points, SUM(team_points) OVER (PARTITION BY team_id ORDER BY game_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS cumulative_points FROM team_game_scores) SELECT team_abbreviation, team_name, team_points AS game7_points, previous_game_points, team_points - previous_game_points AS change_from_game6, cumulative_points FROM game_trends WHERE game_id = '0041500407' ORDER BY team_abbreviation;",
     "allowedThroughGame": 7
   },
   {
     "id": 21,
-    "title": "Audit the Scoreboard",
-    "managerRequest": "Compare game totals after joining games to stats.",
-    "prompt": "Compare game totals after joining games to stats.",
-    "hint": "Join games on game_id only, then aggregate.",
-    "structureHint": "Seven rows prove no fan-out.",
+    "title": "The Final Reconstruction",
+    "managerRequest": "Build the final team report: total points across all seven games and number of games won by each team, deriving winners from actual game scores.",
+    "prompt": "Build the final team report: total points across all seven games and number of games won by each team, deriving winners from actual game scores.",
+    "hint": "Calculate team scores per game, compare winners, then summarize.",
+    "structureHint": "Use CTEs for game grain and final team grain.",
     "expectedOutput": {
       "columns": [
-        "game_id",
-        "total_points"
-      ],
-      "rows": 7,
-      "sorting": "as specified in the assignment"
-    },
-    "solution": "SELECT s.game_id, SUM(CAST(s.points AS INTEGER)) AS total_points FROM player_game_stats s JOIN games g ON g.game_id = s.game_id WHERE s.game_id LIKE '00415004%' GROUP BY s.game_id ORDER BY s.game_id;",
-    "allowedThroughGame": 7
-  },
-  {
-    "id": 22,
-    "title": "Build the First CTE",
-    "managerRequest": "Rewrite the team-score report using a named intermediate result.",
-    "prompt": "Rewrite the team-score report using a named intermediate result.",
-    "hint": "Put the first aggregation inside WITH.",
-    "structureHint": "The CTE exposes team/game grain.",
-    "expectedOutput": {
-      "columns": [
-        "game_id",
-        "team_id",
-        "points"
-      ],
-      "rows": 14,
-      "sorting": "as specified in the assignment"
-    },
-    "solution": "WITH team_totals AS (SELECT game_id, team_id, SUM(CAST(points AS INTEGER)) AS points FROM player_game_stats WHERE game_id LIKE '00415004%' GROUP BY game_id, team_id) SELECT game_id, team_id, points FROM team_totals ORDER BY game_id, team_id;",
-    "allowedThroughGame": 7
-  },
-  {
-    "id": 23,
-    "title": "The Game 5–6 Comparison",
-    "managerRequest": "Compare margins in Games 5 and 6.",
-    "prompt": "Compare margins in Games 5 and 6.",
-    "hint": "Limit the CTE comparison to Games 5 and 6.",
-    "structureHint": "Statistics show sequence, not causation.",
-    "expectedOutput": {
-      "columns": [
-        "game_id",
-        "cleveland_points",
-        "golden_state_points",
-        "margin"
-      ],
-      "rows": 2,
-      "sorting": "as specified in the assignment"
-    },
-    "solution": "WITH scores AS (SELECT game_id, team_id, SUM(CAST(points AS INTEGER)) AS points FROM player_game_stats WHERE game_id LIKE '00415004%' GROUP BY game_id, team_id), games AS (SELECT game_id, MAX(CASE WHEN team_id = '1610612739' THEN points END) AS cleveland_points, MAX(CASE WHEN team_id = '1610612744' THEN points END) AS golden_state_points FROM scores WHERE game_id IN ('0041500405', '0041500406') GROUP BY game_id) SELECT game_id, cleveland_points, golden_state_points, cleveland_points - golden_state_points AS margin FROM games ORDER BY game_id;",
-    "allowedThroughGame": 6
-  },
-  {
-    "id": 24,
-    "title": "The Four-Star Report",
-    "managerRequest": "Report series and Game 7 metrics for four named players.",
-    "prompt": "Report series and Game 7 metrics for four named players.",
-    "hint": "Aggregate series totals separately from Game 7.",
-    "structureHint": "Keep single-game metrics in distinct aliases.",
-    "expectedOutput": {
-      "columns": [
-        "first_name",
-        "last_name",
+        "team_name",
         "series_points",
-        "series_assists",
-        "game7_points",
-        "game7_assists"
+        "games_won"
       ],
-      "rows": 4,
-      "sorting": "as specified in the assignment"
+      "rows": 2
     },
-    "solution": "WITH totals AS (SELECT player_id, SUM(CAST(points AS INTEGER)) AS series_points, SUM(CAST(assists AS INTEGER)) AS series_assists FROM player_game_stats WHERE game_id LIKE '00415004%' GROUP BY player_id), game7 AS (SELECT player_id, points AS game7_points, assists AS game7_assists FROM player_game_stats WHERE game_id = '0041500407') SELECT p.first_name, p.last_name, totals.series_points, totals.series_assists, game7.game7_points, game7.game7_assists FROM totals JOIN game7 ON game7.player_id = totals.player_id JOIN players p ON p.player_id = totals.player_id WHERE (p.first_name, p.last_name) IN (('LeBron','James'),('Kyrie','Irving'),('Stephen','Curry'),('Klay','Thompson')) ORDER BY totals.series_points DESC;",
-    "allowedThroughGame": 7
-  },
-  {
-    "id": 25,
-    "title": "The Verified Scorecard",
-    "managerRequest": "Build one row per game with scores, margin, and winner.",
-    "prompt": "Build one row per game with scores, margin, and winner.",
-    "hint": "Use the game-level CTE rather than mixing player rows.",
-    "structureHint": "Do not duplicate game rows.",
-    "expectedOutput": {
-      "columns": [
-        "game_id",
-        "cleveland_points",
-        "golden_state_points",
-        "margin",
-        "winner"
-      ],
-      "rows": 7,
-      "sorting": "as specified in the assignment"
-    },
-    "solution": "SELECT game_id, cleveland_points, golden_state_points, cleveland_points - golden_state_points AS margin, CASE WHEN cleveland_points > golden_state_points THEN 'Cleveland Cavaliers' ELSE 'Golden State Warriors' END AS winner FROM (SELECT game_id, MAX(CASE WHEN team_id = '1610612739' THEN points END) AS cleveland_points, MAX(CASE WHEN team_id = '1610612744' THEN points END) AS golden_state_points FROM (SELECT game_id, team_id, SUM(CAST(points AS INTEGER)) AS points FROM player_game_stats WHERE game_id LIKE '00415004%' GROUP BY game_id, team_id) scores GROUP BY game_id) ORDER BY game_id;",
-    "allowedThroughGame": 7
-  },
-  {
-    "id": 26,
-    "title": "Rank the Scorers",
-    "managerRequest": "Rank players by total Finals points with ties sharing a rank.",
-    "prompt": "Rank players by total Finals points with ties sharing a rank.",
-    "hint": "Aggregate player totals before RANK.",
-    "structureHint": "A grouped player table feeds the window function.",
-    "expectedOutput": {
-      "columns": [
-        "first_name",
-        "last_name",
-        "total_points",
-        "points_rank"
-      ],
-      "rows": 28,
-      "sorting": "as specified in the assignment"
-    },
-    "solution": "WITH totals AS (SELECT player_id, SUM(CAST(points AS INTEGER)) AS total_points FROM player_game_stats WHERE game_id LIKE '00415004%' GROUP BY player_id) SELECT p.first_name, p.last_name, total_points, RANK() OVER (ORDER BY total_points DESC) AS points_rank FROM totals JOIN players p ON p.player_id = totals.player_id ORDER BY points_rank, p.last_name;",
-    "allowedThroughGame": 7
-  },
-  {
-    "id": 27,
-    "title": "Keep Every Box-Score Row",
-    "managerRequest": "Show each player-game row with that player’s series total.",
-    "prompt": "Show each player-game row with that player’s series total.",
-    "hint": "Use SUM OVER instead of GROUP BY.",
-    "structureHint": "Window functions retain original rows.",
-    "expectedOutput": {
-      "columns": [
-        "game_id",
-        "player_id",
-        "points",
-        "series_points"
-      ],
-      "rows": 182,
-      "sorting": "as specified in the assignment"
-    },
-    "solution": "SELECT game_id, player_id, points, SUM(CAST(points AS INTEGER)) OVER (PARTITION BY player_id) AS series_points FROM player_game_stats WHERE game_id LIKE '00415004%' ORDER BY player_id, game_id;",
-    "allowedThroughGame": 7
-  },
-  {
-    "id": 28,
-    "title": "What Changed Last Night?",
-    "managerRequest": "Compare Cleveland points with the previous game.",
-    "prompt": "Compare Cleveland points with the previous game.",
-    "hint": "Create one row per game before LAG.",
-    "structureHint": "The first change is NULL.",
-    "expectedOutput": {
-      "columns": [
-        "game_id",
-        "cleveland_points",
-        "change_from_previous"
-      ],
-      "rows": 7,
-      "sorting": "as specified in the assignment"
-    },
-    "solution": "WITH scores AS (SELECT game_id, SUM(CASE WHEN team_id = '1610612739' THEN CAST(points AS INTEGER) ELSE 0 END) AS cleveland_points FROM player_game_stats WHERE game_id LIKE '00415004%' GROUP BY game_id) SELECT game_id, cleveland_points, cleveland_points - LAG(cleveland_points) OVER (ORDER BY game_id) AS change_from_previous FROM scores ORDER BY game_id;",
-    "allowedThroughGame": 7
-  },
-  {
-    "id": 29,
-    "title": "The Momentum Ledger",
-    "managerRequest": "Calculate Cleveland cumulative wins chronologically.",
-    "prompt": "Calculate Cleveland cumulative wins chronologically.",
-    "hint": "Turn each winner into 1 or 0, then use a framed SUM.",
-    "structureHint": "Order by game_id and state the frame.",
-    "expectedOutput": {
-      "columns": [
-        "game_id",
-        "cleveland_win",
-        "cumulative_cleveland_wins"
-      ],
-      "rows": 7,
-      "sorting": "as specified in the assignment"
-    },
-    "solution": "WITH winners AS (SELECT game_id, CASE WHEN cleveland_points > golden_state_points THEN 1 ELSE 0 END AS cleveland_win FROM (SELECT game_id, MAX(CASE WHEN team_id = '1610612739' THEN points END) AS cleveland_points, MAX(CASE WHEN team_id = '1610612744' THEN points END) AS golden_state_points FROM (SELECT game_id, team_id, SUM(CAST(points AS INTEGER)) AS points FROM player_game_stats WHERE game_id LIKE '00415004%' GROUP BY game_id, team_id) scores GROUP BY game_id)) SELECT game_id, cleveland_win, SUM(cleveland_win) OVER (ORDER BY game_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS cumulative_cleveland_wins FROM winners ORDER BY game_id;",
-    "allowedThroughGame": 7
-  },
-  {
-    "id": 30,
-    "title": "The Scoring Trend",
-    "managerRequest": "Calculate Cleveland’s two-game rolling average score.",
-    "prompt": "Calculate Cleveland’s two-game rolling average score.",
-    "hint": "Aggregate to game grain, then use a two-row frame.",
-    "structureHint": "The first row uses only available data.",
-    "expectedOutput": {
-      "columns": [
-        "game_id",
-        "cleveland_points",
-        "rolling_two_game_average"
-      ],
-      "rows": 7,
-      "sorting": "as specified in the assignment"
-    },
-    "solution": "WITH scores AS (SELECT game_id, SUM(CASE WHEN team_id = '1610612739' THEN CAST(points AS INTEGER) ELSE 0 END) AS cleveland_points FROM player_game_stats WHERE game_id LIKE '00415004%' GROUP BY game_id) SELECT game_id, cleveland_points, ROUND(AVG(cleveland_points) OVER (ORDER BY game_id ROWS BETWEEN 1 PRECEDING AND CURRENT ROW), 2) AS rolling_two_game_average FROM scores ORDER BY game_id;",
-    "allowedThroughGame": 7
-  },
-  {
-    "id": 31,
-    "title": "The Defensive and Offensive Comparison",
-    "managerRequest": "Compare LeBron and Kyrie by game and rank their scoring.",
-    "prompt": "Compare LeBron and Kyrie by game and rank their scoring.",
-    "hint": "Filter the two players and rank within each game.",
-    "structureHint": "Partition the rank by game_id.",
-    "expectedOutput": {
-      "columns": [
-        "game_id",
-        "player_id",
-        "points",
-        "assists",
-        "plus_minus",
-        "game_scoring_rank"
-      ],
-      "rows": 14,
-      "sorting": "as specified in the assignment"
-    },
-    "solution": "SELECT game_id, player_id, points, assists, plus_minus, RANK() OVER (PARTITION BY game_id ORDER BY CAST(points AS INTEGER) DESC) AS game_scoring_rank FROM player_game_stats WHERE player_id IN ('2544', '202681') AND game_id LIKE '00415004%' ORDER BY game_id, game_scoring_rank;",
-    "allowedThroughGame": 7
-  },
-  {
-    "id": 32,
-    "title": "Reconstruct the Series",
-    "managerRequest": "Build a report with scores, margin, winner, and running wins.",
-    "prompt": "Build a report with scores, margin, winner, and running wins.",
-    "hint": "Build scores, winners, then two running windows.",
-    "structureHint": "The final row is Cleveland 4, Golden State 3.",
-    "expectedOutput": {
-      "columns": [
-        "game_id",
-        "cleveland_points",
-        "golden_state_points",
-        "margin",
-        "winner",
-        "cleveland_wins",
-        "golden_state_wins"
-      ],
-      "rows": 7,
-      "sorting": "as specified in the assignment"
-    },
-    "solution": "WITH games AS (SELECT game_id, cleveland_points, golden_state_points FROM (SELECT game_id, MAX(CASE WHEN team_id = '1610612739' THEN points END) AS cleveland_points, MAX(CASE WHEN team_id = '1610612744' THEN points END) AS golden_state_points FROM (SELECT game_id, team_id, SUM(CAST(points AS INTEGER)) AS points FROM player_game_stats WHERE game_id LIKE '00415004%' GROUP BY game_id, team_id) scores GROUP BY game_id)), winners AS (SELECT *, cleveland_points - golden_state_points AS margin, CASE WHEN cleveland_points > golden_state_points THEN 'Cleveland Cavaliers' ELSE 'Golden State Warriors' END AS winner FROM games) SELECT *, SUM(CASE WHEN winner = 'Cleveland Cavaliers' THEN 1 ELSE 0 END) OVER (ORDER BY game_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS cleveland_wins, SUM(CASE WHEN winner = 'Golden State Warriors' THEN 1 ELSE 0 END) OVER (ORDER BY game_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS golden_state_wins FROM winners ORDER BY game_id;",
-    "allowedThroughGame": 7
-  },
-  {
-    "id": 33,
-    "title": "The Final Dossier",
-    "managerRequest": "Assemble the seven-row Finals dossier with date, scores, margin, winner, cumulative wins, and final outcome.",
-    "prompt": "Assemble the seven-row Finals dossier with date, scores, margin, winner, cumulative wins, and final outcome.",
-    "hint": "Join dates to the verified scorecard and add chronological windows.",
-    "structureHint": "This is the only challenge exposing the complete final outcome.",
-    "expectedOutput": {
-      "columns": [
-        "game_id",
-        "game_date",
-        "cleveland_points",
-        "golden_state_points",
-        "margin",
-        "winner",
-        "cleveland_wins",
-        "final_outcome"
-      ],
-      "rows": 7,
-      "sorting": "as specified in the assignment"
-    },
-    "solution": "WITH scores AS (SELECT game_id, MAX(CASE WHEN team_id = '1610612739' THEN points END) AS cleveland_points, MAX(CASE WHEN team_id = '1610612744' THEN points END) AS golden_state_points FROM (SELECT game_id, team_id, SUM(CAST(points AS INTEGER)) AS points FROM player_game_stats WHERE game_id LIKE '00415004%' GROUP BY game_id, team_id) scores GROUP BY game_id), winners AS (SELECT g.game_id, g.game_date, s.cleveland_points, s.golden_state_points, s.cleveland_points - s.golden_state_points AS margin, CASE WHEN s.cleveland_points > s.golden_state_points THEN 'Cleveland Cavaliers' ELSE 'Golden State Warriors' END AS winner FROM games g JOIN scores s ON s.game_id = g.game_id) SELECT *, SUM(CASE WHEN winner = 'Cleveland Cavaliers' THEN 1 ELSE 0 END) OVER (ORDER BY game_date ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS cleveland_wins, 'Cleveland Cavaliers win 4–3' AS final_outcome FROM winners ORDER BY game_date;",
+    "solution": "WITH team_game_scores AS (SELECT s.game_id, s.team_id, t.team_name, SUM(s.points) AS team_points FROM player_game_stats s INNER JOIN teams t ON s.team_id = t.team_id GROUP BY s.game_id, s.team_id, t.team_name), game_results AS (SELECT game_id, MAX(CASE WHEN team_id = 1610612739 THEN team_points END) AS cle_points, MAX(CASE WHEN team_id = 1610612744 THEN team_points END) AS gsw_points FROM team_game_scores GROUP BY game_id), team_summary AS (SELECT s.team_id, s.team_name, SUM(s.team_points) AS series_points, SUM(CASE WHEN s.team_id = 1610612739 AND s.team_points > r.gsw_points THEN 1 WHEN s.team_id = 1610612744 AND s.team_points > r.cle_points THEN 1 ELSE 0 END) AS games_won FROM team_game_scores s INNER JOIN game_results r ON s.game_id = r.game_id GROUP BY s.team_id, s.team_name) SELECT team_name, series_points, games_won FROM team_summary ORDER BY games_won DESC, team_name;",
     "allowedThroughGame": 7
   }
 ]
