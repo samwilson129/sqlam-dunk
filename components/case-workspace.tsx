@@ -29,10 +29,7 @@ function rewardForChallenge(challengeId: number) {
 const analystProfile = { name: 'Maya Carter', role: 'Junior Basketball Analytics Analyst', department: 'Cleveland Cavaliers Analysis — Retrospective Project', manager: 'Jordan Ellis, Senior Analytics Manager', objective: 'Reconstruct the 2016 NBA Finals from the public historical record.' }
 
 function managerAssignment(challenge: CaseChallenge) {
-  const game = Math.ceil(challenge.id / 3)
-  const gameFocus = `This chapter unlocks after Game ${game} and keeps the investigation chronological.`
-  const message = `Jordan needs this for the Finals investigation: ${challenge.prompt} ${gameFocus}`
-  return { game, message, deliverable: challenge.prompt, concepts: challenge.eyebrow }
+  return { message: challenge.prompt, deliverable: challenge.prompt, concepts: challenge.eyebrow }
 }
 
 function normalizeValue(value: unknown) {
