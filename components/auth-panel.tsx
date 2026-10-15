@@ -24,7 +24,7 @@ export function AuthPanel({ user, onUser }: AuthPanelProps) {
     const client = createSupabaseBrowserClient()
     setSupabase(client)
     if (!client) return
-    client.auth.getUser().then(({ data }) => onUser(data.user ? { id: data.user.id, email: data.user.email } : null))
+    client.auth.getUser().then(({ data }) => onUser(data.user ? { id: data.user.id, email: data.user.email } : null)).catch(() => onUser(null))
     const { data: listener } = client.auth.onAuthStateChange((_event, session) => onUser(session?.user ? { id: session.user.id, email: session.user.email } : null))
     return () => listener.subscription.unsubscribe()
   }, [onUser])
@@ -37,18 +37,32 @@ export function AuthPanel({ user, onUser }: AuthPanelProps) {
     }
     setBusy(true)
     setMessage('')
-    const result = mode === 'login'
-      ? await supabase.auth.signInWithPassword({ email, password })
-      : await supabase.auth.signUp({ email, password })
-    if (result.error) setMessage(result.error.message)
-    else {
-      setMessage(mode === 'signup' ? 'Account created. Check your email if confirmation is enabled.' : 'Signed in.')
-      if (mode === 'login') setOpen(false)
+    try {
+      if (mode === 'login') {
+        const { error } = await supabase.auth.signInWithPassword({ email, password })
+        if (error) setMessage(error.message)
+        else { setPassword(''); setOpen(false) }
+      } else {
+        const { data, error } = await supabase.auth.signUp({ email, password, options: { emailRedirectTo: window.location.origin } })
+        if (error) setMessage(error.message)
+        else if (data.session) { setPassword(''); setOpen(false) }
+        else if (data.user && data.user.identities?.length === 0) setMessage('An account with this email already exists. Log in instead.')
+        else { setPassword(''); setMessage('Account created. Check your email to confirm your address, then log in.') }
+      }
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : 'The authentication service could not be reached. Try again.')
+    } finally {
+      setBusy(false)
     }
-    setBusy(false)
   }
 
-  if (user) return <div className="flex items-center gap-3"><span className="hidden text-xs text-white/55 sm:inline">{user.email}</span><button type="button" onClick={() => { if (supabase) void supabase.auth.signOut() }} className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-xs font-bold uppercase tracking-[.12em] text-white/65 hover:border-[#f28c28] hover:text-white"><LogOut size={14} /> Sign out</button></div>
+  const signOut = async () => {
+    if (!supabase) return
+    const { error } = await supabase.auth.signOut()
+    if (error) setMessage(error.message)
+  }
+
+  if (user) return <div className="flex items-center gap-3"><span className="hidden text-xs text-white/55 sm:inline">{user.email}</span><button type="button" onClick={() => void signOut()} className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-xs font-bold uppercase tracking-[.12em] text-white/65 hover:border-[#f28c28] hover:text-white"><LogOut size={14} /> Sign out</button></div>
 
   return <>
     <button type="button" onClick={() => { setMode('login'); setOpen(true) }} className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-xs font-bold uppercase tracking-[.12em] text-white/65 hover:border-[#f28c28] hover:text-white"><LogIn size={14} /> Log in</button>
