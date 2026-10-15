@@ -595,30 +595,23 @@
       "managerRequest": "Which players in the master directory have no player-stat row for Game 5? I want to know what the extract does not contain.",
       "expected": {
         "columns": [
-          "player_id",
-          "first_name",
-          "last_name"
+          "player_name"
         ],
-        "rows": 2
+        "rows": 2,
+        "sorting": "player_name ASC"
       },
       "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
       "actual": {
         "columns": [
-          "player_id",
-          "first_name",
-          "last_name"
+          "player_name"
         ],
         "rows": 2,
         "sample": [
           [
-            "203546",
-            "Ian",
-            "Clark"
+            "Ian Clark"
           ],
           [
-            "203895",
-            "Jordan",
-            "McRae"
+            "Jordan McRae"
           ]
         ]
       },
