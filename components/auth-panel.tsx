@@ -24,7 +24,7 @@ export function AuthPanel({ user, onUser }: AuthPanelProps) {
     const client = createSupabaseBrowserClient()
     setSupabase(client)
     if (!client) return
-    client.auth.getUser().then(({ data }) => onUser(data.user ? { id: data.user.id, email: data.user.email } : null))
+    client.auth.getUser().then(({ data }) => onUser(data.user ? { id: data.user.id, email: data.user.email } : null)).catch(() => onUser(null))
     const { data: listener } = client.auth.onAuthStateChange((_event, session) => onUser(session?.user ? { id: session.user.id, email: session.user.email } : null))
     return () => listener.subscription.unsubscribe()
   }, [onUser])
@@ -53,10 +53,15 @@ export function AuthPanel({ user, onUser }: AuthPanelProps) {
       setMessage(mode === 'signup' ? 'Account created. Check your email to confirm it before signing in.' : 'Signed in.')
       if (mode === 'login') setOpen(false)
     }
-    setBusy(false)
   }
 
-  if (user) return <div className="flex items-center gap-3"><span className="hidden text-xs text-white/55 sm:inline">{user.email}</span><button type="button" onClick={() => { if (supabase) void supabase.auth.signOut() }} className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-xs font-bold uppercase tracking-[.12em] text-white/65 hover:border-[#f28c28] hover:text-white"><LogOut size={14} /> Sign out</button></div>
+  const signOut = async () => {
+    if (!supabase) return
+    const { error } = await supabase.auth.signOut()
+    if (error) setMessage(error.message)
+  }
+
+  if (user) return <div className="flex items-center gap-3"><span className="hidden text-xs text-white/55 sm:inline">{user.email}</span><button type="button" onClick={() => void signOut()} className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-xs font-bold uppercase tracking-[.12em] text-white/65 hover:border-[#f28c28] hover:text-white"><LogOut size={14} /> Sign out</button></div>
 
   return <>
     <button type="button" onClick={() => { setMode('login'); setOpen(true) }} className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-xs font-bold uppercase tracking-[.12em] text-white/65 hover:border-[#f28c28] hover:text-white"><LogIn size={14} /> Log in</button>
