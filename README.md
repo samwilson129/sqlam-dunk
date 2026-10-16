@@ -474,7 +474,7 @@ Manual acceptance checks:
 9. Verify locked challenges remain unavailable until their prerequisites are solved.
 10. Refresh the page and verify the authenticated user's progress is restored.
 
-## 11. Interview Discussion Guide
+## 11. Design Choices
 
 ### Why Next.js?
 
