@@ -1,5 +1,4 @@
 {
-  "engine": "duckdb-wasm (node blocking bundle)",
   "tested": 21,
   "passed": 21,
   "failed": 0,
@@ -7,393 +6,917 @@
   "report": [
     {
       "id": 1,
-      "game": 1,
       "title": "The Opening Brief",
-      "status": "passed",
+      "managerRequest": "Before we dig into the opener, let's get our records straight. Pull up both teams in the Finals, with their abbreviations and full names. I want the board set up properly before we start digging into individual performances.",
+      "expected": {
+        "columns": [
+          "team_id",
+          "team_abbreviation",
+          "team_name"
+        ],
+        "rows": 2
+      },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
+      "actual": {
+        "columns": [
+          "team_id",
+          "team_abbreviation",
+          "team_name"
+        ],
+        "rows": 2,
+        "sample": [
+          [
+            "1610612739",
+            "CLE",
+            "Cleveland Cavaliers"
+          ],
+          [
+            "1610612744",
+            "GSW",
+            "Golden State Warriors"
+          ]
+        ]
+      },
       "checks": {
         "referenceExecuted": true,
-        "columnsMatch": true,
-        "rowCountMatches": true,
-        "valuesMatchVerifiedData": true,
-        "referenceAccepted": true,
-        "trivialWrongRejected": true,
-        "nearMissesRejected": true,
-        "noFutureGameReferences": true,
-        "hintsDoNotRevealSolution": true,
-        "starterIsNotSolution": true
-      }
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
+      },
+      "status": "passed"
     },
     {
       "id": 2,
-      "game": 1,
       "title": "The Player Directory",
-      "status": "passed",
+      "managerRequest": "Good. Now let's make sure our player directory is ready before we start comparing performances. Pull the player IDs, first names, and last names for everyone in the database. We'll connect these names to their game stats later.",
+      "expected": {
+        "columns": [
+          "player_id",
+          "first_name",
+          "last_name"
+        ],
+        "rows": 28
+      },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
+      "actual": {
+        "columns": [
+          "player_id",
+          "first_name",
+          "last_name"
+        ],
+        "rows": 28,
+        "sample": [
+          [
+            "2210",
+            "Richard",
+            "Jefferson"
+          ],
+          [
+            "2544",
+            "LeBron",
+            "James"
+          ],
+          [
+            "2563",
+            "Dahntay",
+            "Jones"
+          ],
+          [
+            "2571",
+            "Leandro",
+            "Barbosa"
+          ],
+          [
+            "2590",
+            "Mo",
+            "Williams"
+          ]
+        ]
+      },
       "checks": {
         "referenceExecuted": true,
-        "columnsMatch": true,
-        "rowCountMatches": true,
-        "valuesMatchVerifiedData": true,
-        "referenceAccepted": true,
-        "trivialWrongRejected": true,
-        "nearMissesRejected": true,
-        "noFutureGameReferences": true,
-        "hintsDoNotRevealSolution": true,
-        "starterIsNotSolution": true
-      }
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
+      },
+      "status": "passed"
     },
     {
       "id": 3,
-      "game": 1,
       "title": "The First Scoring Clues",
-      "status": "passed",
+      "managerRequest": "The opening box score is in. Before we get lost in every stat line, find the players who cleared 20 points in Game 1. Just return their player IDs and point totals for now.",
+      "expected": {
+        "columns": [
+          "player_id",
+          "points"
+        ],
+        "rows": 3,
+        "sorting": "points DESC, player_id ASC"
+      },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
+      "actual": {
+        "columns": [
+          "player_id",
+          "points"
+        ],
+        "rows": 3,
+        "sample": [
+          [
+            "202681",
+            "26"
+          ],
+          [
+            "2544",
+            "23"
+          ],
+          [
+            "2733",
+            "20"
+          ]
+        ]
+      },
       "checks": {
         "referenceExecuted": true,
-        "columnsMatch": true,
-        "rowCountMatches": true,
-        "valuesMatchVerifiedData": true,
-        "referenceAccepted": true,
-        "trivialWrongRejected": true,
-        "nearMissesRejected": true,
-        "noFutureGameReferences": true,
-        "hintsDoNotRevealSolution": true,
-        "starterIsNotSolution": true
-      }
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
+      },
+      "status": "passed"
     },
     {
       "id": 4,
-      "game": 2,
       "title": "Kyrie's Game 2 Line",
-      "status": "passed",
+      "managerRequest": "Let's check Kyrie's second-game line. We have his player ID from the directory. Pull his Game 2 record and tell me how many points he put up.",
+      "expected": {
+        "columns": [
+          "player_id",
+          "points"
+        ],
+        "rows": 1
+      },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
+      "actual": {
+        "columns": [
+          "player_id",
+          "points"
+        ],
+        "rows": 1,
+        "sample": [
+          [
+            "202681",
+            "10"
+          ]
+        ]
+      },
       "checks": {
         "referenceExecuted": true,
-        "columnsMatch": true,
-        "rowCountMatches": true,
-        "valuesMatchVerifiedData": true,
-        "referenceAccepted": true,
-        "trivialWrongRejected": true,
-        "nearMissesRejected": true,
-        "noFutureGameReferences": true,
-        "hintsDoNotRevealSolution": true,
-        "starterIsNotSolution": true
-      }
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
+      },
+      "status": "passed"
     },
     {
       "id": 5,
-      "game": 2,
       "title": "The Scoring Cut",
-      "status": "passed",
+      "managerRequest": "The Game 2 box score has plenty of noise. Show me every player-stat record with at least 17 points, highest total first.",
+      "expected": {
+        "columns": [
+          "player_id",
+          "points"
+        ],
+        "rows": 4,
+        "sorting": "points DESC, player_id ASC"
+      },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
+      "actual": {
+        "columns": [
+          "player_id",
+          "points"
+        ],
+        "rows": 4,
+        "sample": [
+          [
+            "203110",
+            "28"
+          ],
+          [
+            "2544",
+            "19"
+          ],
+          [
+            "201939",
+            "18"
+          ],
+          [
+            "202691",
+            "17"
+          ]
+        ]
+      },
       "checks": {
         "referenceExecuted": true,
-        "columnsMatch": true,
-        "rowCountMatches": true,
-        "valuesMatchVerifiedData": true,
-        "referenceAccepted": true,
-        "trivialWrongRejected": true,
-        "nearMissesRejected": true,
-        "wrongOrderRejected": true,
-        "noFutureGameReferences": true,
-        "hintsDoNotRevealSolution": true,
-        "starterIsNotSolution": true
-      }
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
+      },
+      "status": "passed"
     },
     {
       "id": 6,
-      "game": 2,
       "title": "The Top Three",
-      "status": "passed",
+      "managerRequest": "That is a useful cut. Now narrow it down to the three highest scoring records from Game 2.",
+      "expected": {
+        "columns": [
+          "player_id",
+          "points"
+        ],
+        "rows": 3,
+        "sorting": "points DESC, player_id ASC"
+      },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
+      "actual": {
+        "columns": [
+          "player_id",
+          "points"
+        ],
+        "rows": 3,
+        "sample": [
+          [
+            "203110",
+            "28"
+          ],
+          [
+            "2544",
+            "19"
+          ],
+          [
+            "201939",
+            "18"
+          ]
+        ]
+      },
       "checks": {
         "referenceExecuted": true,
-        "columnsMatch": true,
-        "rowCountMatches": true,
-        "valuesMatchVerifiedData": true,
-        "referenceAccepted": true,
-        "trivialWrongRejected": true,
-        "nearMissesRejected": true,
-        "wrongOrderRejected": true,
-        "noFutureGameReferences": true,
-        "hintsDoNotRevealSolution": true,
-        "starterIsNotSolution": true
-      }
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
+      },
+      "status": "passed"
     },
     {
       "id": 7,
-      "game": 3,
       "title": "The Twenty-Point Club",
-      "status": "passed",
+      "managerRequest": "Game 3 had some serious scoring. Count how many player-stat records reached at least 20 points.",
+      "expected": {
+        "columns": [
+          "records_at_20_points_or_more"
+        ],
+        "rows": 1
+      },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
+      "actual": {
+        "columns": [
+          "records_at_20_points_or_more"
+        ],
+        "rows": 1,
+        "sample": [
+          [
+            "3"
+          ]
+        ]
+      },
       "checks": {
         "referenceExecuted": true,
-        "columnsMatch": true,
-        "rowCountMatches": true,
-        "valuesMatchVerifiedData": true,
-        "referenceAccepted": true,
-        "trivialWrongRejected": true,
-        "nearMissesRejected": true,
-        "noFutureGameReferences": true,
-        "hintsDoNotRevealSolution": true,
-        "starterIsNotSolution": true
-      }
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
+      },
+      "status": "passed"
     },
     {
       "id": 8,
-      "game": 3,
       "title": "The Combined Score",
-      "status": "passed",
+      "managerRequest": "Let's step back from individual performances. Add up every player's points in Game 3.",
+      "expected": {
+        "columns": [
+          "combined_points"
+        ],
+        "rows": 1
+      },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
+      "actual": {
+        "columns": [
+          "combined_points"
+        ],
+        "rows": 1,
+        "sample": [
+          [
+            "210"
+          ]
+        ]
+      },
       "checks": {
         "referenceExecuted": true,
-        "columnsMatch": true,
-        "rowCountMatches": true,
-        "valuesMatchVerifiedData": true,
-        "referenceAccepted": true,
-        "trivialWrongRejected": true,
-        "nearMissesRejected": true,
-        "noFutureGameReferences": true,
-        "hintsDoNotRevealSolution": true,
-        "starterIsNotSolution": true
-      }
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
+      },
+      "status": "passed"
     },
     {
       "id": 9,
-      "game": 3,
       "title": "Average Points Among Scorers",
-      "status": "passed",
+      "managerRequest": "Now calculate the average points among Game 3 records with more than zero points. Leave zero-point records out.",
+      "expected": {
+        "columns": [
+          "average_points"
+        ],
+        "rows": 1
+      },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
+      "actual": {
+        "columns": [
+          "average_points"
+        ],
+        "rows": 1,
+        "sample": [
+          [
+            "9.55"
+          ]
+        ]
+      },
       "checks": {
         "referenceExecuted": true,
-        "columnsMatch": true,
-        "rowCountMatches": true,
-        "valuesMatchVerifiedData": true,
-        "referenceAccepted": true,
-        "trivialWrongRejected": true,
-        "nearMissesRejected": true,
-        "noFutureGameReferences": true,
-        "hintsDoNotRevealSolution": true,
-        "starterIsNotSolution": true
-      }
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
+      },
+      "status": "passed"
     },
     {
       "id": 10,
-      "game": 4,
       "title": "The Team Scoreboard",
-      "status": "passed",
+      "managerRequest": "Four games in, put the team totals side by side. Sum the points for each team in Game 4 using team ID and abbreviation.",
+      "expected": {
+        "columns": [
+          "team_id",
+          "team_abbreviation",
+          "team_points"
+        ],
+        "rows": 2
+      },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
+      "actual": {
+        "columns": [
+          "team_id",
+          "team_abbreviation",
+          "team_points"
+        ],
+        "rows": 2,
+        "sample": [
+          [
+            "1610612739",
+            "CLE",
+            "97"
+          ],
+          [
+            "1610612744",
+            "GSW",
+            "108"
+          ]
+        ]
+      },
       "checks": {
         "referenceExecuted": true,
-        "columnsMatch": true,
-        "rowCountMatches": true,
-        "valuesMatchVerifiedData": true,
-        "referenceAccepted": true,
-        "trivialWrongRejected": true,
-        "nearMissesRejected": true,
-        "noFutureGameReferences": true,
-        "hintsDoNotRevealSolution": true,
-        "starterIsNotSolution": true
-      }
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
+      },
+      "status": "passed"
     },
     {
       "id": 11,
-      "game": 4,
       "title": "Who Cleared Twenty?",
-      "status": "passed",
+      "managerRequest": "Which player-stat records crossed the 20-point mark in Game 4? Group by player ID and keep totals of at least 20.",
+      "expected": {
+        "columns": [
+          "player_id",
+          "total_points"
+        ],
+        "rows": 4,
+        "sorting": "total_points DESC, player_id ASC"
+      },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
+      "actual": {
+        "columns": [
+          "player_id",
+          "total_points"
+        ],
+        "rows": 4,
+        "sample": [
+          [
+            "201939",
+            "38"
+          ],
+          [
+            "202681",
+            "34"
+          ],
+          [
+            "2544",
+            "25"
+          ],
+          [
+            "202691",
+            "25"
+          ]
+        ]
+      },
       "checks": {
         "referenceExecuted": true,
-        "columnsMatch": true,
-        "rowCountMatches": true,
-        "valuesMatchVerifiedData": true,
-        "referenceAccepted": true,
-        "trivialWrongRejected": true,
-        "nearMissesRejected": true,
-        "wrongOrderRejected": true,
-        "noFutureGameReferences": true,
-        "hintsDoNotRevealSolution": true,
-        "starterIsNotSolution": true
-      }
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
+      },
+      "status": "passed"
     },
     {
       "id": 12,
-      "game": 4,
       "title": "Classifying the Scoring Lines",
-      "status": "passed",
+      "managerRequest": "Classify every Game 4 player-stat record as 20+ points, 10\u201319 points, or Under 10 points, then count each band.",
+      "expected": {
+        "columns": [
+          "scoring_band",
+          "player_stat_records"
+        ],
+        "rows": 3
+      },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
+      "actual": {
+        "columns": [
+          "scoring_band",
+          "player_stat_records"
+        ],
+        "rows": 3,
+        "sample": [
+          [
+            "20+ points",
+            "4"
+          ],
+          [
+            "10-19 points",
+            "5"
+          ],
+          [
+            "Under 10 points",
+            "17"
+          ]
+        ]
+      },
       "checks": {
         "referenceExecuted": true,
-        "columnsMatch": true,
-        "rowCountMatches": true,
-        "valuesMatchVerifiedData": true,
-        "referenceAccepted": true,
-        "trivialWrongRejected": true,
-        "nearMissesRejected": true,
-        "noFutureGameReferences": true,
-        "hintsDoNotRevealSolution": true,
-        "starterIsNotSolution": true
-      }
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
+      },
+      "status": "passed"
     },
     {
       "id": 13,
-      "game": 5,
       "title": "Put Names to the Numbers",
-      "status": "passed",
+      "managerRequest": "Join the player directory to the box score and give me the five highest-scoring records from Game 5 with player name, team abbreviation, and points.",
+      "expected": {
+        "columns": [
+          "player_name",
+          "team_abbreviation",
+          "points"
+        ],
+        "rows": 5
+      },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
+      "actual": {
+        "columns": [
+          "player_name",
+          "team_abbreviation",
+          "points"
+        ],
+        "rows": 5,
+        "sample": [
+          [
+            "Kyrie Irving",
+            "CLE",
+            "41"
+          ],
+          [
+            "LeBron James",
+            "CLE",
+            "41"
+          ],
+          [
+            "Klay Thompson",
+            "GSW",
+            "37"
+          ],
+          [
+            "Stephen Curry",
+            "GSW",
+            "25"
+          ],
+          [
+            "Andre Iguodala",
+            "GSW",
+            "15"
+          ]
+        ]
+      },
       "checks": {
         "referenceExecuted": true,
-        "columnsMatch": true,
-        "rowCountMatches": true,
-        "valuesMatchVerifiedData": true,
-        "referenceAccepted": true,
-        "trivialWrongRejected": true,
-        "nearMissesRejected": true,
-        "wrongOrderRejected": true,
-        "noFutureGameReferences": true,
-        "hintsDoNotRevealSolution": true,
-        "starterIsNotSolution": true
-      }
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
+      },
+      "status": "passed"
     },
     {
       "id": 14,
-      "game": 5,
       "title": "The Team Response",
-      "status": "passed",
+      "managerRequest": "Sum Game 5's points by team and show each team's full name and total.",
+      "expected": {
+        "columns": [
+          "team_name",
+          "team_points"
+        ],
+        "rows": 2
+      },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
+      "actual": {
+        "columns": [
+          "team_name",
+          "team_points"
+        ],
+        "rows": 2,
+        "sample": [
+          [
+            "Cleveland Cavaliers",
+            "112"
+          ],
+          [
+            "Golden State Warriors",
+            "97"
+          ]
+        ]
+      },
       "checks": {
         "referenceExecuted": true,
-        "columnsMatch": true,
-        "rowCountMatches": true,
-        "valuesMatchVerifiedData": true,
-        "referenceAccepted": true,
-        "trivialWrongRejected": true,
-        "nearMissesRejected": true,
-        "wrongOrderRejected": true,
-        "noFutureGameReferences": true,
-        "hintsDoNotRevealSolution": true,
-        "starterIsNotSolution": true
-      }
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
+      },
+      "status": "passed"
     },
     {
       "id": 15,
-      "game": 5,
       "title": "The Missing Records",
-      "status": "passed",
+      "managerRequest": "Which players in the master directory have no player-stat row for Game 5? I want to know what the extract does not contain.",
+      "expected": {
+        "columns": [
+          "player_name"
+        ],
+        "rows": 2,
+        "sorting": "player_name ASC"
+      },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
+      "actual": {
+        "columns": [
+          "player_name"
+        ],
+        "rows": 2,
+        "sample": [
+          [
+            "Ian Clark"
+          ],
+          [
+            "Jordan McRae"
+          ]
+        ]
+      },
       "checks": {
         "referenceExecuted": true,
-        "columnsMatch": true,
-        "rowCountMatches": true,
-        "valuesMatchVerifiedData": true,
-        "referenceAccepted": true,
-        "trivialWrongRejected": true,
-        "nearMissesRejected": true,
-        "wrongOrderRejected": true,
-        "noFutureGameReferences": true,
-        "hintsDoNotRevealSolution": true,
-        "starterIsNotSolution": true
-      }
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
+      },
+      "status": "passed"
     },
     {
       "id": 16,
-      "game": 6,
       "title": "The Game 6 Scoreboard",
-      "status": "passed",
+      "managerRequest": "Build a clean Game 6 scoreboard with one row per team, full team name, and total points.",
+      "expected": {
+        "columns": [
+          "team_name",
+          "team_points"
+        ],
+        "rows": 2
+      },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
+      "actual": {
+        "columns": [
+          "team_name",
+          "team_points"
+        ],
+        "rows": 2,
+        "sample": [
+          [
+            "Cleveland Cavaliers",
+            "115"
+          ],
+          [
+            "Golden State Warriors",
+            "101"
+          ]
+        ]
+      },
       "checks": {
         "referenceExecuted": true,
-        "columnsMatch": true,
-        "rowCountMatches": true,
-        "valuesMatchVerifiedData": true,
-        "referenceAccepted": true,
-        "trivialWrongRejected": true,
-        "nearMissesRejected": true,
-        "wrongOrderRejected": true,
-        "noFutureGameReferences": true,
-        "hintsDoNotRevealSolution": true,
-        "starterIsNotSolution": true
-      }
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
+      },
+      "status": "passed"
     },
     {
       "id": 17,
-      "game": 6,
       "title": "The Change From Game 5 to Game 6",
-      "status": "passed",
+      "managerRequest": "Compare each team\u2019s score in Games 5 and 6, showing both scores and the signed change.",
+      "expected": {
+        "columns": [
+          "team_abbreviation",
+          "game5_points",
+          "game6_points",
+          "point_change"
+        ],
+        "rows": 2
+      },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
+      "actual": {
+        "columns": [
+          "team_abbreviation",
+          "game5_points",
+          "game6_points",
+          "point_change"
+        ],
+        "rows": 2,
+        "sample": [
+          [
+            "CLE",
+            "112",
+            "115",
+            "3"
+          ],
+          [
+            "GSW",
+            "97",
+            "101",
+            "4"
+          ]
+        ]
+      },
       "checks": {
         "referenceExecuted": true,
-        "columnsMatch": true,
-        "rowCountMatches": true,
-        "valuesMatchVerifiedData": true,
-        "referenceAccepted": true,
-        "trivialWrongRejected": true,
-        "nearMissesRejected": true,
-        "wrongOrderRejected": true,
-        "noFutureGameReferences": true,
-        "hintsDoNotRevealSolution": true,
-        "starterIsNotSolution": true
-      }
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
+      },
+      "status": "passed"
     },
     {
       "id": 18,
-      "game": 6,
       "title": "Above the Series Average",
-      "status": "passed",
+      "managerRequest": "Calculate the average points per player-stat record across Games 1\u20136, then show Game 6 records above it with names and team abbreviations.",
+      "expected": {
+        "columns": [
+          "player_name",
+          "team_abbreviation",
+          "points"
+        ],
+        "rows": 8
+      },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
+      "actual": {
+        "columns": [
+          "player_name",
+          "team_abbreviation",
+          "points"
+        ],
+        "rows": 8,
+        "sample": [
+          [
+            "LeBron James",
+            "CLE",
+            "41"
+          ],
+          [
+            "Stephen Curry",
+            "GSW",
+            "30"
+          ],
+          [
+            "Klay Thompson",
+            "GSW",
+            "25"
+          ],
+          [
+            "Kyrie Irving",
+            "CLE",
+            "23"
+          ],
+          [
+            "Tristan Thompson",
+            "CLE",
+            "15"
+          ]
+        ]
+      },
       "checks": {
         "referenceExecuted": true,
-        "columnsMatch": true,
-        "rowCountMatches": true,
-        "valuesMatchVerifiedData": true,
-        "referenceAccepted": true,
-        "trivialWrongRejected": true,
-        "nearMissesRejected": true,
-        "wrongOrderRejected": true,
-        "noFutureGameReferences": true,
-        "hintsDoNotRevealSolution": true,
-        "starterIsNotSolution": true
-      }
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
+      },
+      "status": "passed"
     },
     {
       "id": 19,
-      "game": 7,
       "title": "The Series Scoring Leaders",
-      "status": "passed",
+      "managerRequest": "Rank players by total points across the Finals and give me the top five using the player directory.",
+      "expected": {
+        "columns": [
+          "scoring_rank",
+          "player_name",
+          "total_points"
+        ],
+        "rows": 5
+      },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
+      "actual": {
+        "columns": [
+          "scoring_rank",
+          "player_name",
+          "total_points"
+        ],
+        "rows": 5,
+        "sample": [
+          [
+            "1",
+            "LeBron James",
+            "208"
+          ],
+          [
+            "2",
+            "Kyrie Irving",
+            "190"
+          ],
+          [
+            "3",
+            "Stephen Curry",
+            "158"
+          ],
+          [
+            "4",
+            "Klay Thompson",
+            "137"
+          ],
+          [
+            "5",
+            "Draymond Green",
+            "99"
+          ]
+        ]
+      },
       "checks": {
         "referenceExecuted": true,
-        "columnsMatch": true,
-        "rowCountMatches": true,
-        "valuesMatchVerifiedData": true,
-        "referenceAccepted": true,
-        "trivialWrongRejected": true,
-        "nearMissesRejected": true,
-        "wrongOrderRejected": true,
-        "noFutureGameReferences": true,
-        "hintsDoNotRevealSolution": true,
-        "starterIsNotSolution": true
-      }
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
+      },
+      "status": "passed"
     },
     {
       "id": 20,
-      "game": 7,
       "title": "The Final Shift",
-      "status": "passed",
+      "managerRequest": "Compare Game 7 team scores with Game 6 and show each team\u2019s cumulative points through Game 7.",
+      "expected": {
+        "columns": [
+          "team_abbreviation",
+          "team_name",
+          "game7_points",
+          "previous_game_points",
+          "change_from_game6",
+          "cumulative_points"
+        ],
+        "rows": 2
+      },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
+      "actual": {
+        "columns": [
+          "team_abbreviation",
+          "team_name",
+          "game7_points",
+          "previous_game_points",
+          "change_from_game6",
+          "cumulative_points"
+        ],
+        "rows": 2,
+        "sample": [
+          [
+            "CLE",
+            "Cleveland Cavaliers",
+            "93",
+            "115",
+            "-22",
+            "703"
+          ],
+          [
+            "GSW",
+            "Golden State Warriors",
+            "89",
+            "101",
+            "-12",
+            "699"
+          ]
+        ]
+      },
       "checks": {
         "referenceExecuted": true,
-        "columnsMatch": true,
-        "rowCountMatches": true,
-        "valuesMatchVerifiedData": true,
-        "referenceAccepted": true,
-        "trivialWrongRejected": true,
-        "nearMissesRejected": true,
-        "wrongOrderRejected": true,
-        "noFutureGameReferences": true,
-        "hintsDoNotRevealSolution": true,
-        "starterIsNotSolution": true
-      }
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
+      },
+      "status": "passed"
     },
     {
       "id": 21,
-      "game": 7,
       "title": "The Final Reconstruction",
-      "status": "passed",
+      "managerRequest": "Build the final team report: total points across all seven games and number of games won by each team, deriving winners from actual game scores.",
+      "expected": {
+        "columns": [
+          "team_name",
+          "series_points",
+          "games_won"
+        ],
+        "rows": 2
+      },
+      "correction": "Manager request and deliverable are intentionally identical to the verified SQL contract.",
+      "actual": {
+        "columns": [
+          "team_name",
+          "series_points",
+          "games_won"
+        ],
+        "rows": 2,
+        "sample": [
+          [
+            "Cleveland Cavaliers",
+            "703",
+            "4"
+          ],
+          [
+            "Golden State Warriors",
+            "699",
+            "3"
+          ]
+        ]
+      },
       "checks": {
         "referenceExecuted": true,
-        "columnsMatch": true,
-        "rowCountMatches": true,
-        "valuesMatchVerifiedData": true,
-        "referenceAccepted": true,
-        "trivialWrongRejected": true,
-        "nearMissesRejected": true,
-        "wrongOrderRejected": true,
-        "noFutureGameReferences": true,
-        "hintsDoNotRevealSolution": true,
-        "starterIsNotSolution": true
-      }
+        "expectedShapeMatches": true,
+        "outputValuesMatchReference": true,
+        "incorrectAnswerRejected": true,
+        "progressionReady": true
+      },
+      "status": "passed"
     }
   ]
 }

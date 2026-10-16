@@ -37,22 +37,21 @@ export function AuthPanel({ user, onUser }: AuthPanelProps) {
     }
     setBusy(true)
     setMessage('')
-    try {
-      if (mode === 'login') {
-        const { error } = await supabase.auth.signInWithPassword({ email, password })
-        if (error) setMessage(error.message)
-        else { setPassword(''); setOpen(false) }
-      } else {
-        const { data, error } = await supabase.auth.signUp({ email, password, options: { emailRedirectTo: window.location.origin } })
-        if (error) setMessage(error.message)
-        else if (data.session) { setPassword(''); setOpen(false) }
-        else if (data.user && data.user.identities?.length === 0) setMessage('An account with this email already exists. Log in instead.')
-        else { setPassword(''); setMessage('Account created. Check your email to confirm your address, then log in.') }
-      }
-    } catch (error) {
-      setMessage(error instanceof Error ? error.message : 'The authentication service could not be reached. Try again.')
-    } finally {
-      setBusy(false)
+    const result = mode === 'login'
+      ? await supabase.auth.signInWithPassword({ email, password })
+      : await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            emailRedirectTo: process.env.NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL ?? `${window.location.origin}/`,
+          },
+        })
+    if (result.error) {
+      const message = result.error.message.toLowerCase()
+      setMessage(message.includes('confirm') ? 'Check your email to confirm your account before signing in.' : message.includes('rate') ? 'Too many attempts. Please wait and try again.' : message.includes('password') && mode === 'signup' ? 'Choose a stronger password and try again.' : 'Invalid email or password.')
+    } else {
+      setMessage(mode === 'signup' ? 'Account created. Check your email to confirm it before signing in.' : 'Signed in.')
+      if (mode === 'login') setOpen(false)
     }
   }
 

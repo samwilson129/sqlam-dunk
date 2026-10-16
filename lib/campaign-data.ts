@@ -1,1 +1,1 @@
-export { allCampaignChallenges as campaignChallenges, campaignCases, campaignChapters, campaignChallengeIds, chapterForChallenge } from './case-001-data'
+export { allCampaignChallenges as campaignChallenges, campaignCases, campaignChapters, campaignChallengeIds } from './case-001-data'
