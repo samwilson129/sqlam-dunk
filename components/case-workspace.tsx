@@ -76,27 +76,19 @@ export function CaseWorkspace({ onExit, onGameComplete, user }: { onExit: () => 
   const [supabase, setSupabase] = useState<ReturnType<typeof createSupabaseBrowserClient>>(null)
 
   useEffect(() => {
+    let cancelled = false
     const client = createSupabaseBrowserClient()
     setSupabase(client)
+    setActive(0)
+    setQuery(allChallenges[0].starterQuery)
     setSolved([])
     setJournal([])
     setCareer(emptyCareer)
-    if (!user) {
-      const saved = window.localStorage.getItem(progressKey)
-      const savedCareer = window.localStorage.getItem(careerKey)
-      if (saved) {
-        try {
-          const progress = JSON.parse(saved)
-          setSolved(sanitizeSolved(progress.solved))
-          setJournal(Array.isArray(progress.journal) ? progress.journal : [])
-        } catch { window.localStorage.removeItem(progressKey) }
-      }
-      if (savedCareer) {
-        try { setCareer({ ...emptyCareer, ...JSON.parse(savedCareer) }) } catch { window.localStorage.removeItem(careerKey) }
-      }
-    }
+    setCompletionGame(null)
+    setHintLevel(0)
     if (client && user) {
       client.auth.getUser().then(({ data }) => {
+        if (cancelled) return
         const metadata = data.user?.user_metadata?.sqlam_dunk_progress
         if (metadata) {
           setSolved(sanitizeSolved(metadata.solved))
@@ -105,7 +97,8 @@ export function CaseWorkspace({ onExit, onGameComplete, user }: { onExit: () => 
         }
       })
     }
-    runSql('SELECT 1').then(() => setLoading(false)).catch((e) => { setError(e instanceof Error ? e.message : String(e)); setLoading(false) })
+    runSql('SELECT 1').then(() => { if (!cancelled) setLoading(false) }).catch((e) => { if (!cancelled) { setError(e instanceof Error ? e.message : String(e)); setLoading(false) } })
+    return () => { cancelled = true }
   }, [user])
 
   useEffect(() => {
