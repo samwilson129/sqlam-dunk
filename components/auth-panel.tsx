@@ -39,10 +39,18 @@ export function AuthPanel({ user, onUser }: AuthPanelProps) {
     setMessage('')
     const result = mode === 'login'
       ? await supabase.auth.signInWithPassword({ email, password })
-      : await supabase.auth.signUp({ email, password })
-    if (result.error) setMessage(result.error.message)
-    else {
-      setMessage(mode === 'signup' ? 'Account created. Check your email if confirmation is enabled.' : 'Signed in.')
+      : await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            emailRedirectTo: process.env.NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL ?? `${window.location.origin}/`,
+          },
+        })
+    if (result.error) {
+      const message = result.error.message.toLowerCase()
+      setMessage(message.includes('confirm') ? 'Check your email to confirm your account before signing in.' : message.includes('rate') ? 'Too many attempts. Please wait and try again.' : message.includes('password') && mode === 'signup' ? 'Choose a stronger password and try again.' : 'Invalid email or password.')
+    } else {
+      setMessage(mode === 'signup' ? 'Account created. Check your email to confirm it before signing in.' : 'Signed in.')
       if (mode === 'login') setOpen(false)
     }
     setBusy(false)
