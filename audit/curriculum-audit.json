@@ -1,0 +1,399 @@
+{
+  "engine": "duckdb-wasm (node blocking bundle)",
+  "tested": 21,
+  "passed": 21,
+  "failed": 0,
+  "failures": [],
+  "report": [
+    {
+      "id": 1,
+      "game": 1,
+      "title": "The Opening Brief",
+      "status": "passed",
+      "checks": {
+        "referenceExecuted": true,
+        "columnsMatch": true,
+        "rowCountMatches": true,
+        "valuesMatchVerifiedData": true,
+        "referenceAccepted": true,
+        "trivialWrongRejected": true,
+        "nearMissesRejected": true,
+        "noFutureGameReferences": true,
+        "hintsDoNotRevealSolution": true,
+        "starterIsNotSolution": true
+      }
+    },
+    {
+      "id": 2,
+      "game": 1,
+      "title": "The Player Directory",
+      "status": "passed",
+      "checks": {
+        "referenceExecuted": true,
+        "columnsMatch": true,
+        "rowCountMatches": true,
+        "valuesMatchVerifiedData": true,
+        "referenceAccepted": true,
+        "trivialWrongRejected": true,
+        "nearMissesRejected": true,
+        "noFutureGameReferences": true,
+        "hintsDoNotRevealSolution": true,
+        "starterIsNotSolution": true
+      }
+    },
+    {
+      "id": 3,
+      "game": 1,
+      "title": "The First Scoring Clues",
+      "status": "passed",
+      "checks": {
+        "referenceExecuted": true,
+        "columnsMatch": true,
+        "rowCountMatches": true,
+        "valuesMatchVerifiedData": true,
+        "referenceAccepted": true,
+        "trivialWrongRejected": true,
+        "nearMissesRejected": true,
+        "noFutureGameReferences": true,
+        "hintsDoNotRevealSolution": true,
+        "starterIsNotSolution": true
+      }
+    },
+    {
+      "id": 4,
+      "game": 2,
+      "title": "Kyrie's Game 2 Line",
+      "status": "passed",
+      "checks": {
+        "referenceExecuted": true,
+        "columnsMatch": true,
+        "rowCountMatches": true,
+        "valuesMatchVerifiedData": true,
+        "referenceAccepted": true,
+        "trivialWrongRejected": true,
+        "nearMissesRejected": true,
+        "noFutureGameReferences": true,
+        "hintsDoNotRevealSolution": true,
+        "starterIsNotSolution": true
+      }
+    },
+    {
+      "id": 5,
+      "game": 2,
+      "title": "The Scoring Cut",
+      "status": "passed",
+      "checks": {
+        "referenceExecuted": true,
+        "columnsMatch": true,
+        "rowCountMatches": true,
+        "valuesMatchVerifiedData": true,
+        "referenceAccepted": true,
+        "trivialWrongRejected": true,
+        "nearMissesRejected": true,
+        "wrongOrderRejected": true,
+        "noFutureGameReferences": true,
+        "hintsDoNotRevealSolution": true,
+        "starterIsNotSolution": true
+      }
+    },
+    {
+      "id": 6,
+      "game": 2,
+      "title": "The Top Three",
+      "status": "passed",
+      "checks": {
+        "referenceExecuted": true,
+        "columnsMatch": true,
+        "rowCountMatches": true,
+        "valuesMatchVerifiedData": true,
+        "referenceAccepted": true,
+        "trivialWrongRejected": true,
+        "nearMissesRejected": true,
+        "wrongOrderRejected": true,
+        "noFutureGameReferences": true,
+        "hintsDoNotRevealSolution": true,
+        "starterIsNotSolution": true
+      }
+    },
+    {
+      "id": 7,
+      "game": 3,
+      "title": "The Twenty-Point Club",
+      "status": "passed",
+      "checks": {
+        "referenceExecuted": true,
+        "columnsMatch": true,
+        "rowCountMatches": true,
+        "valuesMatchVerifiedData": true,
+        "referenceAccepted": true,
+        "trivialWrongRejected": true,
+        "nearMissesRejected": true,
+        "noFutureGameReferences": true,
+        "hintsDoNotRevealSolution": true,
+        "starterIsNotSolution": true
+      }
+    },
+    {
+      "id": 8,
+      "game": 3,
+      "title": "The Combined Score",
+      "status": "passed",
+      "checks": {
+        "referenceExecuted": true,
+        "columnsMatch": true,
+        "rowCountMatches": true,
+        "valuesMatchVerifiedData": true,
+        "referenceAccepted": true,
+        "trivialWrongRejected": true,
+        "nearMissesRejected": true,
+        "noFutureGameReferences": true,
+        "hintsDoNotRevealSolution": true,
+        "starterIsNotSolution": true
+      }
+    },
+    {
+      "id": 9,
+      "game": 3,
+      "title": "Average Points Among Scorers",
+      "status": "passed",
+      "checks": {
+        "referenceExecuted": true,
+        "columnsMatch": true,
+        "rowCountMatches": true,
+        "valuesMatchVerifiedData": true,
+        "referenceAccepted": true,
+        "trivialWrongRejected": true,
+        "nearMissesRejected": true,
+        "noFutureGameReferences": true,
+        "hintsDoNotRevealSolution": true,
+        "starterIsNotSolution": true
+      }
+    },
+    {
+      "id": 10,
+      "game": 4,
+      "title": "The Team Scoreboard",
+      "status": "passed",
+      "checks": {
+        "referenceExecuted": true,
+        "columnsMatch": true,
+        "rowCountMatches": true,
+        "valuesMatchVerifiedData": true,
+        "referenceAccepted": true,
+        "trivialWrongRejected": true,
+        "nearMissesRejected": true,
+        "noFutureGameReferences": true,
+        "hintsDoNotRevealSolution": true,
+        "starterIsNotSolution": true
+      }
+    },
+    {
+      "id": 11,
+      "game": 4,
+      "title": "Who Cleared Twenty?",
+      "status": "passed",
+      "checks": {
+        "referenceExecuted": true,
+        "columnsMatch": true,
+        "rowCountMatches": true,
+        "valuesMatchVerifiedData": true,
+        "referenceAccepted": true,
+        "trivialWrongRejected": true,
+        "nearMissesRejected": true,
+        "wrongOrderRejected": true,
+        "noFutureGameReferences": true,
+        "hintsDoNotRevealSolution": true,
+        "starterIsNotSolution": true
+      }
+    },
+    {
+      "id": 12,
+      "game": 4,
+      "title": "Classifying the Scoring Lines",
+      "status": "passed",
+      "checks": {
+        "referenceExecuted": true,
+        "columnsMatch": true,
+        "rowCountMatches": true,
+        "valuesMatchVerifiedData": true,
+        "referenceAccepted": true,
+        "trivialWrongRejected": true,
+        "nearMissesRejected": true,
+        "noFutureGameReferences": true,
+        "hintsDoNotRevealSolution": true,
+        "starterIsNotSolution": true
+      }
+    },
+    {
+      "id": 13,
+      "game": 5,
+      "title": "Put Names to the Numbers",
+      "status": "passed",
+      "checks": {
+        "referenceExecuted": true,
+        "columnsMatch": true,
+        "rowCountMatches": true,
+        "valuesMatchVerifiedData": true,
+        "referenceAccepted": true,
+        "trivialWrongRejected": true,
+        "nearMissesRejected": true,
+        "wrongOrderRejected": true,
+        "noFutureGameReferences": true,
+        "hintsDoNotRevealSolution": true,
+        "starterIsNotSolution": true
+      }
+    },
+    {
+      "id": 14,
+      "game": 5,
+      "title": "The Team Response",
+      "status": "passed",
+      "checks": {
+        "referenceExecuted": true,
+        "columnsMatch": true,
+        "rowCountMatches": true,
+        "valuesMatchVerifiedData": true,
+        "referenceAccepted": true,
+        "trivialWrongRejected": true,
+        "nearMissesRejected": true,
+        "wrongOrderRejected": true,
+        "noFutureGameReferences": true,
+        "hintsDoNotRevealSolution": true,
+        "starterIsNotSolution": true
+      }
+    },
+    {
+      "id": 15,
+      "game": 5,
+      "title": "The Missing Records",
+      "status": "passed",
+      "checks": {
+        "referenceExecuted": true,
+        "columnsMatch": true,
+        "rowCountMatches": true,
+        "valuesMatchVerifiedData": true,
+        "referenceAccepted": true,
+        "trivialWrongRejected": true,
+        "nearMissesRejected": true,
+        "wrongOrderRejected": true,
+        "noFutureGameReferences": true,
+        "hintsDoNotRevealSolution": true,
+        "starterIsNotSolution": true
+      }
+    },
+    {
+      "id": 16,
+      "game": 6,
+      "title": "The Game 6 Scoreboard",
+      "status": "passed",
+      "checks": {
+        "referenceExecuted": true,
+        "columnsMatch": true,
+        "rowCountMatches": true,
+        "valuesMatchVerifiedData": true,
+        "referenceAccepted": true,
+        "trivialWrongRejected": true,
+        "nearMissesRejected": true,
+        "wrongOrderRejected": true,
+        "noFutureGameReferences": true,
+        "hintsDoNotRevealSolution": true,
+        "starterIsNotSolution": true
+      }
+    },
+    {
+      "id": 17,
+      "game": 6,
+      "title": "The Change From Game 5 to Game 6",
+      "status": "passed",
+      "checks": {
+        "referenceExecuted": true,
+        "columnsMatch": true,
+        "rowCountMatches": true,
+        "valuesMatchVerifiedData": true,
+        "referenceAccepted": true,
+        "trivialWrongRejected": true,
+        "nearMissesRejected": true,
+        "wrongOrderRejected": true,
+        "noFutureGameReferences": true,
+        "hintsDoNotRevealSolution": true,
+        "starterIsNotSolution": true
+      }
+    },
+    {
+      "id": 18,
+      "game": 6,
+      "title": "Above the Series Average",
+      "status": "passed",
+      "checks": {
+        "referenceExecuted": true,
+        "columnsMatch": true,
+        "rowCountMatches": true,
+        "valuesMatchVerifiedData": true,
+        "referenceAccepted": true,
+        "trivialWrongRejected": true,
+        "nearMissesRejected": true,
+        "wrongOrderRejected": true,
+        "noFutureGameReferences": true,
+        "hintsDoNotRevealSolution": true,
+        "starterIsNotSolution": true
+      }
+    },
+    {
+      "id": 19,
+      "game": 7,
+      "title": "The Series Scoring Leaders",
+      "status": "passed",
+      "checks": {
+        "referenceExecuted": true,
+        "columnsMatch": true,
+        "rowCountMatches": true,
+        "valuesMatchVerifiedData": true,
+        "referenceAccepted": true,
+        "trivialWrongRejected": true,
+        "nearMissesRejected": true,
+        "wrongOrderRejected": true,
+        "noFutureGameReferences": true,
+        "hintsDoNotRevealSolution": true,
+        "starterIsNotSolution": true
+      }
+    },
+    {
+      "id": 20,
+      "game": 7,
+      "title": "The Final Shift",
+      "status": "passed",
+      "checks": {
+        "referenceExecuted": true,
+        "columnsMatch": true,
+        "rowCountMatches": true,
+        "valuesMatchVerifiedData": true,
+        "referenceAccepted": true,
+        "trivialWrongRejected": true,
+        "nearMissesRejected": true,
+        "wrongOrderRejected": true,
+        "noFutureGameReferences": true,
+        "hintsDoNotRevealSolution": true,
+        "starterIsNotSolution": true
+      }
+    },
+    {
+      "id": 21,
+      "game": 7,
+      "title": "The Final Reconstruction",
+      "status": "passed",
+      "checks": {
+        "referenceExecuted": true,
+        "columnsMatch": true,
+        "rowCountMatches": true,
+        "valuesMatchVerifiedData": true,
+        "referenceAccepted": true,
+        "trivialWrongRejected": true,
+        "nearMissesRejected": true,
+        "wrongOrderRejected": true,
+        "noFutureGameReferences": true,
+        "hintsDoNotRevealSolution": true,
+        "starterIsNotSolution": true
+      }
+    }
+  ]
+}
