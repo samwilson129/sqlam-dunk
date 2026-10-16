@@ -43,7 +43,7 @@ export function AuthPanel({ user, onUser }: AuthPanelProps) {
         if (error) setMessage(error.message)
         else { setPassword(''); setOpen(false) }
       } else {
-        const { data, error } = await supabase.auth.signUp({ email, password, options: { emailRedirectTo: window.location.origin } })
+        const { data, error } = await supabase.auth.signUp({ email, password, options: { emailRedirectTo: process.env.NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL ?? `${window.location.origin}/auth/callback` } })
         if (error) setMessage(error.message)
         else if (data.session) { setPassword(''); setOpen(false) }
         else if (data.user && data.user.identities?.length === 0) setMessage('An account with this email already exists. Log in instead.')

@@ -78,17 +78,22 @@ export function CaseWorkspace({ onExit, onGameComplete, user }: { onExit: () => 
   useEffect(() => {
     const client = createSupabaseBrowserClient()
     setSupabase(client)
-    const saved = window.localStorage.getItem(progressKey)
-    const savedCareer = window.localStorage.getItem(careerKey)
-    if (saved) {
-      try {
-        const progress = JSON.parse(saved)
-        setSolved(sanitizeSolved(progress.solved))
-        setJournal(Array.isArray(progress.journal) ? progress.journal : [])
-      } catch { window.localStorage.removeItem(progressKey) }
-    }
-    if (savedCareer) {
-      try { setCareer({ ...emptyCareer, ...JSON.parse(savedCareer) }) } catch { window.localStorage.removeItem(careerKey) }
+    setSolved([])
+    setJournal([])
+    setCareer(emptyCareer)
+    if (!user) {
+      const saved = window.localStorage.getItem(progressKey)
+      const savedCareer = window.localStorage.getItem(careerKey)
+      if (saved) {
+        try {
+          const progress = JSON.parse(saved)
+          setSolved(sanitizeSolved(progress.solved))
+          setJournal(Array.isArray(progress.journal) ? progress.journal : [])
+        } catch { window.localStorage.removeItem(progressKey) }
+      }
+      if (savedCareer) {
+        try { setCareer({ ...emptyCareer, ...JSON.parse(savedCareer) }) } catch { window.localStorage.removeItem(careerKey) }
+      }
     }
     if (client && user) {
       client.auth.getUser().then(({ data }) => {
@@ -131,7 +136,8 @@ export function CaseWorkspace({ onExit, onGameComplete, user }: { onExit: () => 
   const revealHint = async () => {
     if (hintLevel >= 3) return
     const nextLevel = hintLevel + 1
-    const cost = user ? hintCosts[nextLevel - 1] : 0
+    const cost = hintCosts[nextLevel - 1]
+    if (nextLevel > 1 && !user) { setFeedback({ tone: 'notice', title: 'Log in to buy hints', body: 'The first hint is free. Log in to earn coins and unlock paid hints for your own profile.' }); return }
     if (career.currency < cost) { setFeedback({ tone: 'notice', title: `Hint ${nextLevel} costs ${cost} coins`, body: `You have ${career.currency}. Solve challenges to earn more coins, or use the expected output to check your shape.` }); return }
     const nextCareer = { ...career, currency: career.currency - cost, hintsUsed: career.hintsUsed + 1 }
     setHintLevel(nextLevel); setCareer(nextCareer); persistLocalProgress(solved, journal, nextCareer)
@@ -190,7 +196,7 @@ export function CaseWorkspace({ onExit, onGameComplete, user }: { onExit: () => 
   }
 
   const journalEntries = journal.filter((entry) => entry.challenge === active)
-  const nextHintCost = user ? hintCosts[hintLevel] : 0
+  const nextHintCost = hintCosts[hintLevel]
 
   return <main className="case-workspace min-h-screen bg-[#07111f] text-[#f6f1e8]">
     <header className="sticky top-0 z-10 border-b border-white/10 bg-[#091624]/95 backdrop-blur"><div className="mx-auto flex max-w-[1680px] items-center justify-between gap-4 px-5 py-4 lg:px-8"><button type="button" onClick={onExit} className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[.14em] text-white/50 hover:text-white"><ArrowLeft size={15} /> Exit case</button><div className="min-w-0"><p className="font-mono text-[10px] uppercase tracking-[.2em] text-[#f0b84a]">Game {chapter.number} · {chapter.date} / Case file 001</p><h1 className="mt-1 truncate font-display text-xl font-bold">{case001Meta.title}</h1></div><div className="flex items-center gap-4 text-xs font-bold text-[#f0b84a]"><span>{career.currency} coins</span><span>{career.xp} XP</span><Trophy size={15} /><span>{solved.length}/{allChallenges.length}</span></div></div></header>
