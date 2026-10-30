@@ -1,14 +1,44 @@
+
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://sqlam-dunk.pages.dev'),
+
   title: 'SQLAM Dunk — Every query is a shot.',
-  description: 'Investigate real NBA history with SQL. Every query is a shot.',
+  description:
+    'SQLAM Dunk is an interactive SQL learning platform based on the 2016 NBA Finals. Solve 21 chronological challenges, explore historical basketball data and progress from basic SQL queries to advanced concepts like joins, CTEs and window functions.',
+
   icons: {
     icon: '/chicken-basketball.avif',
     shortcut: '/chicken-basketball.avif',
     apple: '/chicken-basketball.avif',
+  },
+
+  openGraph: {
+    title: 'SQLAM Dunk — Every query is a shot.',
+    description:
+      'An interactive SQL learning experience based on the 2016 NBA Finals. Solve 21 challenges, analyse basketball statistics and master SQL through an investigation.',
+    url: 'https://sqlam-dunk.pages.dev/',
+    siteName: 'SQLAM Dunk',
+    type: 'website',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'SQLAM Dunk — Every query is a shot.',
+      },
+    ],
+  },
+
+  twitter: {
+    card: 'summary_large_image',
+    title: 'SQLAM Dunk — Every query is a shot.',
+    description:
+      'Learn SQL through an interactive investigation of the 2016 NBA Finals.',
+    images: ['/og-image.png'],
   },
 }
 
