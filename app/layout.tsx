@@ -6,7 +6,7 @@ import './globals.css'
 export const metadata: Metadata = {
   metadataBase: new URL('https://sqlam-dunk.pages.dev'),
 
-  title: 'SQLAM Dunk — Every query is a shot.',
+  title: 'SQLAM Dunk — Learn SQL through the game.',
   description:
     'SQLAM Dunk is an interactive SQL learning platform based on the 2016 NBA Finals. Solve 21 chronological challenges, explore historical basketball data and progress from basic SQL queries to advanced concepts like joins, CTEs and window functions.',
 
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   },
 
   openGraph: {
-    title: 'SQLAM Dunk — Every query is a shot.',
+    title: 'SQLAM Dunk — Learn SQL through the game.',
     description:
       'An interactive SQL learning experience based on the 2016 NBA Finals. Solve 21 challenges, analyse basketball statistics and master SQL through an investigation.',
     url: 'https://sqlam-dunk.pages.dev/',
@@ -28,14 +28,14 @@ export const metadata: Metadata = {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'SQLAM Dunk — Every query is a shot.',
+        alt: 'SQLAM Dunk — Learn SQL through the game.',
       },
     ],
   },
 
   twitter: {
     card: 'summary_large_image',
-    title: 'SQLAM Dunk — Every query is a shot.',
+    title: 'SQLAM Dunk — Learn SQL through the game.',
     description:
       'Learn SQL through an interactive investigation of the 2016 NBA Finals.',
     images: ['/og-image.png'],
