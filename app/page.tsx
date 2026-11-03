@@ -30,18 +30,8 @@ function Home({ onStart, user, onUser }: { onStart: () => void; user: AuthUser |
   </div></main>
 }
 
-const chapterGifs: Record<number, string> = {
-  1: '/gifs/game-1.gif',
-  2: '/gifs/game-2.gif',
-  3: '/gifs/game-3.gif',
-  4: '/gifs/game-4.gif',
-  5: '/gifs/game-5.gif',
-  6: '/gifs/game-6.gif',
-  7: '/gifs/game-7.gif',
-}
-
 function LearningChapters() {
-  return <section id="learning-path" className="border-b border-white/10 bg-[#101e2e] px-6 py-16 lg:px-10"><div className="mx-auto max-w-7xl"><div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end"><div><p className="eyebrow text-[#f0b84a]">Learning path</p><h2 className="mt-3 font-display text-4xl font-bold tracking-[-.05em]">What you&apos;ll learn.</h2></div><p className="max-w-sm text-sm leading-6 text-white/45">Seven compact chapters move from reading rows to building a final analytical report.</p></div><div className="mt-8 grid gap-3 md:grid-cols-2 xl:grid-cols-4">{campaignChapters.map((chapter) => <article key={chapter.number} className="border border-white/10 bg-[#0d1b2b] p-5 transition hover:border-[#f28c28]/50"><div className="relative overflow-hidden rounded-sm border border-[#f0b84a]/20 mb-3"><img src={chapterGifs[chapter.number]} alt={`Game ${chapter.number} ${chapter.title}`} className="w-full h-24 object-cover" loading="lazy" /></div><div className="flex items-center justify-between"><span className="font-mono text-[10px] uppercase tracking-[.16em] text-[#f0b84a]">Game 0{chapter.number} · {chapter.date}</span><span className="font-mono text-[10px] text-white/30">3 challenges</span></div><h3 className="mt-2 font-display text-xl font-bold tracking-[-.03em]">{chapter.title}</h3><div className="mt-3 flex flex-wrap gap-1.5">{chapter.concepts.map((concept) => <span key={concept} className="border border-[#f28c28]/25 px-2 py-1 text-[9px] uppercase tracking-[.08em] text-[#f0b84a]">{concept}</span>)}</div><p className="mt-3 text-xs leading-5 text-white/55">{chapter.outcome}</p></article>)}</div></div></section>
+  return <section id="learning-path" className="border-b border-white/10 bg-[#101e2e] px-6 py-16 lg:px-10"><div className="mx-auto max-w-7xl"><div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end"><div><p className="eyebrow text-[#f0b84a]">Learning path</p><h2 className="mt-3 font-display text-4xl font-bold tracking-[-.05em]">What you&apos;ll learn.</h2></div><p className="max-w-sm text-sm leading-6 text-white/45">Seven compact chapters move from reading rows to building a final analytical report.</p></div><div className="mt-8 grid gap-3 md:grid-cols-2 xl:grid-cols-4">{campaignChapters.map((chapter) => <article key={chapter.number} className="border border-white/10 bg-[#0d1b2b] p-5 transition hover:border-[#f28c28]/50"><div className="flex items-center justify-between"><span className="font-mono text-[10px] uppercase tracking-[.16em] text-[#f0b84a]">Game 0{chapter.number} · {chapter.date}</span><span className="font-mono text-[10px] text-white/30">3 challenges</span></div><h3 className="mt-4 font-display text-xl font-bold tracking-[-.03em]">{chapter.title}</h3><div className="mt-4 flex flex-wrap gap-1.5">{chapter.concepts.map((concept) => <span key={concept} className="border border-[#f28c28]/25 px-2 py-1 text-[9px] uppercase tracking-[.08em] text-[#f0b84a]">{concept}</span>)}</div><p className="mt-4 text-xs leading-5 text-white/55">{chapter.outcome}</p></article>)}</div></div></section>
 }
 
 export default function Page() {
