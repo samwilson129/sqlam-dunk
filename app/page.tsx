@@ -31,13 +31,13 @@ function Home({ onStart, user, onUser }: { onStart: () => void; user: AuthUser |
 }
 
 const chapterGifs: Record<number, string> = {
-  1: '/gifs/game-1.gif',
-  2: '/gifs/game-2.gif',
-  3: '/gifs/game-3.gif',
-  4: '/gifs/game-4.gif',
-  5: '/gifs/game-5.gif',
-  6: '/gifs/game-6.gif',
-  7: '/gifs/game-7.gif',
+  1: '/gifs/035fc938095109.5755d6a3d9c43.gif',
+  2: '/gifs/0200b138c72c595fb0e6dc41ccba2844.gif',
+  3: '/gifs/original-e22bcc21519205b97d27344d95846824.gif',
+  4: '/gifs/kyrie-irving-the-shot.gif',
+  5: '/gifs/090e37bcdfa511e47a81e3e4c55ac2cc.gif',
+  6: '/gifs/tumblr_o2eoszsXrI1riokveo1_1280.gif',
+  7: '/gifs/original-b734378f4fa3a567bd363da8d09938db.gif',
 }
 
 function LearningChapters() {
