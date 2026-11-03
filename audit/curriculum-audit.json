@@ -44,7 +44,7 @@
     {
       "id": 3,
       "game": 1,
-      "title": "The First Scoring Clues",
+      "title": "The Plus-Minus Pulse",
       "status": "passed",
       "checks": {
         "referenceExecuted": true,
@@ -99,7 +99,7 @@
     {
       "id": 6,
       "game": 2,
-      "title": "The Top Three",
+      "title": "The Three-Point Barrage",
       "status": "passed",
       "checks": {
         "referenceExecuted": true,
@@ -118,7 +118,7 @@
     {
       "id": 7,
       "game": 3,
-      "title": "The Twenty-Point Club",
+      "title": "The Rebounding Stand",
       "status": "passed",
       "checks": {
         "referenceExecuted": true,
@@ -284,7 +284,7 @@
     {
       "id": 16,
       "game": 6,
-      "title": "The Game 6 Scoreboard",
+      "title": "The Game 6 Glass Scoreboard",
       "status": "passed",
       "checks": {
         "referenceExecuted": true,
