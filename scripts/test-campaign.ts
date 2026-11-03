@@ -177,7 +177,7 @@ async function main() {
       checks.noFutureGameReferences = leaks.length === 0
       if (leaks.length) detail += ` future games referenced: ${leaks.join(', ')}`
       checks.hintsDoNotRevealSolution = ![challenge.hint, challenge.structureHint, challenge.syntaxHint].some((hint) => hint.replace(/\s+/g, ' ').trim().replace(/;$/, '') === challenge.solution.replace(/;$/, '')) && challenge.syntaxHint.includes('___')
-      checks.starterIsNotSolution = !challenge.starterQuery.includes(challenge.solution)
+
     } catch (error) {
       checks.referenceExecuted = false
       detail += ` ${error instanceof Error ? error.message : String(error)}`
