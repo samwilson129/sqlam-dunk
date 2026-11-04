@@ -9,10 +9,10 @@ import { CaseWorkspace } from '@/components/case-workspace'
 import { AuthPanel, type AuthUser } from '@/components/auth-panel'
 
 const keyFigures = [
-  { name: 'LeBron James', gif: '/gifs/lebron.gif', team: 'Cleveland Cavaliers', tone: 'wine' },
-  { name: 'Kyrie Irving', gif: '/gifs/kyrie.gif', team: 'Cleveland Cavaliers', tone: 'wine' },
-  { name: 'Stephen Curry', gif: '/gifs/curry.gif', team: 'Golden State Warriors', tone: 'blue' },
-  { name: 'Klay Thompson', gif: '/gifs/klay.gif', team: 'Golden State Warriors', tone: 'blue' },
+  { name: 'LeBron James', gif: '/gifs/lebron-icon.gif', team: 'Cleveland Cavaliers', tone: 'wine' },
+  { name: 'Kyrie Irving', gif: '/gifs/Kyrie-icon.png', team: 'Cleveland Cavaliers', tone: 'wine' },
+  { name: 'Stephen Curry', gif: '/gifs/curry-icon.gif', team: 'Golden State Warriors', tone: 'blue' },
+  { name: 'Klay Thompson', gif: '/gifs/Klay-icon.gif', team: 'Golden State Warriors', tone: 'blue' },
 ]
 
 function Brand() {
