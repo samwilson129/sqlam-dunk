@@ -332,7 +332,7 @@ const starterQueryFor = (game: number) => `-- Evidence available: Game${game ===
 
 export const case001Challenges: CaseChallenge[] = gamesByChapter.flatMap((challenges, chapterIndex) => challenges.map((challenge, index) => {
   const game = (chapterIndex + 1) as GameNumber
-  return { ...challenge, id: chapterIndex * 3 + index + 1, game, allowedThroughGame: game, starterQuery: challenge.solution }
+  return { ...challenge, id: chapterIndex * 3 + index + 1, game, allowedThroughGame: game, starterQuery: starterQueryFor(game) }
 }))
 
 export const case001Tables = [{ name: 'games', rows: 7, description: '2016 Finals game IDs and dates' }, { name: 'teams', rows: 2, description: 'Cleveland and Golden State' }, { name: 'players', rows: 28, description: 'Player directory for both rosters' }, { name: 'player_game_stats', rows: 182, description: 'Box-score and plus-minus records' }]
