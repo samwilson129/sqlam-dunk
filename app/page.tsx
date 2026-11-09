@@ -7,6 +7,7 @@ import { campaignChapters, case001Challenges, case001Meta } from '@/lib/case-001
 const totalChallenges = case001Challenges.length
 import { CaseWorkspace } from '@/components/case-workspace'
 import { AuthPanel, type AuthUser } from '@/components/auth-panel'
+import { HomePage } from '@/components/home-page'
 
 const keyFigures = [
   { name: 'LeBron James', gif: '/gifs/lebron-icon.gif', team: 'Cleveland Cavaliers', tone: 'wine' },
@@ -38,5 +39,5 @@ export default function Page() {
   const [investigating, setInvestigating] = useState(false)
   const [user, setUser] = useState<AuthUser | null>(null)
   if (investigating) return <CaseWorkspace user={user} onExit={() => setInvestigating(false)} />
-  return <Home onStart={() => setInvestigating(true)} user={user} onUser={setUser} />
+  return <HomePage onStart={() => setInvestigating(true)} user={user} onUser={setUser} />
 }

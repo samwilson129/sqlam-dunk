@@ -1,0 +1,127 @@
+{
+  "project_overview": {
+    "name": "SQLAM Dunk - NBA SQL Investigation Platform",
+    "design_archetype": "Vintage Sports Editorial x Retro Arcade Dossier (Swiss / Noir Court Analytic)",
+    "core_concept": "Re-imagining a database learning platform into a 1990s NBA press-room / court-side investigation terminal. Replacing generic modern AI SaaS dark grids with tactile editorial typography, warm parchment & deep court mahogany tones, physical stamp/badge visual hierarchy, micro-textures, and high-impact pixel-art asset showcases.",
+    "key_functionalities_preserved": [
+      "Landing page with featured investigation & NBA historical roadmap",
+      "Supabase email/password authentication modal & session persistence",
+      "Interactive 7-game SQL challenge workspace with chapter selection",
+      "DuckDB-WASM client-side query execution against real NBA box score CSVs",
+      "Challenge progression, unlocking rules, and game scoping",
+      "XP, coin rewards, and career rank leveling",
+      "3-tier hint purchasing with coin validation",
+      "Solved-state persistence (local storage + Supabase profile metadata sync)",
+      "Query journal recording execution history per challenge",
+      "Logout & reset progress flows"
+    ]
+  },
+  "typography": {
+    "headline_font": "Barlow Condensed / Cabinet Grotesk / Syne (Display High-Impact Heavy Condensed)",
+    "body_font": "DM Sans / Inter (Clean Geometric for high-density tabular legibility)",
+    "code_font": "JetBrains Mono / Fira Code (Tactile Terminal Monospace)",
+    "hierarchy_rules": {
+      "hero_heading": "text-4xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight leading-[0.92]",
+      "section_heading": "text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight",
+      "card_heading": "text-lg sm:text-xl font-bold tracking-tight",
+      "eyebrow_label": "text-[10px] sm:text-xs font-mono uppercase tracking-[0.2em] font-bold text-[#f0a830]",
+      "table_mono": "font-mono text-[11px] leading-tight tabular-nums"
+    },
+    "anti_ai_type_principles": [
+      "Avoid default unstyled Inter for headings; use heavy condensed uppercase display typography with tight leading.",
+      "Incorporate wide mono tracking (tracking-[0.25em]) for file stamps, game timestamps, and badge tags.",
+      "Use stark contrast in text weights: 900 Black for titles vs 400 Light for descriptive subtitles."
+    ]
+  },
+  "color_system": {
+    "theme_mode": "Court Noir & Editorial Warmth (Dark Baseline with Ochre & Mahogany Accents)",
+    "palette": {
+      "court_black": "#070c14",
+      "hardwood_navy": "#0d1624",
+      "dossier_card": "#132032",
+      "stadium_stroke": "#22354a",
+      "amber_gold": "#f0a830",
+      "court_orange": "#e05a2b",
+      "mahogany_red": "#8b2612",
+      "stadium_lime": "#4ade80",
+      "arcade_cream": "#f7f3e9",
+      "subtle_text_muted": "#8a9cb0"
+    },
+    "surface_treatment": {
+      "tactile_card": "bg-[#132032] border-2 border-[#22354a] shadow-[4px_4px_0px_#070c14]",
+      "gold_badge": "border border-[#f0a830]/40 bg-[#f0a830]/10 text-[#f0a830]",
+      "evidence_container": "bg-[#070c14] border border-[#22354a] rounded-none p-5 shadow-[inset_0_2px_8px_rgba(0,0,0,0.6)]",
+      "retro_button_primary": "bg-[#e05a2b] hover:bg-[#f06b3a] text-[#ffffff] font-extrabold uppercase tracking-wider shadow-[3px_3px_0px_#070c14] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all",
+      "retro_button_secondary": "bg-[#132032] border-2 border-[#22354a] text-[#f7f3e9] hover:border-[#f0a830] hover:text-[#f0a830] font-bold uppercase tracking-wider shadow-[3px_3px_0px_#070c14] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all"
+    }
+  },
+  "asset_showcase_strategy": {
+    "image_and_gif_inventory": {
+      "chicken_basketball": "/chicken-basketball.avif (SQLAM Dunk Mascot)",
+      "lebron_gif": "/gifs/lebron-icon.gif (LeBron James GIF)",
+      "kyrie_png": "/gifs/Kyrie-icon.png (Kyrie Irving Image)",
+      "curry_gif": "/gifs/curry-icon.gif (Stephen Curry GIF)",
+      "klay_gif": "/gifs/Klay-icon.gif (Klay Thompson GIF)",
+      "manager_gif": "/gifs/manager.gif (Senior Analytics Manager Jordan Ellis Briefing Avatar)",
+      "maya_gif": "/gifs/maya.gif (Junior Analyst Maya Carter Thinking State)",
+      "maya_happy_gif": "/gifs/maya_happy.gif (Maya Carter Celebration State)",
+      "game_gifs": {
+        "1": "/gifs/game-1.gif",
+        "2": "/gifs/game-2.gif",
+        "3": "/gifs/game-3.gif",
+        "4": "/gifs/game-4.gif",
+        "5": "/gifs/game-5.gif",
+        "6": "/gifs/game-6.gif",
+        "7": "/gifs/game-7.gif"
+      },
+      "finals_pixel_art": [
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/77ca470217c89f570142af239f891f1d-sLuwPx499oVp2U2MfKtLA4AI8LMkb1.gif",
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/original-21e25a5d34d224ef68688772ab14a1b1-dMxm91xdNmjIFty85vaolooWSpbapt.gif"
+      ]
+    },
+    "styling_rules": [
+      "Frame player GIFs in tactile court-card containers with subtle scanline overlays or solid 2px offset borders.",
+      "Display Manager Jordan Ellis avatar inside the briefing box as an animated court-side wiretap monitor.",
+      "Toggle Maya Carter's avatar dynamically: /gifs/maya.gif during editor entry/queries and /gifs/maya_happy.gif upon correct evidence solution.",
+      "Show chapter GIFs as historical game tapes in the sidebar and evidence modal headers."
+    ]
+  },
+  "layout_and_component_rework": {
+    "landing_page": {
+      "hero_section": "Asymmetric editorial spread with large display banner ('EVERY QUERY IS A SHOT'), floating evidence tag, dual pixel-art finals illustration cards with golden offset borders, and quick action pill buttons.",
+      "case_001_card": "Styled like a physical classified Case Dossier folder (#132032 background, #f0a830 accent tab, key figure GIF avatars in trading-card grid layout).",
+      "learning_path": "Bento grid with 7 game cards styled as chronological box score archives featuring concept tags and game dates.",
+      "roadmap": "Two-column stadium ticket view comparing Case 001 (Active Investigation) with Case 002 (Locked Vault)."
+    },
+    "investigation_workspace": {
+      "header_bar": "Sticky court console header with quick exit button, live COINS indicator, XP indicator, solved ratio badge, and current game chapter timestamp.",
+      "left_sidebar": "Career Profile ID Badge (Maya Carter avatar frame, current analyst rank, XP progress bar) + Chronological Game Navigator with lock icons and completion checkmarks.",
+      "center_editor_panel": "Dual briefing & objective box featuring Jordan Ellis GIF avatar, DuckDB SQL console with custom syntax highlight line-numbers and execution controls, and responsive DuckDB result set data table with sticky headers.",
+      "right_inspector_panel": "Evidence Board table schema viewer, 3-tier coin hint system, and live query journal ticker."
+    }
+  },
+  "motion_and_micro_interactions": {
+    "hover_effects": "Card lift (-translate-y-1) + shadow expand on interactive cards.",
+    "buttons": "Tactile press effect (translate-x-[2px] translate-y-[2px] with active shadow collapse).",
+    "sql_execution": "Pulsing amber state during DuckDB execution; crisp slide-in alert for errors and success feedback.",
+    "level_up_toast": "Modal takeover overlay for completed game chapters with animated evidence unlock text."
+  },
+  "data_testid_strategy": {
+    "auth_modal_trigger": "data-testid=\"auth-modal-trigger\"",
+    "auth_submit_button": "data-testid=\"auth-submit-button\"",
+    "case_start_button": "data-testid=\"case-start-button\"",
+    "sql_editor_textarea": "data-testid=\"sql-editor-textarea\"",
+    "run_query_button": "data-testid=\"run-query-button\"",
+    "reveal_hint_button": "data-testid=\"reveal-hint-button\"",
+    "query_result_table": "data-testid=\"query-result-table\"",
+    "challenge_nav_item": "data-testid=\"challenge-nav-item-{id}\"",
+    "user_coins_display": "data-testid=\"user-coins-display\"",
+    "user_xp_display": "data-testid=\"user-xp-display\""
+  },
+  "instructions_to_main_agent": [
+    "Ensure all existing logic in /lib/case-001-data.ts, /lib/campaign-data.ts, /lib/campaign-sql.ts, /lib/duckdb-engine.ts, and /lib/supabase-browser.ts remains 100% intact.",
+    "Do not break or modify data structures, props, or query verification algorithms.",
+    "Enhance components with rich CSS styling, custom retro shadow effects, warm paper & court color palettes, and clear data-testid attributes.",
+    "Keep mobile responsiveness seamless with collapsible sidebars and touch-scrolling data tables."
+  ]
+}
