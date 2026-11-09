@@ -1,0 +1,96 @@
+{
+  "iteration": 1,
+  "app": "SQLAM Dunk (Next.js static-export SQL learning game)",
+  "mode": "generate",
+  "passed": 8,
+  "failed": 1,
+  "flaky": 0,
+  "blocked": 0,
+  "test_error": 0,
+  "summary": "8 of 9 browser checks passed. One genuine bug found: guest progress is never restored from localStorage after a page reload, even though it IS written there (case-workspace.tsx mount effect unconditionally resets in-memory state and only restores from Supabase for logged-in users; there is no window.localStorage.getItem call anywhere in the file).",
+  "checks": [
+    {
+      "criterion": "Remove 'Price' text from the landing dateline strip",
+      "name": "landing-no-price-text",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "No text matching /Price/i found on landing page body at 1440x900 or 390x844; 'Vol. 001 · The Finals Desk' dateline visible. Screenshots captured."
+    },
+    {
+      "criterion": "LeBron/Kyrie captions on finals-artwork images",
+      "name": "landing-finals-artwork-captions",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "img[alt*=LeBron] src contains 'original-21e25a5d' on red (#b8173b) background inside figure captioned 'The King'; img[alt*=Kyrie] src contains '77ca470217' on gold (#f2b12b) background inside figure captioned 'Kyrie, isolation'. Verified via screenshot: red Cavs #23 jersey figure vs gold-background figure."
+    },
+    {
+      "criterion": "Label/image sweep across site (trading cards, manager memo, Maya, film strip, no broken images)",
+      "name": "landing-images-match-labels",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "key-figure-lebron-james->lebron-icon.gif, key-figure-kyrie-irving->Kyrie-icon.png, key-figure-stephen-curry->curry-icon.gif, key-figure-klay-thompson->Klay-icon.gif all matched; manager.gif captioned 'Jordan Ellis'; maya*.gif captioned 'Maya'; all 7 learning-chapter film-strip images and every <img> on landing page had naturalWidth>0 (no broken images)."
+    },
+    {
+      "criterion": "Landing auth modal interactions (opaque dialog, feedback message, mode toggle, close)",
+      "name": "landing-auth-modal-and-ctas",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "auth-dialog opened with opaque (non-transparent) background; submit showed auth-feedback-message containing 'Authentication is unavailable'; auth-mode-toggle-button text changed between Log in/Sign up; auth-dialog-close-button closed it; #games and #cases nav links scrolled learning-path and roadmap sections into view."
+    },
+    {
+      "criterion": "Every start CTA opens workspace",
+      "name": "landing-start-ctas-open-workspace",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "case-start-button, featured-case-open-button, analyst-seat-start-button, roadmap-case-001-button and case-nav-start-button each opened data-testid=case-workspace, and exit-case-button returned to landing each time. Note: force:true clicks on these CTAs were flaky/unreliable (race with layout) -- plain .click() after scrollIntoViewIfNeeded was required and worked reliably."
+    },
+    {
+      "criterion": "Responsive layout at 390x844 (landing + workspace, no overflow)",
+      "name": "responsive-mobile-no-overflow",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "document.documentElement.scrollWidth <= clientWidth+5 on both landing and workspace at 390x844; learning-path section visible; screenshots captured for both views."
+    },
+    {
+      "criterion": "Core game: run query, validate, unlock, rewards, wrong/invalid SQL, Ctrl+Enter, query journal",
+      "name": "workspace-run-query-and-unlock",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Correct Q1 query produced query-result-table with 2 rows, query-feedback 'Evidence confirmed.', challenge-status-stamp 'Solved', challenge-nav-item-2 enabled / challenge-nav-item-3 disabled, solved-count-display '1/21'. Wrong query (SELECT team_name FROM teams;) did not show 'Evidence confirmed'. Invalid SQL (SELEC x) showed query-error. Ctrl+Enter re-ran and re-confirmed the correct query."
+    },
+    {
+      "criterion": "Hints (free first hint), expected-output toggle, read-only write guard",
+      "name": "workspace-hints-guard-persistence",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "reveal-hint-button revealed hint-1 for free; expected-output-toggle-button showed/hid expected-result-table; 'DROP TABLE teams' was rejected with data-testid=query-error (read-only guard holds)."
+    },
+    {
+      "criterion": "Guest progress persists in localStorage across reload",
+      "name": "workspace-persistence-bug-evidence",
+      "lane": "browser",
+      "status": "failed",
+      "evidence": "After solving Q1, localStorage key 'sqlam-dunk-case-001-progress' correctly contains {\"solved\":[0],...}. After page.reload() + re-entering the case, the SAME localStorage value is still present unmodified, but solved-count-display shows '0/21' and challenge-nav-item-2 is locked again -- the UI never re-reads it. Root cause: components/case-workspace.tsx mount useEffect (around line 79-103) unconditionally calls setSolved([]); setJournal([]); setCareer(emptyCareer) and only repopulates them from Supabase user_metadata when a logged-in user exists; there is no `localStorage.getItem(progressKey)` call anywhere in the file to restore guest progress, despite SPEC.md stating 'Guest progress is stored locally' and persistLocalProgress() writing it correctly."
+    },
+    {
+      "criterion": "Game completion flow (solve all 3 challenges of Game 1, continue to Game 2)",
+      "name": "workspace-game-completion-flow",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Solving Q1, Q2, Q3 (solutions from /app/audit/challenge-solutions.json) showed data-testid=game-complete-screen with continue-next-game-button and review-game-button; clicking continue-next-game-button closed the completion screen and opened Q4 'Kyrie's Game 2 Line' (Game 2, June 5, 2016), solved-count-display '3/21'."
+    }
+  ],
+  "bugs": [
+    {
+      "severity": "high",
+      "criterion": "Hints, expected output, read-only guard, persistence",
+      "description": "Guest (not-logged-in) progress is written to localStorage correctly but is NEVER read back from it, so a page reload silently resets all solved challenges, unlocked games, and journal entries to zero in the UI even though the underlying data survives in localStorage. This breaks the core 'progress in localStorage' guest-mode promise from SPEC.md and the acceptance criterion.",
+      "evidence_check": "workspace-persistence-bug-evidence",
+      "location": "components/case-workspace.tsx, mount useEffect (~lines 79-103): unconditional setSolved([]); setJournal([]); setCareer(emptyCareer); no localStorage.getItem(progressKey) anywhere in file."
+    }
+  ],
+  "action_items": [
+    "Fix components/case-workspace.tsx mount effect to read and restore `sqlam-dunk-case-001-progress` and `sqlam-dunk-career` from localStorage for guest (non-authenticated) users before/instead of resetting state to empty, mirroring the existing Supabase-restore branch for logged-in users."
+  ],
+  "retest_needed": true
+}

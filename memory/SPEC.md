@@ -6,7 +6,8 @@ SQLAM Dunk is a browser-local SQL learning game built around the 2016 NBA Finals
 ## Data and flows
 - The landing page introduces Case 001, the learning path, historical player assets, and the locked roadmap.
 - The investigation workspace keeps the existing DuckDB query guard, challenge evaluator, game scoping, expected outputs, rewards, hint economy, query journal, and completion flow intact.
-- Guest progress is stored locally; authenticated progress is synchronized to Supabase user metadata when Supabase public configuration is available.
+- Guest progress is WRITTEN to localStorage (`sqlam-dunk-case-001-progress`, `sqlam-dunk-career`) but is NOT read back on load: the mount effect resets state and only restores from Supabase user metadata for signed-in users (read-back was removed in commit 730e5c2). So a guest reload starts over, even though the guest banner says progress is saved on this device. Pending a decision from the owner; do not change without approval.
+- Authenticated progress is synchronized to Supabase user metadata when Supabase public configuration is available.
 - The first hint is free; later hints cost 25 and 60 coins. Solving challenges unlocks the next challenge and game.
 
 ## Auth and roles

@@ -1,7 +1,7 @@
 'use client'
 
 import { ArrowDown, ArrowRight, LockKeyhole } from 'lucide-react'
-import { campaignChapters, case001Challenges, case001Meta } from '@/lib/case-001-data'
+import { campaignChapters, case001Challenges, case001Meta, case001Tables } from '@/lib/case-001-data'
 import { finalsArt, gameTapes } from '@/lib/game-tapes'
 import { AuthPanel, type AuthUser } from '@/components/auth-panel'
 
@@ -9,7 +9,7 @@ const totalChallenges = case001Challenges.length
 
 const persons = [
   { name: 'LeBron James', no: '23', team: 'Cleveland Cavaliers', abbr: 'CLE', gif: '/gifs/lebron-icon.gif', band: 'bg-wine text-gold', tilt: '-rotate-2' },
-  { name: 'Kyrie Irving', no: '02', team: 'Cleveland Cavaliers', abbr: 'CLE', gif: '/gifs/Kyrie-icon.png', band: 'bg-wine text-gold', tilt: 'rotate-1' },
+  { name: 'Kyrie Irving', no: '2', team: 'Cleveland Cavaliers', abbr: 'CLE', gif: '/gifs/Kyrie-icon.png', band: 'bg-wine text-gold', tilt: 'rotate-1' },
   { name: 'Stephen Curry', no: '30', team: 'Golden State Warriors', abbr: 'GSW', gif: '/gifs/curry-icon.gif', band: 'bg-court text-gold', tilt: '-rotate-1' },
   { name: 'Klay Thompson', no: '11', team: 'Golden State Warriors', abbr: 'GSW', gif: '/gifs/Klay-icon.gif', band: 'bg-court text-gold', tilt: 'rotate-2' },
 ]
@@ -31,7 +31,6 @@ export function HomePage({ onStart, user, onUser }: { onStart: () => void; user:
       <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-4 px-4 py-2 font-mono text-[10px] uppercase tracking-[.22em] sm:px-8">
         <span>Vol. 001 · The Finals Desk</span>
         <span className="hidden sm:inline">{case001Meta.dates}</span>
-        <span className="hidden md:inline">Price: one well-formed query</span>
       </div>
     </div>
 
@@ -60,7 +59,7 @@ export function HomePage({ onStart, user, onUser }: { onStart: () => void; user:
       <div className="flex flex-wrap items-center justify-between gap-2 py-2 font-mono text-[11px] uppercase tracking-[.18em]">
         <span>Cleveland edition</span>
         <span className="font-serif text-base normal-case italic tracking-normal">“The 3–1 Comeback” issue</span>
-        <span>{totalChallenges} questions · 7 games · 4 tables</span>
+        <span>{totalChallenges} questions · {campaignChapters.length} games · {case001Tables.length} tables</span>
       </div>
     </header>
 
@@ -85,11 +84,11 @@ export function HomePage({ onStart, user, onUser }: { onStart: () => void; user:
 
       <div className="relative min-h-[460px] lg:col-span-5" data-testid="finals-artwork" aria-label="Pixel-art illustrations from the 2016 NBA Finals">
         <figure className="photo tape absolute left-0 top-2 w-[64%] -rotate-3 bg-[#fbf7ee]">
-          <div className="bg-gold"><img src={finalsArt.lebron} alt="Pixel-art LeBron James basketball illustration" className="aspect-[4/5] object-contain" /></div>
+          <div className="bg-[#b8173b]"><img src={finalsArt.lebron} alt="Pixel-art LeBron James basketball illustration" className="aspect-[4/5] object-contain" /></div>
           <figcaption>Fig. 1 — The King, rendered pixel by pixel.</figcaption>
         </figure>
         <figure className="photo tape absolute bottom-0 right-0 w-[60%] rotate-[4deg]">
-          <div className="bg-wine"><img src={finalsArt.kyrie} alt="Pixel-art Kyrie Irving basketball illustration" className="aspect-[4/5] object-contain" /></div>
+          <div className="bg-[#f2b12b]"><img src={finalsArt.kyrie} alt="Pixel-art Kyrie Irving basketball illustration" className="aspect-[4/5] object-contain" /></div>
           <figcaption>Fig. 2 — Kyrie, isolation on the wing.</figcaption>
         </figure>
         <div className="absolute right-[8%] top-0 grid h-28 w-28 rotate-12 place-items-center rounded-full border-2 border-ink bg-riso text-center font-anton text-2xl uppercase leading-none text-paper shadow-[4px_4px_0_#16130f]">

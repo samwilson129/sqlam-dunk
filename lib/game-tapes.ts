@@ -9,7 +9,8 @@ export const gameTapes: Record<number, string> = {
   7: '/gifs/game-7.gif',
 }
 
+// lebron = red-background pixel art (black #23 Cavs jersey); kyrie = gold-background pixel art.
 export const finalsArt = {
-  lebron: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/77ca470217c89f570142af239f891f1d-sLuwPx499oVp2U2MfKtLA4AI8LMkb1.gif',
-  kyrie: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/original-21e25a5d34d224ef68688772ab14a1b1-dMxm91xdNmjIFty85vaolooWSpbapt.gif',
+  lebron: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/original-21e25a5d34d224ef68688772ab14a1b1-dMxm91xdNmjIFty85vaolooWSpbapt.gif',
+  kyrie: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/77ca470217c89f570142af239f891f1d-sLuwPx499oVp2U2MfKtLA4AI8LMkb1.gif',
 }
