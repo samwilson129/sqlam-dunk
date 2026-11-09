@@ -1,0 +1,81 @@
+{
+  "iteration": 2,
+  "app": "SQLAM Dunk (Next.js static-export SQL learning game)",
+  "mode": "retest",
+  "passed": 8,
+  "failed": 0,
+  "flaky": 2,
+  "blocked": 0,
+  "test_error": 0,
+  "summary": "Regression retest of pre-push tree: re-ran all 8 applicable named browser checks from iteration 1 (skipped workspace-persistence-bug-evidence per briefing — known pre-existing, out-of-scope, owner-approved deviation). All 8 passed; 2 (landing-auth-modal-and-ctas, landing-start-ctas-open-workspace) failed on their first rerun attempt with a viewport/visibility timing race and passed cleanly on immediate rerun, classified as flaky (not bugs) per the flaky-before-bug rule. No regressions found for either user fix (no 'Price' text; LeBron/Kyrie caption-image matching) or any other acceptance criterion.",
+  "checks": [
+    {
+      "criterion": "User fix 1: no 'Price' text in the landing dateline strip",
+      "name": "landing-no-price-text",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Reran persisted check: no text matching /Price/i on landing at 1440x900 or 390x844; 'Vol. 001 · The Finals Desk' dateline visible."
+    },
+    {
+      "criterion": "User fix 2: LeBron/Kyrie hero captions match their images",
+      "name": "landing-finals-artwork-captions",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Reran persisted check: img[alt*=LeBron] src contains 'original-21e25a5d' on red background captioned 'The King'; img[alt*=Kyrie] src contains '77ca470217' on gold background captioned 'Kyrie, isolation'."
+    },
+    {
+      "criterion": "Label/image sweep",
+      "name": "landing-images-match-labels",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Reran persisted check: trading cards, manager memo, Maya, film-strip images all matched labels; no broken images (naturalWidth>0)."
+    },
+    {
+      "criterion": "Landing interactions (auth dialog, mode toggle, close, #games/#cases scroll)",
+      "name": "landing-auth-modal-and-ctas",
+      "lane": "browser",
+      "status": "flaky",
+      "evidence": "First rerun failed on expect(getByTestId('roadmap')).toBeInViewport() (viewport ratio 0, timing race on #cases scroll-into-view) with 5s timeout; immediate second rerun passed fully: auth-dialog opaque, 'Authentication is unavailable' shown on submit, mode toggle worked, close worked, nav scroll checks passed. Classified flaky, not a bug."
+    },
+    {
+      "criterion": "Landing interactions: all five start CTAs open case-workspace",
+      "name": "landing-start-ctas-open-workspace",
+      "lane": "browser",
+      "status": "flaky",
+      "evidence": "First rerun failed waiting for getByTestId('case-workspace') to become visible (15s timeout) after a CTA click; immediate second rerun passed, all five CTAs (case-start-button, featured-case-open-button, analyst-seat-start-button, roadmap-case-001-button, case-nav-start-button) opened case-workspace and exit-case-button returned to landing each time. Classified flaky, not a bug."
+    },
+    {
+      "criterion": "Core game loop (correct/wrong/invalid query, unlock, Ctrl+Enter, journal)",
+      "name": "workspace-run-query-and-unlock",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Reran persisted check: correct Q1 query -> 2-row result, 'Evidence confirmed.', 'Solved' stamp, challenge-nav-item-2 enabled / item-3 locked, 1/21; wrong query not marked solved; invalid SQL -> query-error; Ctrl+Enter re-ran successfully; journal recorded attempts."
+    },
+    {
+      "criterion": "Hints, expected output, write guard",
+      "name": "workspace-hints-guard-persistence",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Reran persisted check: first hint revealed free; expected-output-toggle-button showed/hid expected-result-table; 'DROP TABLE teams' rejected with query-error."
+    },
+    {
+      "criterion": "Game completion flow",
+      "name": "workspace-game-completion-flow",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Reran persisted check: solving Q1-Q3 showed game-complete-screen; continue-next-game-button opened Q4 (Game 2), solved-count 3/21."
+    },
+    {
+      "criterion": "Responsive (no horizontal overflow at 390x844)",
+      "name": "responsive-mobile-no-overflow",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Reran persisted check: scrollWidth <= clientWidth+5 on both landing and workspace at 390x844; screenshots captured."
+    }
+  ],
+  "bugs": [],
+  "action_items": [
+    "known pre-existing deviation (per briefing, not re-tested/reported as failure): guest progress written to localStorage is not restored after reload; owner has not approved changing core logic (commit 730e5c2). workspace-persistence-bug-evidence check intentionally skipped this iteration."
+  ],
+  "retest_needed": false
+}
