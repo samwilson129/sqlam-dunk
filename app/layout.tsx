@@ -1,67 +1,46 @@
-
-import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
+import { Anton, Archivo, IBM_Plex_Mono, Instrument_Serif } from 'next/font/google'
 import './globals.css'
+
+const anton = Anton({ subsets: ['latin'], weight: '400', variable: '--ff-anton', display: 'swap' })
+const archivo = Archivo({ subsets: ['latin'], variable: '--ff-archivo', display: 'swap' })
+const plex = IBM_Plex_Mono({ subsets: ['latin'], weight: ['400', '500', '600'], variable: '--ff-plex', display: 'swap' })
+const serif = Instrument_Serif({ subsets: ['latin'], weight: '400', style: ['normal', 'italic'], variable: '--ff-serif', display: 'swap' })
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://sqlam-dunk.pages.dev'),
-
-  title: 'SQLAM Dunk — Every query is a shot.',
-  description:
-    'SQLAM Dunk is an interactive SQL learning platform based on the 2016 NBA Finals. Solve 21 chronological challenges across seven games, explore historical basketball data, and progress from basic SQL queries to advanced concepts like joins, CTEs, and window functions. Built for learners who want real SQL practice with live data.',
-  authors: [{ name: 'SQLAM Dunk' }],
-
+  title: 'SQLAM Dunk — The 3–1 Comeback',
+  description: 'An editorial SQL investigation into the 2016 NBA Finals. Write queries, uncover evidence and reconstruct the comeback.',
   icons: {
     icon: '/chicken-basketball.avif',
     shortcut: '/chicken-basketball.avif',
     apple: '/chicken-basketball.avif',
   },
-
   openGraph: {
-    title: 'SQLAM Dunk — Every query is a shot.',
-    description:
-      'SQLAM Dunk is an interactive SQL learning platform based on the 2016 NBA Finals. Solve 21 chronological challenges across seven games, explore historical basketball data, and progress from basic SQL queries to advanced concepts like joins, CTEs, and window functions.',
+    title: 'SQLAM Dunk — The 3–1 Comeback',
+    description: 'Write SQL, uncover evidence and reconstruct the 2016 NBA Finals.',
     url: 'https://sqlam-dunk.pages.dev/',
     siteName: 'SQLAM Dunk',
     type: 'website',
-    images: [
-      {
-        url: '/og-share.png',
-        width: 1424,
-        height: 752,
-        alt: 'SQLAM Dunk — Every query is a shot.',
-      },
-    ],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'SQLAM Dunk — Every query is a shot.' }],
   },
-
   twitter: {
     card: 'summary_large_image',
-    title: 'SQLAM Dunk — Every query is a shot.',
-    description:
-      'Learn SQL through an interactive investigation of the 2016 NBA Finals. Solve 21 chronological challenges across seven games and master concepts from basic SELECT to advanced window functions.',
-    images: ['/og-share.png'],
+    title: 'SQLAM Dunk — The 3–1 Comeback',
+    description: 'Learn SQL through an interactive investigation of the 2016 NBA Finals.',
+    images: ['/og-image.png'],
   },
 }
 
 export const viewport: Viewport = {
-  colorScheme: 'light dark',
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: 'white' },
-    { media: '(prefers-color-scheme: dark)', color: 'black' },
-  ],
+  colorScheme: 'light',
+  themeColor: '#f1e9d8',
 }
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
-      <body className="antialiased">
-        {children}
-        {process.env.NODE_ENV === 'production' && <Analytics />}
-      </body>
+    <html lang="en" className={`${anton.variable} ${archivo.variable} ${plex.variable} ${serif.variable}`}>
+      <body className="antialiased">{children}</body>
     </html>
   )
 }
