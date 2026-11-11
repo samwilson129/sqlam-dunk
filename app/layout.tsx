@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: 'SQLAM Dunk — Every query is a shot.',
   description:
     'SQLAM Dunk is an interactive SQL learning platform based on the 2016 NBA Finals. Solve 21 chronological challenges across seven games, explore historical basketball data, and progress from basic SQL queries to advanced concepts like joins, CTEs, and window functions. Built for learners who want real SQL practice with live data.',
-  author: 'SQLAM Dunk',
+  authors: [{ name: 'SQLAM Dunk' }],
 
   icons: {
     icon: '/chicken-basketball.avif',
@@ -24,12 +24,11 @@ export const metadata: Metadata = {
     url: 'https://sqlam-dunk.pages.dev/',
     siteName: 'SQLAM Dunk',
     type: 'website',
-    authors: [{ name: 'SQLAM Dunk', url: 'https://sqlam-dunk.pages.dev' }],
     images: [
       {
-        url: 'https://sqlam-dunk.pages.dev/og-image.png',
-        width: 1200,
-        height: 630,
+        url: '/og-share.png',
+        width: 1424,
+        height: 752,
         alt: 'SQLAM Dunk — Every query is a shot.',
       },
     ],
@@ -40,7 +39,7 @@ export const metadata: Metadata = {
     title: 'SQLAM Dunk — Every query is a shot.',
     description:
       'Learn SQL through an interactive investigation of the 2016 NBA Finals. Solve 21 chronological challenges across seven games and master concepts from basic SELECT to advanced window functions.',
-    images: ['https://sqlam-dunk.pages.dev/og-image.png'],
+    images: ['/og-share.png'],
   },
 }
 
