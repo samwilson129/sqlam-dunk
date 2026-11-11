@@ -9,6 +9,7 @@ const serif = Instrument_Serif({ subsets: ['latin'], weight: '400', style: ['nor
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://sqlam-dunk.pages.dev'),
+  authors: [{ name: 'SQLAM Dunk' }],
   title: 'SQLAM Dunk — The 3–1 Comeback',
   description: 'An editorial SQL investigation into the 2016 NBA Finals. Write queries, uncover evidence and reconstruct the comeback.',
   icons: {
@@ -17,18 +18,26 @@ export const metadata: Metadata = {
     apple: '/chicken-basketball.avif',
   },
   openGraph: {
-    title: 'SQLAM Dunk — The 3–1 Comeback',
-    description: 'Write SQL, uncover evidence and reconstruct the 2016 NBA Finals.',
+    title: 'SQLAM Dunk — Every query is a shot.',
+    description: 'Learn SQL through 21 challenges across the seven games of the 2016 NBA Finals. Explore basketball history, from basic queries to joins and CTEs.',
     url: 'https://sqlam-dunk.pages.dev/',
     siteName: 'SQLAM Dunk',
     type: 'website',
-    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'SQLAM Dunk — Every query is a shot.' }],
+    images: [
+      {
+        url: '/gifs/lebron-icon%20(2).gif',
+        width: 960,
+        height: 540,
+        type: 'image/gif',
+        alt: 'Cleveland Cavaliers No. 2 pixel-art player from the 2016 Finals.',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'SQLAM Dunk — The 3–1 Comeback',
-    description: 'Learn SQL through an interactive investigation of the 2016 NBA Finals.',
-    images: ['/og-image.png'],
+    title: 'SQLAM Dunk — Every query is a shot.',
+    description: 'Learn SQL through 21 challenges across the seven games of the 2016 NBA Finals. Explore basketball history, from basic queries to joins and CTEs.',
+    images: ['/gifs/lebron-icon%20(2).gif'],
   },
 }
 
