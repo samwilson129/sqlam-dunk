@@ -1,74 +1,84 @@
-## User-Facing Functionality
+# SQLAM Dunk — how to play
 
-### 1. Accounts
+SQLAM Dunk is an interactive SQL learning game set during the 2016 NBA Finals. You play as a junior analyst on the Cleveland Cavaliers analytics team, reconstructing the Finals from the box score by writing real SQL queries against a live, browser-local database.
 
-- Continue as a guest to explore the game.
-- Sign up using an email address and password.
-- Log in and log out securely.
-- Return later and continue personal progress.
-- Each account maintains separate XP, coins, levels, solved challenges, hint usage, and query history.
-- Switching accounts loads only the selected user's progress.
+## 1. Accounts
 
-### 2. SQL Investigation
+- **Play as a guest** to look around without signing up.
+- **Sign up** with an email and password to create a profile.
+- **Log in and log out** whenever you like.
+- **Come back later** and your saved progress is waiting (logged-in accounts only).
+- Each account keeps its own XP, coins, rank, solved challenges, hint usage, and query journal.
+- Switching accounts loads only that user's progress — nobody sees anyone else's case file.
 
-- Start the NBA Finals investigation case.
-- Select the next available challenge.
-- Read the investigation question and the SQL concept being taught.
-- Review the available tables and columns.
-- Use a starter query or write custom SQL.
-- Execute queries against the built-in basketball dataset.
-- Review returned rows and refine the query.
-- Submit an answer when the result matches the challenge requirements.
+## 2. SQL investigation
 
-### 3. Progression
+- Start Case 001, "The 3–1 Comeback."
+- Pick the next unlocked challenge (challenges open one at a time, in order).
+- Read the manager's briefing, the SQL objective, and the tables you can use.
+- Use the starter query or write your own SQL.
+- Run the query against the embedded basketball dataset (games, teams, players, player_game_stats).
+- Look at the returned rows, compare them to the expected output, and refine.
+- Submit when your result matches the challenge requirements.
 
-- Challenges unlock sequentially.
-- Completing a challenge unlocks the next challenge.
-- Completing a chapter unlocks the next chapter or case section.
-- Previously solved challenges remain marked as complete.
+## 3. Progression
+
+- Challenges unlock sequentially — finish one, the next opens.
+- Finishing all three challenges in a game unlocks the next game.
+- Solved challenges stay marked complete.
 - Logging out does not erase saved account progress.
 - Logging in as another user loads that user's independent progression.
 
-### 4. Rewards
+## 4. Rewards
 
-- Correctly solving challenges awards XP and coins.
-- Harder challenge bands award more coins than earlier challenges.
-- XP contributes to the player's level.
-- Completion rewards cannot be repeatedly claimed by replaying the same challenge.
-- Coins belong to individual accounts and cannot be shared between players.
+- Solving a challenge correctly awards XP and coins.
+- Later, harder challenge bands pay out more coins than early ones.
+- XP goes toward your rank: Data Explorer under 750 XP, Performance Analyst at 750+.
+- You can't claim the same completion reward twice by replaying a challenge.
+- Coins belong to individual accounts and can't be shared between players.
 
-### 5. Hints
+## 5. Hints
 
-- The first hint for a challenge is free.
-- Additional hints cost coins.
-- Hint prices increase with each level of detail:
+| Hint | What it gives you | Cost |
+|---|---|---|
+| Hint 1 | A concept nudge | Free |
+| Hint 2 | Query structure | 25 coins |
+| Hint 3 | Fill-in-the-blanks outline | 60 coins |
 
-| Hint level | Cost |
-|---|---:|
-| Hint 1 | Free |
-| Hint 2 | 25 coins |
-| Hint 3 | 60 coins |
+- The first hint for every challenge is free.
+- Additional hints cost coins, and the price goes up with each level.
+- Hint usage is tracked per account. One player's purchases don't affect another's balance.
 
-- The most detailed hint costs the most.
-- Hint usage is tracked separately for each user.
-- One player's hint purchases do not affect another player's balance or hint history.
-
-### 6. Typical Player Session
+## 6. A typical session
 
 1. Log in or create an account.
 2. Open the investigation case.
 3. Choose the next unlocked challenge.
 4. Write and run SQL.
-5. Use the free hint if needed.
-6. Purchase more detailed hints when necessary.
-7. Submit the correct result.
-8. Earn XP and coins.
-9. Return later and continue from the saved progress point.
+5. Use the free hint if you're stuck, or buy a more detailed one.
+6. Submit the correct result.
+7. Earn XP and coins.
+8. Come back later and pick up right where you left off.
 
-### 7. Guest Mode Limitations
+## 7. Guest mode
 
-Guest mode is intended for exploring the game without creating an account.
+Guest mode is for trying the game without an account.
 
-- Guest progress is temporary and is not guaranteed to persist across sessions.
-- Guest users do not retain personal progression, XP, coins, hint purchases, or unlocks after the session ends.
-- To save and resume personal progress across sessions, create an account and remain signed in while playing.
+- Guest progress is saved to this device only (localStorage).
+- It is **not restored after a page reload** — this is a known limitation.
+- Guests don't earn or keep XP, coins, hint purchases, or unlocks once the session ends.
+- To save and resume progress across sessions, create an account and stay signed in while you play.
+
+## 8. What you'll learn (the seven games)
+
+1. **The Statement** — selecting columns, filtering rows
+2. **The Blowout** — combining conditions, sorting, top-N results
+3. **The Stand** — counting, summing, averaging
+4. **The Brink** — grouping, filtering groups, scoring bands
+5. **Elimination Night** — joining tables, team totals, finding missing records
+6. **Force a Seventh** — common table expressions, comparing games, series averages
+7. **The Comeback Complete** — rankings, running totals, final series reconstruction
+
+## 9. Honest note on guest progress
+
+The guest banner says progress "is saved on this device." It is — but only within the current browser session. If you reload the page, guest progress won't come back. This is deliberate for now and predates the current design. If you want your case file to survive a reload, sign up and log in.

@@ -1,514 +1,156 @@
 # SQLAM Dunk
 
-SQLAM Dunk is an interactive SQL learning game built around the 2016 NBA Finals. Players investigate historical basketball data, write SQL queries, validate evidence, unlock challenges, earn XP and coins, and purchase progressively more detailed hints.
+SQLAM Dunk is an interactive SQL learning game built around the 2016 NBA Finals. You play as a junior analyst reconstructing the Cavaliers–Warriors Finals from the box score, one SQL query at a time.
 
-The project is a Next.js 16 App Router application with a browser-local DuckDB analytics engine and Supabase email/password authentication.
+The app is a Next.js 16 App Router site. SQL runs in your browser through DuckDB-WASM (no backend query service), and progress can be saved to a Supabase account.
 
-## 1. Product Summary
+## What it is
 
-The application turns a SQL curriculum into a game-like investigation workflow:
+You open **Case 001 — "The 3–1 Comeback."** It covers all seven games of the 2016 Finals in chronological order. There are **21 challenges** (three per game), and each one teaches a specific SQL concept:
 
-1. A player opens Case 001, “The 3–1 Comeback.”
-2. The player selects a chronological challenge.
-3. The UI provides a prompt, starter query, available tables, concepts, and expected output metadata.
-4. The player runs SQL against the embedded NBA dataset.
-5. The query is guarded, scoped to the currently unlocked game, executed in DuckDB-WASM, and evaluated against the challenge contract.
-6. A correct answer unlocks the next challenge and rewards XP and coins.
-7. The first hint is free; later hint levels cost increasing amounts of coins.
-8. Authenticated progress is associated with the signed-in Supabase user.
+- Game 1: SELECT, FROM, WHERE
+- Game 2: WHERE + AND, ORDER BY, ORDER BY + LIMIT
+- Game 3: COUNT, SUM, AVG + ROUND
+- Game 4: GROUP BY, GROUP BY + HAVING, CASE + GROUP BY
+- Game 5: INNER JOIN, JOIN + GROUP BY, LEFT JOIN + IS NULL
+- Game 6: CTEs, CTE comparison, CTE + JOIN + AVG
+- Game 7: RANK, LAG + running SUM, capstone (CTEs + conditional aggregation)
 
-## 2. Architecture at a Glance
+For every challenge you get a manager briefing, a starter query, the tables and columns you can use, expected output metadata, and up to three hints. Write SQL, run it against the embedded dataset, and if the result matches the challenge contract the challenge unlocks and you earn XP and coins.
 
-```text
-Browser
-  |
-  | Next.js App Router + React client components
-  v
-app/page.tsx
-  |
-  +--> Home landing page
-  |      +--> AuthPanel
-  |      +--> CaseWorkspace
-  |
-  +--> CaseWorkspace
-         |
-         +--> campaign-data.ts / case-001-data.ts
-         |      Challenge definitions and curriculum metadata
-         |
-         +--> campaign-sql.ts
-         |      Query guard, SQL scope, expected result helpers
-         |
-         +--> duckdb-engine.ts
-         |      DuckDB-WASM initialization and query execution
-         |
-         +--> Supabase browser client
-                Authentication and per-user progress metadata
+## Recently changed
 
-Static CSV data
-  public/data/*.csv
-         |
-         v
-DuckDB-WASM tables
-  games, players, teams, player_game_stats
+These are the most recent fixes and additions (committed, not yet pushed at the time of writing):
+
+- **Hero artwork captions fixed.** LeBron James and Kyrie Irving pixel art were swapped on the landing page. LeBron is now the red/wine jersey (#23) and Kyrie is the gold one, each under the right caption.
+- **"Price" line removed.** The landing dateline used to read "Vol. 001 · The Finals Desk · Price." It now reads "Vol. 001 · The Finals Desk."
+- **Data-driven masthead counts.** The "7 games · 4 tables" line is computed from the dataset rather than hard-coded.
+- **Kyrie's card now reads "No. 2"** (matching his Cavaliers number).
+- **Test reports added.** `test_reports/iteration_2.json` records a regression retest: 8 checks passed, 0 failed, 2 flaky (viewport/visibility timing races that passed on immediate rerun — not bugs). The two user fixes above re-passed, and no regressions were found.
+
+## How it works
+
+### The data
+
+Four read-only tables are loaded from CSV files under `public/data/` into a browser-local DuckDB database:
+
+| Table | Rows | What it holds |
+|---|---|---|
+| `games` | 7 | Finals game IDs and dates |
+| `teams` | 2 | Cleveland Cavaliers and Golden State Warriors |
+| `players` | 28 | Player directory for both rosters |
+| `player_game_stats` | 182 | Box-score and plus-minus records |
+
+Queries are read-only. The engine guards against `INSERT`, `UPDATE`, `DELETE`, `DROP`, `ATTACH`, `COPY`, `PRAGMA`, and similar, and each challenge is scoped so you can only see games up to the current one.
+
+### Running a query
+
+1. Pick the next available challenge (challenges unlock sequentially).
+2. Read the briefing and objective, look at the evidence board (which tables are in scope and how many rows).
+3. Type SQL in the console and hit **Run query** (or `Ctrl`/`Cmd` + `Enter`).
+4. Your result is compared to the expected output — columns, row count, values, and sort order all matter.
+5. If it matches, the challenge is marked solved and you move on.
+
+### Progression and rewards
+
+- Challenge 1 is open from the start; challenge N unlocks when N−1 is solved.
+- A chapter (game) is complete when all three of its challenges are solved, which unlocks the next game.
+- Coins by challenge band: 50 (1–3), 75 (4–6), 100 (7–9), 125 (10+). Re-solving does not pay out again.
+- XP is 150 per solved challenge, plus a 100-point bonus when you finish all 21.
+- Rank: "Data Explorer" under 750 XP, "Performance Analyst" at 750+.
+
+### Hints
+
+- Hint 1 (concept nudge): free.
+- Hint 2 (query structure): 25 coins.
+- Hint 3 (fill-in-the-blanks outline): 60 coins.
+- The first hint is always free; paid hints require you to be logged in.
+
+### Accounts and progress
+
+Supabase handles email/password authentication. When you log in:
+
+- Your progress (`solved`, `journal`, `career`) is read from `user_metadata.sqlam_dunk_progress` on the signed-in user.
+- Solving challenges, using hints, and resetting write back to that same metadata.
+- Logging out resets the workspace to guest state.
+
+Guest mode works without an account. Progress is written to `localStorage` on this device, but — and this is a known, deliberate limitation — it is **not loaded back after a reload**. To keep progress across sessions, create an account and stay signed in.
+
+## Project layout
+
 ```
-
-## 3. High-Level Design (HLD)
-
-### 3.1 Presentation Layer
-
-The presentation layer is composed of React components rendered by the Next.js App Router:
-
-- `app/page.tsx` is the application entry point.
-- The landing page introduces the product, roadmap, curriculum, and featured case.
-- `components/auth-panel.tsx` owns the login, sign-up, session listener, and sign-out UI.
-- `components/case-workspace.tsx` owns the investigation experience, including challenge navigation, SQL editing, query execution, hints, progress, rewards, and completion states.
-
-The page maintains the top-level user and screen state:
-
-```text
-investigating = false -> Home
-investigating = true  -> CaseWorkspace
-user = null           -> guest mode
-user != null          -> authenticated mode
-```
-
-### 3.2 Authentication and Identity
-
-Supabase Auth provides email/password authentication. The browser client:
-
-- Creates a Supabase client using `@supabase/ssr`.
-- Calls `auth.getUser()` on mount to restore the current session.
-- Subscribes to `auth.onAuthStateChange()` so login and logout immediately update the UI.
-- Uses `signInWithPassword()` for login.
-- Uses `signUp()` with the configured callback URL for registration.
-- Uses `signOut()` to clear the session.
-
-The authenticated user is represented in the UI by a small identity object:
-
-```ts
-type AuthUser = {
-  id: string
-  email?: string
-}
-```
-
-The user ID is the ownership boundary. A user's progress must never be read from or written to another user's identity.
-
-### 3.3 Analytics Execution Layer
-
-SQL runs in the browser through DuckDB-WASM rather than through a remote SQL API.
-
-At startup, the engine:
-
-1. Selects a DuckDB-WASM bundle.
-2. Creates a worker and initializes DuckDB.
-3. Downloads the CSV datasets from `/public/data`.
-4. Registers the files with DuckDB.
-5. Creates the relational tables using the setup SQL.
-6. Validates row counts against expected dataset counts.
-7. Applies lockdown/search-path settings where supported.
-8. Reuses the initialized database through a singleton promise.
-
-This makes query execution fast, private to the current browser session, and suitable for an educational sandbox.
-
-### 3.4 Curriculum and Progression Layer
-
-Challenges are defined as data rather than hard-coded individually in the UI. Each challenge contains concepts such as:
-
-- Prompt and learning objective
-- Starter query
-- Expected columns and row count
-- Correct solution
-- Required SQL concepts
-- Hint levels
-- Maximum historical game available to the query
-- Explanation shown after success
-
-The workspace calculates availability from solved challenge IDs:
-
-```text
-Challenge 1 is available initially.
-Challenge N is available when Challenge N - 1 is solved.
-A chapter is complete when all of its challenges are solved.
-The next chapter becomes available after chapter completion.
-```
-
-### 3.5 Reward and Hint Economy
-
-The reward schedule increases by challenge band:
-
-- Challenges 1–3: 50 coins each
-- Challenges 4–6: 75 coins each
-- Challenges 7–9: 100 coins each
-- Challenges 10+: 125 coins each
-
-XP is derived from progression and is monotonic for a user. Re-solving a challenge does not award duplicate coins.
-
-Hint costs increase by level:
-
-- Hint 1: free
-- Hint 2: 25 coins
-- Hint 3: 60 coins
-
-The model is intentionally simple for a learning game: users earn currency by solving challenges, then spend it to reduce friction when stuck.
-
-## 4. Low-Level Design (LLD)
-
-### 4.1 `app/page.tsx`
-
-Responsibilities:
-
-- Defines the landing page and marketing content.
-- Stores whether the user is in the investigation workspace.
-- Stores the current authenticated user.
-- Passes `user` and `onUser` to `AuthPanel`.
-- Passes `user` and `onExit` to `CaseWorkspace`.
-
-Important design choice: the page does not own SQL state or progress calculations. Those concerns stay inside the workspace component.
-
-### 4.2 `components/auth-panel.tsx`
-
-Responsibilities:
-
-- Displays login/sign-up modal.
-- Validates basic browser form requirements (`email`, minimum password length).
-- Reports generic authentication failures to the user.
-- Restores existing sessions.
-- Propagates auth state changes to the parent page.
-- Signs users out.
-
-Main state:
-
-```text
-supabase: browser client or null
-open: whether the modal is visible
-mode: login | signup
-email: form email
-password: form password
-message: user-facing status
-busy: submit state
-```
-
-The Supabase redirect URL is selected from `NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL`, with a browser-origin callback fallback.
-
-### 4.3 `components/case-workspace.tsx`
-
-Responsibilities:
-
-- Tracks active challenge.
-- Executes SQL.
-- Displays result tables.
-- Loads authenticated progress.
-- Persists challenge attempts and solved state.
-- Awards XP and coins.
-- Charges for hints.
-- Unlocks chapters and challenges.
-- Shows completion and feedback states.
-
-Core state:
-
-```ts
-type Career = {
-  xp: number
-  completed: boolean
-  currency: number
-  hintsUsed: number
-  queriesRun: number
-}
-
-type JournalEntry = {
-  challenge: number
-  query: string
-  at: string
-}
-```
-
-The workspace resets its transient state when the authenticated user changes. It then loads that user's saved progress if available.
-
-### 4.4 SQL Execution Flow
-
-```text
-User clicks Run SQL
-  |
-  v
-runSql(query, allowedThroughGame)
-  |
-  +--> guardQuery(query)
-  |      Reject unsafe or unsupported SQL
-  |
-  +--> getDatabase()
-  |      Initialize or reuse DuckDB-WASM
-  |
-  +--> searchPathSql(allowedThroughGame)
-  |      Restrict visible historical data
-  |
-  +--> DuckDB connection.query(query)
-  |
-  +--> Arrow result conversion
-  v
-QueryResult
-  |
-  v
-Evaluate against challenge expected output
-```
-
-A challenge is only considered solved when the returned result satisfies the challenge's structural and semantic requirements. A query returning data is not automatically correct.
-
-### 4.5 Persistence Flow
-
-Authenticated progress is stored in the signed-in Supabase user's metadata under:
-
-```text
-sqlam_dunk_progress = {
-  solved: number[],
-  journal: JournalEntry[],
-  career: Career
-}
-```
-
-The application also keeps a local browser fallback for guest progress and immediate UI continuity. Guest progress is device-local and is not credited with XP or coins until the player authenticates.
-
-When authenticated:
-
-```text
-Successful login
-  -> getUser()
-  -> read sqlam_dunk_progress
-  -> hydrate workspace state
-
-Successful query/hint/reset
-  -> update local state
-  -> update local fallback storage
-  -> update Supabase user progress metadata
-
-Logout
-  -> Supabase session ends
-  -> parent user becomes null
-  -> workspace resets to guest state
-```
-
-### 4.6 Query Safety
-
-The SQL layer uses several controls:
-
-- A query guard rejects unsupported or dangerous statements.
-- Queries are executed in a browser-local analytical database.
-- The visible data scope is restricted according to the challenge's `allowedThroughGame` value.
-- Future-game references are detected and reported as invalid evidence.
-- The database is initialized from validated CSV files.
-- Connections are closed after each query.
-
-This is appropriate for an educational client-side sandbox. It should not be treated as a secure environment for secrets or authoritative financial state because users control their browser.
-
-## 5. Project Structure
-
-```text
 .
 ├── app/
-│   ├── globals.css              Global Tailwind/CSS styles
-│   ├── layout.tsx               Root layout, metadata, fonts, analytics
-│   └── page.tsx                 Landing page and top-level screen state
+│   ├── globals.css          Global styles (Tailwind v4)
+│   ├── layout.tsx           Root layout, metadata, fonts, analytics
+│   └── page.tsx             Landing page + top-level screen state
 ├── components/
-│   ├── auth-panel.tsx           Supabase login, sign-up, session, logout
-│   ├── case-workspace.tsx       SQL investigation workspace
-│   └── ui/button.tsx            Shared UI button primitive
+│   ├── auth-panel.tsx       Supabase login / sign-up / session / sign-out
+│   ├── case-workspace.tsx   SQL investigation workspace (game loop)
+│   └── ui/button.tsx        Shared button primitive
 ├── lib/
-│   ├── campaign-data.ts         Campaign exports and chapter helpers
-│   ├── campaign-sql.ts          Query guard, setup SQL, evaluation helpers
-│   ├── case-001-data.ts         Case 001 challenges, metadata, solutions
-│   ├── duckdb-engine.ts         DuckDB-WASM lifecycle and query runner
-│   ├── supabase-browser.ts      Browser Supabase client factory
-│   └── utils.ts                 Shared class-name utility
+│   ├── campaign-data.ts     Campaign re-exports (chapters, challenges)
+│   ├── campaign-sql.ts      Query guard, setup SQL, evaluation, scoring
+│   ├── case-001-data.ts     Case 001: chapters, all 21 challenges, solutions
+│   ├── duckdb-engine.ts     DuckDB-WASM lifecycle + query runner
+│   ├── supabase-browser.ts  Browser Supabase client factory
+│   └── utils.ts             Class-name helper (cn)
 ├── public/
-│   └── data/
-│       ├── games.csv
-│       ├── player_game_stats.csv
-│       ├── players.csv
-│       └── teams.csv
+│   ├── data/                games.csv, teams.csv, players.csv, player_game_stats.csv
+│   └── gifs/                Chapter and reaction GIFs
 ├── audit/
-│   ├── challenge-solutions.json Curriculum answer audit data
-│   └── curriculum-audit.json    Curriculum validation data
+│   ├── challenge-solutions.json  Exported challenge metadata + solutions
+│   └── curriculum-audit.json     Last test-run results (21/21 passed)
 ├── scripts/
-│   └── test-campaign.ts         Automated campaign/data checks
-├── next.config.mjs              Next.js configuration
-├── package.json                 Scripts and dependencies
-└── pnpm-lock.yaml               Reproducible dependency lockfile
+│   └── test-campaign.ts     Automated campaign/data validation (pnpm test)
+├── test_reports/            Browser test reports (iteration_2.json committed)
+├── .env.example             Required Supabase env vars
+├── next.config.mjs          Next.js configuration
+├── package.json             Scripts and dependencies
+├── pnpm-lock.yaml           Reproducible lockfile
+└── tsconfig.json            TypeScript config
 ```
 
-## 6. Data Model
+Files that used to live here but have been removed: `components/home-page.tsx`, `lib/game-tapes.ts`, `memory/SPEC.md`, and `design_guidelines.json`.
 
-The analytical dataset is relational and contains four primary tables:
+## The curriculum at a glance
 
-```text
-teams
-  team identity and labels
+**Game 1 — The Statement (June 2, 2016)**
+1. The Opening Brief — SELECT / FROM (teams)
+2. The Player Directory — SELECT / FROM (players)
+3. The Plus-Minus Pulse — WHERE >= (Game 1, +20 plus-minus)
 
-players
-  player identity and team-related attributes
+**Game 2 — The Blowout (June 5, 2016)**
+4. Kyrie's Game 2 Line — WHERE + AND (exact player + game)
+5. The Scoring Cut — ORDER BY DESC (>= 17 points, Game 2)
+6. The Three-Point Barrage — ORDER BY + LIMIT (top 3 three-pointers)
 
-games
-  game number, date, teams, score, and game metadata
+**Game 3 — The Stand (June 8, 2016)**
+7. The Rebounding Stand — COUNT (* >= 10 rebounds)
+8. The Combined Score — SUM (all Game 3 points)
+9. Average Points Among Scorers — AVG + ROUND (points > 0)
 
-player_game_stats
-  player-level statistics for a player in a specific game
-```
+**Game 4 — The Brink (June 10, 2016)**
+10. The Team Scoreboard — GROUP BY + SUM (team points)
+11. Who Cleared Twenty? — GROUP BY + HAVING (>= 20 per player)
+12. Classifying the Scoring Lines — CASE + GROUP BY (scoring bands)
 
-The application joins these tables to support questions about scoring, rebounds, assists, shooting, player performance, and game-level outcomes.
+**Game 5 — Elimination Night (June 13, 2016)**
+13. Put Names to the Numbers — INNER JOIN (top 5 scorers with names)
+14. The Team Response — JOIN + GROUP BY (Game 5 final score)
+15. The Missing Records — LEFT JOIN + IS NULL (players absent from Game 5)
 
-The learner does not directly modify the dataset. Queries are read-only analytical operations against the imported CSV data.
+**Game 6 — Force a Seventh (June 16, 2016)**
+16. The Game 6 Glass Scoreboard — CTE + GROUP BY (team rebounds)
+17. The Change From Game 5 to Game 6 — chained CTEs (rebound change)
+18. Above the Series Average — CTE + JOIN + AVG (Games 1–6 benchmark)
 
-## 7. Runtime and Deployment
+**Game 7 — The Comeback Complete (June 19, 2016)**
+19. The Series Scoring Leaders — RANK (top 5 series scorers)
+20. The Final Shift — LAG + running SUM (Game 7 vs Game 6)
+21. The Final Reconstruction — CTEs + conditional aggregation (series summary)
 
-The project is a Next.js application and can be hosted on platforms that support Next.js static/client execution and the required environment variables. The currently referenced hosted deployment is:
-
-```text
-https://c9bddcc3.sqlam-dunk.pages.dev
-```
-
-Required public configuration:
-
-```text
-NEXT_PUBLIC_SUPABASE_URL
-NEXT_PUBLIC_SUPABASE_ANON_KEY
-NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL
-```
-
-The Supabase publishable/anonymous key is safe for browser use when database policies are correctly configured. Never expose a Supabase service-role key in client code or `NEXT_PUBLIC_*` variables.
-
-## 8. Security and Data-Isolation Notes
-
-The identity boundary is the Supabase authenticated user ID. For production-grade user data isolation, progress should be stored in a dedicated table such as:
-
-```sql
-create table public.player_progress (
-  user_id uuid primary key references auth.users(id) on delete cascade,
-  solved integer[] not null default '{}',
-  journal jsonb not null default '[]',
-  xp integer not null default 0,
-  coins integer not null default 0,
-  hints_used integer not null default 0,
-  updated_at timestamptz not null default now()
-);
-```
-
-That table should have RLS policies of the form:
-
-```sql
-using ((select auth.uid()) = user_id)
-with check ((select auth.uid()) = user_id)
-```
-
-The client-side DuckDB dataset is intentionally shared as read-only curriculum content. Player-specific values such as solved challenges, XP, coins, and hint usage must be scoped by `user_id` and must not be treated as trusted client input.
-
-For a hardened production economy, reward and hint mutations should move to server-side transactions or security-invoker RPCs, use an immutable reward ledger, reject duplicate rewards, and validate all increments server-side. The current implementation is suitable for an educational prototype but browser state can always be modified by a determined user.
-
-## 9. Key Trade-offs
-
-### Browser-local DuckDB instead of a remote query service
-
-Advantages:
-
-- No query latency to a backend.
-- No database hosting required for curriculum data.
-- Keeps educational queries isolated to the learner's browser.
-- Easy to reset and deterministic for demonstrations.
-
-Trade-offs:
-
-- The dataset is public and downloadable.
-- CPU and memory are limited by the browser.
-- Query execution is not authoritative for anti-cheat purposes.
-
-### Supabase user metadata for progress
-
-Advantages:
-
-- Minimal schema and implementation overhead.
-- Progress follows the account across devices.
-- Works naturally with Supabase Auth.
-
-Trade-offs:
-
-- JSON metadata is less queryable than a normalized table.
-- Server-side reward validation is limited.
-- A dedicated progress table is preferable as the number of cases and analytics features grows.
-
-### React client state for the workspace
-
-Advantages:
-
-- Fast interaction and simple challenge transitions.
-- No server round trip for every query.
-- Clear separation between curriculum data and UI state.
-
-Trade-offs:
-
-- State is reset when the browser session or authenticated identity changes.
-- Persistence must be carefully synchronized.
-- Client-side state is not a security boundary.
-
-## 10. Testing Strategy
-
-Run the campaign validation script:
-
-```bash
-pnpm test
-```
-
-Run a production build:
-
-```bash
-pnpm build
-```
-
-Manual acceptance checks:
-
-1. Create a new account.
-2. Confirm the email if the Supabase project requires confirmation.
-3. Log in and verify the email appears in the navigation.
-4. Solve a challenge and verify XP/coins change.
-5. Log out and verify authenticated progress is no longer displayed as the active user's career.
-6. Log in as a second account and verify the second account has independent progress.
-7. Verify hint 1 is free.
-8. Verify hint 2 and hint 3 require coins and charge the correct increasing cost.
-9. Verify locked challenges remain unavailable until their prerequisites are solved.
-10. Refresh the page and verify the authenticated user's progress is restored.
-
-## 11. Design Choices
-
-### Why Next.js?
-
-Next.js provides the application shell, routing conventions, metadata support, and a production-ready React runtime. The current user experience is primarily client-interactive, which makes client components appropriate for the game workspace.
-
-### Why DuckDB-WASM?
-
-DuckDB provides a real SQL engine rather than a hand-written query simulator. WASM allows it to run in the browser, making the educational experience responsive and reducing backend infrastructure for static curriculum data.
-
-### How is progression enforced?
-
-Progression is derived from solved challenge IDs. A challenge is available only if it is the first challenge or its predecessor has been solved. Chapter completion is computed from the chapter's challenge ID list.
-
-### How would you scale this product?
-
-I would separate curriculum data from player state, add a database-backed `player_progress` table with RLS, move reward mutations behind server-side transactions, add a normalized query-attempt ledger, and introduce a case catalog with versioned challenge definitions. I would also add automated browser tests for authentication, isolation, hint purchases, and logout behavior.
-
-### What is the most important security caveat?
-
-Anything executed in the browser is user-controlled. DuckDB query results and client-side reward state are therefore not authoritative. Authentication and RLS protect account data, but authoritative XP, coin grants, and purchases need server-side validation if the economy has real value.
-
-## 12. Future Improvements
-
-- Dedicated `player_progress` and `query_attempts` tables with RLS.
-- Server-side reward transactions and an immutable coin ledger.
-- Rate limiting for authentication and reward endpoints.
-- Automated Playwright/agent-browser end-to-end tests.
-- More cases and a versioned case registry.
-- Server-side challenge evaluation for competitive or credentialed learning modes.
-- Accessibility audit for keyboard navigation, focus management, and screen-reader announcements.
-- Offline dataset caching with explicit cache invalidation.
-- Observability for query failures, auth failures, and progress synchronization conflicts.
-
-## 13. Local Development
+## Running it locally
 
 Install dependencies:
 
@@ -516,26 +158,62 @@ Install dependencies:
 pnpm install
 ```
 
-Start the development server:
+Start the dev server:
 
 ```bash
 pnpm dev
 ```
 
-The application uses the Next.js development server and expects Supabase public environment variables to be available in the project environment.
+Run the campaign validation script (checks all 21 challenges against verified data):
 
-## 14. Summary
+```bash
+pnpm test
+```
 
-SQLAM Dunk is structured as a client-first SQL learning application with three major systems:
+Build a production export:
 
-1. A Next.js/React presentation and game state layer.
-2. A browser-local DuckDB-WASM analytical execution layer.
-3. A Supabase identity and progress persistence layer.
+```bash
+pnpm build
+```
 
-The architecture favors fast, deterministic educational interactions while keeping the curriculum data simple and inspectable. The next architectural step for production hardening is moving player progress and reward mutations into a dedicated RLS-protected database model with server-side validation.
+You need Supabase public environment variables available for authentication to work (see Deployment). Without them the app still runs locally, but the auth panel reports that authentication is unavailable.
+
+## Deployment
+
+The site is exported as a static Next.js build and hosted on Cloudflare Pages:
+
+```
+https://sqlam-dunk.pages.dev
+```
+
+Required build-time environment variables (set these in Cloudflare Pages → Variables and Secrets, for both Production and Preview, then redeploy):
+
+```
+NEXT_PUBLIC_SUPABASE_URL=https://your-project-ref.supabase.co
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_your_key
+# NEXT_PUBLIC_SUPABASE_ANON_KEY=   # legacy alternative to the publishable key
+NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL=https://sqlam-dunk.pages.dev/auth/callback
+```
+
+The publishable/anon key is safe for browser use when Supabase policies are configured correctly. Never put a service-role or secret key in `NEXT_PUBLIC_*` variables or client code.
+
+## Security and honesty notes
+
+This is an educational client-side sandbox. A few things to keep in mind:
+
+- Anything running in the browser is user-controlled. DuckDB results and client-side XP/coin state are **not authoritative**.
+- The dataset is public and downloadable; treat it as curriculum content, not secrets.
+- Progress is stored in Supabase user metadata. For a production economy, move rewards and progress into a dedicated RLS-protected `player_progress` table and validate mutations server-side.
+- Do not trust client-side reward state if coins or XP ever carry real value.
+
+## Looking ahead
+
+- Guest progress restore (or change the banner so it doesn't promise persistence across reloads).
+- Case-closed animation (stamp + paper rustle) when a challenge is solved.
+- Shareable front page: download a newspaper-style report of your finished case (rank, XP, solved games).
+- Dedicated `player_progress` / `query_attempts` tables with RLS.
+- Automated browser end-to-end tests (Playwright or similar).
 
 ---
-
-## License and Attribution
 
 SQLAM Dunk is an independent educational project and is not affiliated with the NBA or its teams. Historical basketball data is used for educational analysis.
